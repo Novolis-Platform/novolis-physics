@@ -4,10 +4,7 @@
     <projectFile>tests/Novolis.Physics.Unit/Novolis.Physics.Unit.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8df6a834-1dad-4504-a63a-6c84ca835e3a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.cursor/plans/migrate_physics_to_org_ea1d23cd.plan.md" beforeDir="false" afterPath="$PROJECT_DIR$/.cursor/plans/migrate_physics_to_org_ea1d23cd.plan.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Novolis.Physics/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Novolis.Physics/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="8df6a834-1dad-4504-a63a-6c84ca835e3a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,6 +25,9 @@
     &quot;accountId&quot;: &quot;6557ef98-9686-4324-9912-f414e9dad1ef&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/NuGet.config" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0,
@@ -82,7 +82,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1778965092311</updated>
-      <workItem from="1778965094214" duration="935000" />
+      <workItem from="1778965094214" duration="1970000" />
     </task>
     <servers />
   </component>
