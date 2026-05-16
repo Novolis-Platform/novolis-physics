@@ -4,25 +4,25 @@ overview: Replay 5 local implementation commits on top of Novolis-Platform/novol
 todos:
   - id: backup
     content: Create backup-pre-org-migrate branch and git bundle at ..\novolis-physics-backup.bundle
-    status: pending
+    status: completed
   - id: rebase-onto-org
     content: Add novolis remote, rebase --onto novolis/main --root main, resolve skeleton conflicts (NuGet.config casing, release.yml, global.json, .novolis/)
-    status: pending
+    status: completed
   - id: push-org
     content: Push main to Novolis-Platform/novolis-physics and set origin to org URL
-    status: pending
+    status: completed
   - id: verify
     content: Verify log order (stub + 5 commits), tree diff vs backup, dotnet build/test, CI on org repo
-    status: pending
+    status: completed
   - id: fix-urls
     content: Commit Packaging.props + meta-package README URL updates to Novolis-Platform paths
-    status: pending
+    status: completed
   - id: retire-fork
     content: Archive frankhaugen/novolis-physics and fix Rider workspace remote metadata
-    status: pending
+    status: completed
   - id: agents-guard
     content: Add AGENTS.md remote section and .cursor/rules/novolis-git-remote.mdc (copy from raylib)
-    status: pending
+    status: completed
 isProject: false
 ---
 
