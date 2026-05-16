@@ -1,0 +1,14 @@
+{
+  "packages": {
+    "Novolis.Physics": {
+      "paths": [
+        "src/Novolis.Physics/**",
+        "tests/**",
+        "Directory.Build.props",
+        "Directory.Packages.props",
+        "global.json"
+      ],
+      "project": "src/Novolis.Physics/Novolis.Physics.csproj"
+    }
+  }
+}
