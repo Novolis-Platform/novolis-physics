@@ -4,8 +4,8 @@
     <Version>$(NovolisPhysicsVersion)</Version>
     <Authors>Novolis</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/frankhaugen/novolis-physics</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/frankhaugen/novolis-physics</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Novolis-Platform/novolis-physics</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Novolis-Platform/novolis-physics</RepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageTags>physics;simulation;orbits;ballistics;gravity</PackageTags>
