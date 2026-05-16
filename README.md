@@ -1,32 +1,33 @@
-# Physics
+# Novolis.Physics
 
-## What it is
-
-Physics in the Novolis ecosystem.
-
-## Current status
-
-This repository is reserved for the Novolis Physics package.
-Implementation will be migrated or built in later steps.
+Force-first physics simulation for .NET — numerics, motion pipeline, gravity, ballistics, collision, orbits, and KSP-style composition.
 
 ## Install
 
-Not yet published.
+```bash
+dotnet add package Novolis.Physics
+```
 
-## Quick start
+Or reference individual packages (`Novolis.Physics.Motion`, `Novolis.Physics.Orbits`, …).
 
-Not yet available.
+## Packages
 
-## Documentation
+| Package | Role |
+|---------|------|
+| `Novolis.Physics` | Aggregate — all product packages |
+| `Novolis.Physics.Numerics` | Vectors, rays, primitives |
+| `Novolis.Physics.Abstractions` | Force models, integrators, contacts |
+| `Novolis.Physics.Motion` | Rigid-body motion pipeline |
+| `Novolis.Physics.Gravity` | Point / spherical gravity |
+| `Novolis.Physics.Aerodynamics` | Lift / drag models |
+| `Novolis.Physics.Collision.Simple` | Static mesh BVH queries |
+| `Novolis.Physics.Ballistics` | Projectile drag and sweeps |
+| `Novolis.Physics.Orbits` | Two-body orbital helpers |
+| `Novolis.Physics.KspLite` | DI presets composing the stack |
 
-- [Getting started](docs/getting-started.md)
-- [Design](docs/design.md)
-- [Release](docs/release.md)
+## Build
 
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Security
-
-See [SECURITY.md](SECURITY.md).
+```bash
+dotnet build Novolis.Physics.slnx
+dotnet run --project tests/Novolis.Physics.Unit -c Release
+```
