@@ -1,18 +1,19 @@
 using Novolis.Physics.Abstractions;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Ballistics;
 
 /// <summary>Raycast and sweep helpers over <see cref="IStaticWorld"/> for projectile-sized queries.</summary>
 public static class BallisticsQueries
 {
-    public static bool LineOfSight(IStaticWorld world, in Ray3d ray, double maxDistance, out HitInfo hit) =>
+    public static bool LineOfSight(IStaticWorld world, in Ray3 ray, double maxDistance, out HitInfo hit) =>
         world.Raycast(in ray, maxDistance, out hit);
 
     public static bool SweepProjectileSphere(
         IStaticWorld world,
-        in Sphere3d sphere,
-        Vector3d displacement,
+        in Sphere3 sphere,
+        Vector3 displacement,
         out HitInfo hit) =>
         world.SweepSphere(in sphere, displacement, out hit);
 }

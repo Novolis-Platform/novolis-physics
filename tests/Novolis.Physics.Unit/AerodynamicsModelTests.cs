@@ -1,7 +1,8 @@
+using Novolis.Physics.TestSupport;
 using Novolis.Physics.Abstractions;
 using Novolis.Physics.Aerodynamics;
-using Novolis.Physics.Numerics;
-using Novolis.Physics.TestSupport;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -14,7 +15,7 @@ public sealed class AerodynamicsModelTests
     {
         var atm = new ExponentialAtmosphereModel(seaLevelDensityKgPerM3: 1.225, scaleHeightMeters: 8500.0);
         var h = 17_000.0;
-        var expected = 1.225 * Math.Exp(-h / 8500.0);
+        var expected = 1.225 * global::System.Math.Exp(-h / 8500.0);
         var rho = atm.DensityAtAltitude(h);
 
         var o = NovolisPhysicsTestTrace.Out;
@@ -25,7 +26,7 @@ public sealed class AerodynamicsModelTests
             new TableOptions { MaxCellWidth = 20, RightAlignNumericColumns = true },
             tableCaption: "rho(h) = rho0 * exp(-h/H)");
 
-        await Assert.That(Math.Abs(rho - expected)).IsLessThanOrEqualTo(1e-12);
+        await Assert.That(global::System.Math.Abs(rho - expected)).IsLessThanOrEqualTo((float)(1e-12));
         await Assert.That(atm.DensityAtAltitude(0)).IsEqualTo(1.225);
     }
 
@@ -33,16 +34,16 @@ public sealed class AerodynamicsModelTests
     public async Task SimpleLiftDrag_DragOpposesRelativeVelocity_WithWind()
     {
         var atm = new ExponentialAtmosphereModel(1.225, 8500);
-        var wind = new Vector3d(5, 0, 0);
-        var bodyVel = new Vector3d(25, 0, 0);
+        var wind = PhysicsTestVectors.V(5, 0, 0);
+        var bodyVel = PhysicsTestVectors.V(25, 0, 0);
         var body = new RigidBodyState(
-            Vector3d.Zero,
+            Vector3.Zero,
             bodyVel,
-            Quaterniond.Identity,
-            Vector3d.Zero,
+            Quaternion.Identity,
+            Vector3.Zero,
             mass: 10,
-            inertiaDiagonalBody: new Vector3d(1, 1, 1));
-        var forward = new Vector3d(0, 0, 1);
+            inertiaDiagonalBody: PhysicsTestVectors.V(1, 1, 1));
+        var forward = PhysicsTestVectors.V(0, 0, 1);
         var env = new SimpleAeroEnvironment(atm, altitudeMeters: 0, wind, referenceAreaM2: 2, dragCoefficient: 0.4, liftCoefficient: 0, liftReferenceForwardWorld: forward);
         var model = new SimpleLiftDragModel();
         var f = model.Evaluate(body, env, 0).Force;
@@ -61,25 +62,25 @@ public sealed class AerodynamicsModelTests
             new TableOptions { MaxCellWidth = 18, RightAlignNumericColumns = true },
             caption: "expect drag roughly opposite v_rel (lift adds orthogonal component)");
 
-        var dot = Vector3d.Dot(f, vRel);
-        await Assert.That(dot).IsLessThan(0);
+        var dot = Vector3.Dot(f, vRel);
+        await Assert.That(dot).IsLessThan((float)(0));
     }
 
     [Test]
     public async Task SimpleLiftDrag_ZeroRelativeVelocity_ReturnsZero()
     {
         var atm = new ExponentialAtmosphereModel(1.225, 8500);
-        var wind = new Vector3d(10, 0, 0);
+        var wind = PhysicsTestVectors.V(10, 0, 0);
         var body = new RigidBodyState(
-            Vector3d.Zero,
-            new Vector3d(10, 0, 0),
-            Quaterniond.Identity,
-            Vector3d.Zero,
+            Vector3.Zero,
+            PhysicsTestVectors.V(10, 0, 0),
+            Quaternion.Identity,
+            Vector3.Zero,
             1,
-            new Vector3d(1, 1, 1));
-        var env = new SimpleAeroEnvironment(atm, 0, wind, 1, 0.5, 0.2, new Vector3d(0, 1, 0));
+            PhysicsTestVectors.V(1, 1, 1));
+        var env = new SimpleAeroEnvironment(atm, 0, wind, 1, 0.5, 0.2, PhysicsTestVectors.V(0, 1, 0));
         var f = new SimpleLiftDragModel().Evaluate(body, env, 0).Force;
-        await Assert.That(f.Length()).IsLessThanOrEqualTo(1e-8);
+        await Assert.That(f.Length()).IsLessThanOrEqualTo((float)(1e-8));
     }
 
     private sealed record DensityRow(string Label, double AltitudeM, double DensityKgM3);

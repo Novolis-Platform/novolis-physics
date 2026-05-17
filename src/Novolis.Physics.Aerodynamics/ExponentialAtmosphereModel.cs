@@ -13,5 +13,5 @@ public sealed class ExponentialAtmosphereModel : IAtmosphereModel
     public double ScaleHeightMeters { get; }
 
     public double DensityAtAltitude(double altitudeMeters) =>
-        SeaLevelDensity * Math.Exp(-altitudeMeters / ScaleHeightMeters);
+        SeaLevelDensity * global::System.Math.Exp(-altitudeMeters / ScaleHeightMeters);
 }

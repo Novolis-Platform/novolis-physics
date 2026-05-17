@@ -1,6 +1,7 @@
-using Novolis.Physics.Ballistics;
-using Novolis.Physics.Numerics;
 using Novolis.Physics.TestSupport;
+using Novolis.Physics.Ballistics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -12,8 +13,8 @@ public sealed class BallisticPropertyTests
     public async Task Drag_ReducesHorizontalRange_VersusSameInitialVacuum()
     {
         var initial = new ProjectileState(
-            Vector3d.Zero,
-            new Vector3d(40, 30, 0),
+            Vector3.Zero,
+            PhysicsTestVectors.V(40, 30, 0),
             massKg: 1.0,
             timeSeconds: 0);
         var envAir = new ProjectileBallisticEnvironment(9.80665, 1.225);
@@ -40,13 +41,13 @@ public sealed class BallisticPropertyTests
             new TableOptions { RightAlignNumericColumns = true },
             caption: "Horizontal range to impact (m); expect drag < vacuum");
 
-        await Assert.That(drag).IsLessThan(vacuum);
+        await Assert.That(drag).IsLessThan((float)(vacuum));
     }
 
     [Test]
     public async Task Gravity_ReducesApogee_WhenComparingStrongerG()
     {
-        var initial = new ProjectileState(Vector3d.Zero, new Vector3d(20, 40, 0), 1.0, 0);
+        var initial = new ProjectileState(Vector3.Zero, PhysicsTestVectors.V(20, 40, 0), 1.0, 0);
         var lowG = new ProjectileBallisticEnvironment(9.8, 0);
         var highG = new ProjectileBallisticEnvironment(15.0, 0);
         var hLow = MaxHeight(initial, lowG, null, 1 / 120.0);
@@ -67,7 +68,7 @@ public sealed class BallisticPropertyTests
             new TableOptions { RightAlignNumericColumns = true },
             caption: "Max height (m) before ground impact; expect high-g < low-g");
 
-        await Assert.That(hHigh).IsLessThan(hLow);
+        await Assert.That(hHigh).IsLessThan((float)(hLow));
     }
 
     private static double SimulateRange(ProjectileState initial, ProjectileProfile? drag, ProjectileBallisticEnvironment env, double dt)
@@ -92,7 +93,7 @@ public sealed class BallisticPropertyTests
         while (s.Position.Y >= 0)
         {
             s = sim.Step(s, dt, env);
-            max = Math.Max(max, s.Position.Y);
+            max = global::System.Math.Max(max, s.Position.Y);
         }
 
         return max;

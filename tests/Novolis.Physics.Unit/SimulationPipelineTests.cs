@@ -1,19 +1,21 @@
+using Novolis.Physics.TestSupport;
 using Novolis.Physics.Abstractions;
 using Novolis.Physics.Motion;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
 
 file static class TestBodyEnv
 {
-    public readonly record struct Body(Vector3d Position, double Mass);
+    public readonly record struct Body(Vector3 Position, double Mass);
 
     public readonly record struct Env(double Dummy);
 
-    public sealed class ConstantForceModel(Vector3d force) : IForceModel<Body, Env>
+    public sealed class ConstantForceModel(Vector3 force) : IForceModel<Body, Env>
     {
-        public ForceSample Evaluate(Body body, Env environment, double timeSeconds) => new(force, Vector3d.Zero);
+        public ForceSample Evaluate(Body body, Env environment, double timeSeconds) => new(force, Vector3.Zero);
     }
 
     public sealed class PointMassIntegrator : IIntegrator<Body>
@@ -21,7 +23,7 @@ file static class TestBodyEnv
         public Body Step(Body body, in ForceSample totalForcesAndTorques, double dtSeconds)
         {
             var invM = 1.0 / body.Mass;
-            var v = totalForcesAndTorques.Force * invM * dtSeconds;
+            var v = totalForcesAndTorques.Force.Multiply(invM * dtSeconds);
             return body with { Position = body.Position + v };
         }
     }
@@ -33,10 +35,10 @@ public sealed class SimulationPipelineTests
     [Test]
     public async Task SimulationPipeline_SumsForcesAndIntegrates()
     {
-        var body = new TestBodyEnv.Body(new Vector3d(0, 0, 0), Mass: 2);
+        var body = new TestBodyEnv.Body(PhysicsTestVectors.V(0, 0, 0), Mass: 2);
         var env = new TestBodyEnv.Env(0);
-        var f1 = new TestBodyEnv.ConstantForceModel(new Vector3d(2, 0, 0));
-        var f2 = new TestBodyEnv.ConstantForceModel(new Vector3d(0, 4, 0));
+        var f1 = new TestBodyEnv.ConstantForceModel(PhysicsTestVectors.V(2, 0, 0));
+        var f2 = new TestBodyEnv.ConstantForceModel(PhysicsTestVectors.V(0, 4, 0));
         var pipe = new SimulationPipeline<TestBodyEnv.Body, TestBodyEnv.Env>(new TestBodyEnv.PointMassIntegrator(), f1, f2);
         var next = pipe.Step(body, env, dtSeconds: 1, timeSeconds: 0);
 

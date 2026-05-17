@@ -13,11 +13,11 @@ public sealed class PhysicsLookupTableTests
     public async Task VacuumBallistics_ReferenceTable_StandardLaunch()
     {
         const double v = 100.0;
-        const double theta = Math.PI / 4.0;
-        var sinT = Math.Sin(theta);
-        var cosT = Math.Cos(theta);
+        const double theta = global::System.Math.PI / 4.0;
+        var sinT = global::System.Math.Sin(theta);
+        var cosT = global::System.Math.Cos(theta);
         var tFlight = 2.0 * v * sinT / G;
-        var range = v * v * Math.Sin(2.0 * theta) / G;
+        var range = v * v * global::System.Math.Sin(2.0 * theta) / G;
         var apex = v * v * sinT * sinT / (2.0 * G);
 
         var rows = new[]
@@ -43,8 +43,8 @@ public sealed class PhysicsLookupTableTests
             new TableOptions { MaxCellWidth = 36, MinCellWidth = 4 },
             caption: "Analytical values only; compare against simulator traces separately.");
 
-        await Assert.That(range).IsGreaterThan(1000).And.IsLessThan(1100);
-        await Assert.That(apex).IsGreaterThan(250).And.IsLessThan(260);
+        await Assert.That(range).IsGreaterThan((float)(1000)).And.IsLessThan((float)(1100));
+        await Assert.That(apex).IsGreaterThan((float)(250)).And.IsLessThan((float)(260));
     }
 
     private sealed record ClosedFormRow(string Quantity, string Formula, double Value, string Unit);

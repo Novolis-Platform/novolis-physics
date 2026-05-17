@@ -1,5 +1,6 @@
 using Novolis.Physics.Abstractions;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Gravity;
 
@@ -9,7 +10,7 @@ public sealed class PointMassGravityModel : IForceModel<RigidBodyState, PointMas
 {
     public ForceSample Evaluate(RigidBodyState body, PointMassField environment, double timeSeconds)
     {
-        var total = Vector3d.Zero;
+        var total = Vector3.Zero;
         var span = environment.Sources.Span;
         for (var i = 0; i < span.Length; i++)
         {
@@ -21,12 +22,12 @@ public sealed class PointMassGravityModel : IForceModel<RigidBodyState, PointMas
                 continue;
             }
 
-            var dist = Math.Sqrt(distSq);
-            var dir = r / dist;
+            var dist = System.Math.Sqrt(distSq);
+            var dir = r.Divide(dist);
             var magnitude = gm / distSq;
-            total += dir * magnitude;
+            total += dir.Multiply(magnitude);
         }
 
-        return new ForceSample(total * body.Mass, Vector3d.Zero);
+        return new ForceSample(total.Multiply(body.Mass), Vector3.Zero);
     }
 }

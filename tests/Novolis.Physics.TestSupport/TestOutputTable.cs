@@ -1,3 +1,4 @@
+using Novolis.Physics.TestSupport;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -57,7 +58,7 @@ public sealed partial class TestOutput
             if (caption is not null)
                 Console.WriteLine($"{_prefix} {caption}");
 
-            var rowList = new List<T>(Math.Min(opt.MaxRows, 64));
+            var rowList = new List<T>(global::System.Math.Min(opt.MaxRows, 64));
             var truncated = false;
             foreach (var row in rows)
             {
@@ -98,10 +99,10 @@ public sealed partial class TestOutput
             var colWidths = new int[props.Length];
             for (var j = 0; j < props.Length; j++)
             {
-                var w = Math.Max(opt.MinCellWidth, Math.Min(opt.MaxCellWidth, headers[j].Length));
+                var w = global::System.Math.Max(opt.MinCellWidth, global::System.Math.Min(opt.MaxCellWidth, headers[j].Length));
                 for (var i = 0; i < formatted.Length; i++)
-                    w = Math.Max(w, Math.Min(opt.MaxCellWidth, formatted[i][j].Length));
-                colWidths[j] = Math.Min(opt.MaxCellWidth, Math.Max(opt.MinCellWidth, w));
+                    w = global::System.Math.Max(w, global::System.Math.Min(opt.MaxCellWidth, formatted[i][j].Length));
+                colWidths[j] = global::System.Math.Min(opt.MaxCellWidth, global::System.Math.Max(opt.MinCellWidth, w));
             }
 
             for (var i = 0; i < formatted.Length; i++)

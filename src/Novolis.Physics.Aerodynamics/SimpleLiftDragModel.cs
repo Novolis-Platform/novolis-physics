@@ -1,5 +1,6 @@
 using Novolis.Physics.Abstractions;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Aerodynamics;
 
@@ -18,12 +19,12 @@ public sealed class SimpleLiftDragModel : IForceModel<RigidBodyState, SimpleAero
         }
 
         var q = 0.5 * rho * environment.ReferenceAreaM2 * speed * speed;
-        var drag = -environment.DragCoefficient * q * (v / speed);
-        var liftAxis = Vector3d.Cross(environment.LiftReferenceForwardWorld, v);
+        var drag = (v / speed).Multiply(-environment.DragCoefficient * q);
+        var liftAxis = Vector3.Cross(environment.LiftReferenceForwardWorld, v);
         var liftMag = liftAxis.Length();
-        var lift = liftMag > 1e-12
-            ? environment.LiftCoefficient * q * (liftAxis / liftMag)
-            : Vector3d.Zero;
-        return new ForceSample(drag + lift, Vector3d.Zero);
+        var lift = liftMag > 1e-12f
+            ? liftAxis.Divide(liftMag).Multiply(environment.LiftCoefficient * q)
+            : Vector3.Zero;
+        return new ForceSample(drag + lift, Vector3.Zero);
     }
 }

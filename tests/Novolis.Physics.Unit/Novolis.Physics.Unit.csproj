@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\novolis-math\src\Novolis.Math.Geometry\Novolis.Math.Geometry.csproj" />
     <PackageReference Include="TUnit" />
   </ItemGroup>
 
@@ -17,8 +18,8 @@
     <ProjectReference Include="..\..\src\Novolis.Physics.Collision.Simple\Novolis.Physics.Collision.Simple.csproj" />
     <ProjectReference Include="..\..\src\Novolis.Physics.Gravity\Novolis.Physics.Gravity.csproj" />
     <ProjectReference Include="..\..\src\Novolis.Physics.Motion\Novolis.Physics.Motion.csproj" />
-    <ProjectReference Include="..\..\src\Novolis.Physics.Numerics\Novolis.Physics.Numerics.csproj" />
     <ProjectReference Include="..\..\src\Novolis.Physics.Orbits\Novolis.Physics.Orbits.csproj" />
   </ItemGroup>
 
 </Project>
+

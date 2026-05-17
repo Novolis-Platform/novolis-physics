@@ -1,8 +1,9 @@
+using Novolis.Physics.TestSupport;
 using Novolis.Physics.Abstractions;
 using Novolis.Physics.Ballistics;
 using Novolis.Physics.Motion;
-using Novolis.Physics.Numerics;
-using Novolis.Physics.TestSupport;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -17,7 +18,7 @@ public sealed class ProjectileDragPipelineParityTests
         var profile = new ProjectileProfile(1.0, 0.5, 0.35);
         var env = new ProjectileBallisticEnvironment(9.80665, 1.225);
         var parity = new ParityEnv(env, new ProjectileDragEnvironment(env.AirDensityKgPerM3));
-        var state = new ProjectileState(new Vector3d(10, 120, 0), new Vector3d(35, 12, -2), massKg: 1.2, 0);
+        var state = new ProjectileState(PhysicsTestVectors.V(10, 120, 0), PhysicsTestVectors.V(35, 12, -2), massKg: 1.2, 0);
         const double dt = 1.0 / 120.0;
 
         var ballistic = new ProjectileBallisticSimulation(profile).Step(state, dt, env);
@@ -50,7 +51,7 @@ public sealed class ProjectileDragPipelineParityTests
         var parity = new ParityEnv(env, new ProjectileDragEnvironment(env.AirDensityKgPerM3));
         var ballisticSim = new ProjectileBallisticSimulation(profile);
         var pipeline = BuildPipeline(profile);
-        var stateA = new ProjectileState(Vector3d.Zero, new Vector3d(40, 55, 0), massKg: 1.0, 0);
+        var stateA = new ProjectileState(Vector3.Zero, PhysicsTestVectors.V(40, 55, 0), massKg: 1.0, 0);
         var stateB = stateA;
         const double dt = 1.0 / 240.0;
         const int steps = 200;
@@ -91,14 +92,14 @@ public sealed class ProjectileDragPipelineParityTests
 
     private static async Task AssertParityAsync(ProjectileState a, ProjectileState b)
     {
-        var eps = 1e-9 * (1.0 + Math.Max(a.Position.Length(), b.Position.Length()));
-        var ev = 1e-9 * (1.0 + Math.Max(a.Velocity.Length(), b.Velocity.Length()));
-        await Assert.That(Math.Abs(a.Position.X - b.Position.X)).IsLessThanOrEqualTo(eps);
-        await Assert.That(Math.Abs(a.Position.Y - b.Position.Y)).IsLessThanOrEqualTo(eps);
-        await Assert.That(Math.Abs(a.Position.Z - b.Position.Z)).IsLessThanOrEqualTo(eps);
-        await Assert.That(Math.Abs(a.Velocity.X - b.Velocity.X)).IsLessThanOrEqualTo(ev);
-        await Assert.That(Math.Abs(a.Velocity.Y - b.Velocity.Y)).IsLessThanOrEqualTo(ev);
-        await Assert.That(Math.Abs(a.Velocity.Z - b.Velocity.Z)).IsLessThanOrEqualTo(ev);
+        var eps = 1e-9 * (1.0 + global::System.Math.Max(a.Position.Length(), b.Position.Length()));
+        var ev = 1e-9 * (1.0 + global::System.Math.Max(a.Velocity.Length(), b.Velocity.Length()));
+        await Assert.That(global::System.Math.Abs(a.Position.X - b.Position.X)).IsLessThanOrEqualTo((float)(eps));
+        await Assert.That(global::System.Math.Abs(a.Position.Y - b.Position.Y)).IsLessThanOrEqualTo((float)(eps));
+        await Assert.That(global::System.Math.Abs(a.Position.Z - b.Position.Z)).IsLessThanOrEqualTo((float)(eps));
+        await Assert.That(global::System.Math.Abs(a.Velocity.X - b.Velocity.X)).IsLessThanOrEqualTo((float)(ev));
+        await Assert.That(global::System.Math.Abs(a.Velocity.Y - b.Velocity.Y)).IsLessThanOrEqualTo((float)(ev));
+        await Assert.That(global::System.Math.Abs(a.Velocity.Z - b.Velocity.Z)).IsLessThanOrEqualTo((float)(ev));
     }
 
     private readonly record struct ParityEnv(ProjectileBallisticEnvironment Ballistic, ProjectileDragEnvironment Drag);
@@ -106,7 +107,7 @@ public sealed class ProjectileDragPipelineParityTests
     private sealed class UniformProjectileGravity : IForceModel<ProjectileState, ParityEnv>
     {
         public ForceSample Evaluate(ProjectileState body, ParityEnv env, double timeSeconds) =>
-            new(new Vector3d(0, -body.MassKg * env.Ballistic.GravityMetersPerSecondSquared, 0), Vector3d.Zero);
+            new(PhysicsTestVectors.V(0, -body.MassKg * env.Ballistic.GravityMetersPerSecondSquared, 0), Vector3.Zero);
     }
 
     private sealed class ProjectileDragAdapter(ProjectileQuadraticDragModel inner) : IForceModel<ProjectileState, ParityEnv>

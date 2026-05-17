@@ -1,4 +1,5 @@
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Motion;
 
@@ -10,25 +11,25 @@ namespace Novolis.Physics.Motion;
 public static class UniformAccelerationEnergy
 {
     /// <summary>Kinetic energy <c>½ m |v|²</c> in joules.</summary>
-    public static double KineticEnergyJ(double massKg, in Vector3d velocityMps)
+    public static double KineticEnergyJ(double massKg, in Vector3 velocityMps)
     {
         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(massKg, 0.0);
-        var v2 = Vector3d.Dot(velocityMps, velocityMps);
+        var v2 = Vector3.Dot(velocityMps, velocityMps);
         return 0.5 * massKg * v2;
     }
 
     /// <summary>Potential energy <c>−m (g · r)</c> in joules (reference-dependent).</summary>
-    public static double PotentialEnergyJ(double massKg, in Vector3d uniformAccelerationMps2, in Vector3d positionM)
+    public static double PotentialEnergyJ(double massKg, in Vector3 uniformAccelerationMps2, in Vector3 positionM)
     {
         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(massKg, 0.0);
-        return -massKg * Vector3d.Dot(uniformAccelerationMps2, positionM);
+        return -massKg * Vector3.Dot(uniformAccelerationMps2, positionM);
     }
 
     /// <summary><see cref="KineticEnergyJ"/> + <see cref="PotentialEnergyJ"/>.</summary>
     public static double MechanicalEnergyJ(
         double massKg,
-        in Vector3d velocityMps,
-        in Vector3d uniformAccelerationMps2,
-        in Vector3d positionM) =>
+        in Vector3 velocityMps,
+        in Vector3 uniformAccelerationMps2,
+        in Vector3 positionM) =>
         KineticEnergyJ(massKg, velocityMps) + PotentialEnergyJ(massKg, uniformAccelerationMps2, positionM);
 }

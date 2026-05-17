@@ -1,3 +1,4 @@
+using Novolis.Physics.TestSupport;
 namespace Novolis.Physics.TestSupport;
 
 /// <summary>Opinionated trace layout for physics-style diagnostics (section + optional table).</summary>

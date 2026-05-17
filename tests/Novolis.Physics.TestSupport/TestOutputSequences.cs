@@ -1,3 +1,4 @@
+using Novolis.Physics.TestSupport;
 namespace Novolis.Physics.TestSupport;
 
 /// <summary>Enumerable helpers for sampled console output (e.g. every Nth simulation step).</summary>

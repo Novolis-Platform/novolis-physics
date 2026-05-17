@@ -1,6 +1,7 @@
-using Novolis.Physics.Ballistics;
-using Novolis.Physics.Numerics;
 using Novolis.Physics.TestSupport;
+using Novolis.Physics.Ballistics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -13,21 +14,21 @@ public sealed class BallisticRegressionTests
     public async Task Projectile_WithQuadraticDrag_HasShorterRangeThanVacuum()
     {
         const double speed = 50.0;
-        const double angle = 35.0 * Math.PI / 180.0;
+        const double angle = 35.0 * global::System.Math.PI / 180.0;
         const double dt = 1.0 / 240.0;
         const double gravity = 9.80665;
 
-        var vx = speed * Math.Cos(angle);
-        var vy = speed * Math.Sin(angle);
+        var vx = speed * global::System.Math.Cos(angle);
+        var vy = speed * global::System.Math.Sin(angle);
         var initial = new ProjectileState(
-            Vector3d.Zero,
-            new Vector3d(vx, vy, 0),
+            Vector3.Zero,
+            PhysicsTestVectors.V(vx, vy, 0),
             massKg: 0.145,
             timeSeconds: 0);
 
         var profile = new ProjectileProfile(
             massKg: 0.145,
-            referenceAreaM2: Math.PI * Math.Pow(0.073 / 2.0, 2),
+            referenceAreaM2: global::System.Math.PI * global::System.Math.Pow(0.073 / 2.0, 2),
             dragCoefficient: 0.47);
 
         var environment = new ProjectileBallisticEnvironment(gravity, AirDensityKgPerM3: 1.225);
@@ -59,12 +60,12 @@ public sealed class BallisticRegressionTests
             "expects",
             "drag: shorter range and lower apex than vacuum; impact speed < v0; vacuum range in band 235..245 m");
 
-        await Assert.That(dragged.Range).IsLessThan(vacuum.Range);
-        await Assert.That(dragged.MaxHeight).IsLessThan(vacuum.MaxHeight);
-        await Assert.That(dragged.ImpactSpeed).IsLessThan(speed);
+        await Assert.That(dragged.Range).IsLessThan((float)(vacuum.Range));
+        await Assert.That(dragged.MaxHeight).IsLessThan((float)(vacuum.MaxHeight));
+        await Assert.That(dragged.ImpactSpeed).IsLessThan((float)(speed));
 
         // Documented vacuum reference for this geometry (same integrator, no drag): ~239.6 m range.
-        await Assert.That(vacuum.Range).IsGreaterThan(235).And.IsLessThan(245);
+        await Assert.That(vacuum.Range).IsGreaterThan((float)(235)).And.IsLessThan((float)(245));
     }
 
     private static TrajectoryOutcome SimulateUntilImpact(
@@ -82,7 +83,7 @@ public sealed class BallisticRegressionTests
         {
             previous = state;
             state = simulation.Step(state, dt, environment);
-            maxHeight = Math.Max(maxHeight, state.Position.Y);
+            maxHeight = global::System.Math.Max(maxHeight, state.Position.Y);
             steps++;
         }
 

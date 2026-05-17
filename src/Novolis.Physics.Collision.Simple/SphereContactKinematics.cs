@@ -1,4 +1,5 @@
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Collision.Simple;
 
@@ -13,17 +14,17 @@ public static class SphereContactKinematics
     /// <paramref name="unitNormal"/> must match <see cref="Novolis.Physics.Abstractions.HitInfo.Normal"/> from
     /// <see cref="BvhStaticWorld.SweepSphere"/> (unit vector from the collision query).
     /// </summary>
-    public static Vector3d ReflectWithRestitution(
-        in Vector3d velocityMps,
-        in Vector3d unitNormal,
+    public static Vector3 ReflectWithRestitution(
+        in Vector3 velocityMps,
+        in Vector3 unitNormal,
         double coefficientOfRestitution)
     {
-        var e = Math.Clamp(coefficientOfRestitution, 0.0, 1.0);
-        var vn = Vector3d.Dot(velocityMps, unitNormal);
-        return velocityMps - (1.0 + e) * vn * unitNormal;
+        var e = System.Math.Clamp(coefficientOfRestitution, 0.0, 1.0);
+        var vn = Vector3.Dot(velocityMps, unitNormal);
+        return velocityMps - unitNormal.Multiply((1.0 + e) * vn);
     }
 
     /// <summary>Perfectly elastic reflection (<c>e = 1</c>).</summary>
-    public static Vector3d ReflectElastic(in Vector3d velocityMps, in Vector3d unitNormal) =>
+    public static Vector3 ReflectElastic(in Vector3 velocityMps, in Vector3 unitNormal) =>
         ReflectWithRestitution(velocityMps, unitNormal, 1.0);
 }

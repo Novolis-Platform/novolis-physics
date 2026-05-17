@@ -1,6 +1,6 @@
+using Novolis.Physics.TestSupport;
 using System.Linq;
 using Novolis.Physics.Motion;
-using Novolis.Physics.TestSupport;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -16,7 +16,7 @@ public sealed class FixedStepAccumulatorTests
         var n = acc.AddTimeAndDrain(1.0, dt => dts.Add(dt));
         await Assert.That(n).IsEqualTo(4);
         await Assert.That(dts.Count).IsEqualTo(4);
-        await Assert.That(dts.All(d => Math.Abs(d - 0.25) < 1e-15)).IsTrue();
+        await Assert.That(dts.All(d => global::System.Math.Abs(d - 0.25) < 1e-15)).IsTrue();
         var n2 = acc.AddTimeAndDrain(0.0, _ => { });
         await Assert.That(n2).IsEqualTo(0);
     }
@@ -29,7 +29,7 @@ public sealed class FixedStepAccumulatorTests
         await Assert.That(acc.AddTimeAndDrain(0.3, dt => steps.Add(dt))).IsEqualTo(0);
         await Assert.That(acc.AddTimeAndDrain(0.3, dt => steps.Add(dt))).IsEqualTo(1);
         await Assert.That(steps.Count).IsEqualTo(1);
-        await Assert.That(Math.Abs(steps[0] - 0.5)).IsLessThan(1e-15);
+        await Assert.That(global::System.Math.Abs(steps[0] - 0.5)).IsLessThan((float)(1e-15));
     }
 
     [Test]

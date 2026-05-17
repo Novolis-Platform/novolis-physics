@@ -1,5 +1,6 @@
 using Novolis.Physics.Abstractions;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Ballistics;
 
@@ -21,7 +22,7 @@ public sealed class ProjectileQuadraticDragModel : IForceModel<ProjectileState, 
         }
 
         var q = 0.5 * environment.AirDensityKgPerM3 * _profile.DragCoefficient * _profile.ReferenceAreaM2 * speed * speed;
-        var f = -q * (v / speed);
-        return new ForceSample(f, Vector3d.Zero);
+        var f = (v / speed).Multiply(-q);
+        return new ForceSample(f, Vector3.Zero);
     }
 }

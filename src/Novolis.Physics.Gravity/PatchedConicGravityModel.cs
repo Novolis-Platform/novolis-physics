@@ -1,5 +1,6 @@
 using Novolis.Physics.Abstractions;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Gravity;
 
@@ -20,9 +21,9 @@ public sealed class PatchedConicGravityModel : IForceModel<RigidBodyState, Patch
             return ForceSample.Zero;
         }
 
-        var dist = Math.Sqrt(distSq);
-        var dir = r / dist;
-        var f = dir * (gm / distSq) * body.Mass;
-        return new ForceSample(f, Vector3d.Zero);
+        var dist = System.Math.Sqrt(distSq);
+        var dir = r.Divide(dist);
+        var f = dir.Multiply(gm / distSq * body.Mass);
+        return new ForceSample(f, Vector3.Zero);
     }
 }

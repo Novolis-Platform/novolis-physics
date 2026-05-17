@@ -1,13 +1,13 @@
-using System.Numerics;
-using Novolis.Physics.Numerics;
-using Novolis.Physics.Orbits;
 using Novolis.Physics.TestSupport;
+using System.Numerics;
+using Novolis.Math.Geometry;
+using Novolis.Physics.Orbits;
 using Novolis.Physics.TestSupport.Orbits;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
 
-/// <summary>Elliptical Earth two-body checks: planar motion as <see cref="Vector3d"/> with Z = Vz = 0, leapfrog + inverse-square acceleration.</summary>
+/// <summary>Elliptical Earth two-body checks: planar motion as <see cref="Vector3"/> with Z = Vz = 0, leapfrog + inverse-square acceleration.</summary>
 [NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class EllipticalOrbitTwoBodyTests
 {
@@ -29,10 +29,10 @@ public sealed class EllipticalOrbitTwoBodyTests
 
     private const double HalfOrbitYPositionToleranceM = 5000.0;
 
-    private const double ScalarVectorizedMaxAbsDiff = 1e-9;
+    private const float ScalarVectorizedMaxAbsDiff = 1e-9f;
 
     private static int StepCount(double durationSeconds) =>
-        (int)Math.Floor((durationSeconds + 1e-9) / DtSeconds);
+        (int)global::System.Math.Floor((durationSeconds + 1e-9) / DtSeconds);
 
     [Test]
     public async Task OneOrbit_ReturnsNearInitialState()
@@ -62,8 +62,8 @@ public sealed class EllipticalOrbitTwoBodyTests
                 $"|dpos|<={ClosedOrbitPositionToleranceM} m, |dvel|<={ClosedOrbitVelocityToleranceMs} m/s"));
         try
         {
-            await Assert.That(dp).IsLessThanOrEqualTo(ClosedOrbitPositionToleranceM);
-            await Assert.That(dv).IsLessThanOrEqualTo(ClosedOrbitVelocityToleranceMs);
+            await Assert.That(dp).IsLessThanOrEqualTo((float)(ClosedOrbitPositionToleranceM));
+            await Assert.That(dv).IsLessThanOrEqualTo((float)(ClosedOrbitVelocityToleranceMs));
         }
         catch (Exception ex)
         {
@@ -116,10 +116,10 @@ public sealed class EllipticalOrbitTwoBodyTests
         o.Line("dv_vs_va_m_s", v - va);
         try
         {
-            await Assert.That(final.Position.X).IsLessThan(0);
-            await Assert.That(Math.Abs(final.Position.Y)).IsLessThanOrEqualTo(HalfOrbitYPositionToleranceM);
-            await Assert.That(Math.Abs(r - ra)).IsLessThanOrEqualTo(HalfOrbitRadiusToleranceM);
-            await Assert.That(Math.Abs(v - va)).IsLessThanOrEqualTo(HalfOrbitSpeedToleranceMs);
+            await Assert.That(final.Position.X).IsLessThan((float)(0));
+            await Assert.That(global::System.Math.Abs(final.Position.Y)).IsLessThanOrEqualTo((float)(HalfOrbitYPositionToleranceM));
+            await Assert.That(global::System.Math.Abs(r - ra)).IsLessThanOrEqualTo((float)(HalfOrbitRadiusToleranceM));
+            await Assert.That(global::System.Math.Abs(v - va)).IsLessThanOrEqualTo((float)(HalfOrbitSpeedToleranceMs));
         }
         catch (Exception ex)
         {
@@ -150,10 +150,10 @@ public sealed class EllipticalOrbitTwoBodyTests
         var duration = OrbitalTestConstants.Period;
         var steps = StepCount(duration);
         var e0 = OrbitalMath.SpecificOrbitalEnergy(ic.Position, ic.Velocity, mu);
-        var denom = Math.Max(Math.Abs(e0), 1e-300);
+        var denom = global::System.Math.Max(global::System.Math.Abs(e0), 1e-300);
         var final = CentralOrbitSimulator.SimulateFor(ic, duration, DtSeconds, KernelMode.Scalar, mu);
         var e1 = OrbitalMath.SpecificOrbitalEnergy(final.Position, final.Velocity, mu);
-        var rel = Math.Abs(e1 - e0) / denom;
+        var rel = global::System.Math.Abs(e1 - e0) / denom;
         var o = NovolisPhysicsTestTrace.Out;
         o.Section(nameof(Energy_IsApproximatelyConserved));
         o.Line("kernel", nameof(KernelMode.Scalar));
@@ -170,7 +170,7 @@ public sealed class EllipticalOrbitTwoBodyTests
         o.Line("assert_rel_dE_max", EnergyRelativeTolerance);
         try
         {
-            await Assert.That(rel).IsLessThanOrEqualTo(EnergyRelativeTolerance);
+            await Assert.That(rel).IsLessThanOrEqualTo((float)(EnergyRelativeTolerance));
         }
         catch (Exception ex)
         {
@@ -201,10 +201,10 @@ public sealed class EllipticalOrbitTwoBodyTests
         var duration = OrbitalTestConstants.Period;
         var steps = StepCount(duration);
         var h0z = OrbitalMath.SpecificAngularMomentumVector(ic.Position, ic.Velocity).Z;
-        var denom = Math.Max(Math.Abs(h0z), 1e-300);
+        var denom = global::System.Math.Max(global::System.Math.Abs(h0z), 1e-300);
         var final = CentralOrbitSimulator.SimulateFor(ic, duration, DtSeconds, KernelMode.Scalar, mu);
         var h1z = OrbitalMath.SpecificAngularMomentumVector(final.Position, final.Velocity).Z;
-        var rel = Math.Abs(h1z - h0z) / denom;
+        var rel = global::System.Math.Abs(h1z - h0z) / denom;
         var o = NovolisPhysicsTestTrace.Out;
         o.Section(nameof(AngularMomentum_IsApproximatelyConserved));
         o.Line("kernel", nameof(KernelMode.Scalar));
@@ -221,7 +221,7 @@ public sealed class EllipticalOrbitTwoBodyTests
         o.Line("assert_rel_dhz_max", AngularMomentumZRelativeTolerance);
         try
         {
-            await Assert.That(rel).IsLessThanOrEqualTo(AngularMomentumZRelativeTolerance);
+            await Assert.That(rel).IsLessThanOrEqualTo((float)(AngularMomentumZRelativeTolerance));
         }
         catch (Exception ex)
         {
@@ -290,12 +290,12 @@ public sealed class EllipticalOrbitTwoBodyTests
             },
             new TableOptions { RightAlignNumericColumns = true },
             caption: "Position (m) and velocity (m/s) after same duration");
-        var dpx = Math.Abs(scalar.Position.X - vectorized.Position.X);
-        var dpy = Math.Abs(scalar.Position.Y - vectorized.Position.Y);
-        var dpz = Math.Abs(scalar.Position.Z - vectorized.Position.Z);
-        var dvx = Math.Abs(scalar.Velocity.X - vectorized.Velocity.X);
-        var dvy = Math.Abs(scalar.Velocity.Y - vectorized.Velocity.Y);
-        var dvz = Math.Abs(scalar.Velocity.Z - vectorized.Velocity.Z);
+        var dpx = global::System.Math.Abs(scalar.Position.X - vectorized.Position.X);
+        var dpy = global::System.Math.Abs(scalar.Position.Y - vectorized.Position.Y);
+        var dpz = global::System.Math.Abs(scalar.Position.Z - vectorized.Position.Z);
+        var dvx = global::System.Math.Abs(scalar.Velocity.X - vectorized.Velocity.X);
+        var dvy = global::System.Math.Abs(scalar.Velocity.Y - vectorized.Velocity.Y);
+        var dvz = global::System.Math.Abs(scalar.Velocity.Z - vectorized.Velocity.Z);
         o.Results(nameof(ScalarAndVectorized_ProduceEquivalentResults) + " — max abs component deltas");
         o.Line("|dpx|", dpx);
         o.Line("|dpy|", dpy);
@@ -306,12 +306,12 @@ public sealed class EllipticalOrbitTwoBodyTests
         o.Line("assert_max_each", ScalarVectorizedMaxAbsDiff);
         try
         {
-            await Assert.That(Math.Abs(scalar.Position.X - vectorized.Position.X)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
-            await Assert.That(Math.Abs(scalar.Position.Y - vectorized.Position.Y)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
-            await Assert.That(Math.Abs(scalar.Position.Z - vectorized.Position.Z)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
-            await Assert.That(Math.Abs(scalar.Velocity.X - vectorized.Velocity.X)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
-            await Assert.That(Math.Abs(scalar.Velocity.Y - vectorized.Velocity.Y)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
-            await Assert.That(Math.Abs(scalar.Velocity.Z - vectorized.Velocity.Z)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
+            await Assert.That(MathF.Abs(scalar.Position.X - vectorized.Position.X)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
+            await Assert.That(MathF.Abs(scalar.Position.Y - vectorized.Position.Y)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
+            await Assert.That(MathF.Abs(scalar.Position.Z - vectorized.Position.Z)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
+            await Assert.That(MathF.Abs(scalar.Velocity.X - vectorized.Velocity.X)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
+            await Assert.That(MathF.Abs(scalar.Velocity.Y - vectorized.Velocity.Y)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
+            await Assert.That(MathF.Abs(scalar.Velocity.Z - vectorized.Velocity.Z)).IsLessThanOrEqualTo(ScalarVectorizedMaxAbsDiff);
         }
         catch (Exception ex)
         {
@@ -400,15 +400,15 @@ public sealed class EllipticalOrbitTwoBodyTests
         var e1 = energyFinal ?? OrbitalMath.SpecificOrbitalEnergy(final.Position, final.Velocity, mu);
         o.Line("E0_J_per_kg", e0);
         o.Line("E1_J_per_kg", e1);
-        if (Math.Abs(e0) > 0)
-            o.Line("rel_dE", Math.Abs(e1 - e0) / Math.Abs(e0));
+        if (global::System.Math.Abs(e0) > 0)
+            o.Line("rel_dE", global::System.Math.Abs(e1 - e0) / global::System.Math.Abs(e0));
 
         var z0 = hzInitial ?? OrbitalMath.SpecificAngularMomentumVector(ic.Position, ic.Velocity).Z;
         var z1 = hzFinal ?? OrbitalMath.SpecificAngularMomentumVector(final.Position, final.Velocity).Z;
         o.Line("hz0_m2_per_s", z0);
         o.Line("hz1_m2_per_s", z1);
-        if (Math.Abs(z0) > 0)
-            o.Line("rel_dhz", Math.Abs(z1 - z0) / Math.Abs(z0));
+        if (global::System.Math.Abs(z0) > 0)
+            o.Line("rel_dhz", global::System.Math.Abs(z1 - z0) / global::System.Math.Abs(z0));
 
         o.Line("Vector.IsHardwareAccelerated", Vector.IsHardwareAccelerated ? "true" : "false");
         o.Line("Vector<double>.Count", Vector<double>.Count);
@@ -425,9 +425,9 @@ public sealed class EllipticalOrbitTwoBodyTests
         var reused = CentralOrbitSimulator.SimulateFor(ic, soa, bodyIndex: 0, duration, DtSeconds, KernelMode.Scalar);
         var convenience = CentralOrbitSimulator.SimulateFor(ic, duration, DtSeconds, KernelMode.Scalar, mu);
 
-        await Assert.That(reused.Position.X).IsEqualTo(convenience.Position.X).Within(1e-6);
-        await Assert.That(reused.Position.Y).IsEqualTo(convenience.Position.Y).Within(1e-6);
-        await Assert.That(reused.Velocity.X).IsEqualTo(convenience.Velocity.X).Within(1e-6);
-        await Assert.That(reused.Velocity.Y).IsEqualTo(convenience.Velocity.Y).Within(1e-6);
+        await Assert.That(reused.Position.X).IsEqualTo(convenience.Position.X).Within(1e-6f);
+        await Assert.That(reused.Position.Y).IsEqualTo(convenience.Position.Y).Within(1e-6f);
+        await Assert.That(reused.Velocity.X).IsEqualTo(convenience.Velocity.X).Within(1e-6f);
+        await Assert.That(reused.Velocity.Y).IsEqualTo(convenience.Velocity.Y).Within(1e-6f);
     }
 }

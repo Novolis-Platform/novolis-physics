@@ -1,6 +1,7 @@
-using Novolis.Physics.Collision.Simple;
-using Novolis.Physics.Numerics;
 using Novolis.Physics.TestSupport;
+using Novolis.Physics.Collision.Simple;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -13,14 +14,14 @@ public sealed class BvhStaticWorldTests
     {
         var verts = new[]
         {
-            new Vector3d(0, 0, 0),
-            new Vector3d(10, 0, 0),
-            new Vector3d(0, 0, 10),
+            PhysicsTestVectors.V(0, 0, 0),
+            PhysicsTestVectors.V(10, 0, 0),
+            PhysicsTestVectors.V(0, 0, 10),
         };
         var indices = new[] { 0, 1, 2 };
         var mesh = new StaticTriangleMesh(verts, indices);
         var world = new BvhStaticWorld(mesh);
-        var ray = new Ray3d(new Vector3d(1, 2, 1), new Vector3d(0, -1, 0).Normalized());
+        var ray = new Ray3(PhysicsTestVectors.V(1, 2, 1), PhysicsTestVectors.V(0, -1, 0).Normalized());
         var hit = world.Raycast(in ray, maxDistance: 10, out var info);
 
         var o = NovolisPhysicsTestTrace.Out;
@@ -68,7 +69,7 @@ public sealed class BvhStaticWorldTests
             caption: "Ray (origin m, unit dir, maxDistance) then hit");
 
         await Assert.That(hit).IsTrue();
-        await Assert.That(info.Distance).IsGreaterThan(1.9).And.IsLessThan(2.1);
+        await Assert.That(info.Distance).IsGreaterThan((float)(1.9)).And.IsLessThan((float)(2.1));
     }
 
     private sealed record TriangleVertexRow(string Id, double X, double Y, double Z);

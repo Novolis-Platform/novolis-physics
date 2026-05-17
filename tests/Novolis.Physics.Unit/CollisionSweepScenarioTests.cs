@@ -1,8 +1,9 @@
+using Novolis.Physics.TestSupport;
 using Novolis.Physics.Abstractions;
 using Novolis.Physics.Ballistics;
 using Novolis.Physics.Collision.Simple;
-using Novolis.Physics.Numerics;
-using Novolis.Physics.TestSupport;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -15,14 +16,14 @@ public sealed class CollisionSweepScenarioTests
     {
         var verts = new[]
         {
-            new Vector3d(0, 0, 0),
-            new Vector3d(10, 0, 0),
-            new Vector3d(0, 0, 10),
+            PhysicsTestVectors.V(0, 0, 0),
+            PhysicsTestVectors.V(10, 0, 0),
+            PhysicsTestVectors.V(0, 0, 10),
         };
         var mesh = new StaticTriangleMesh(verts, new[] { 0, 1, 2 });
         var world = new BvhStaticWorld(mesh);
-        var sphere = new Sphere3d(new Vector3d(1, 2.0, 1), radius: 0.15);
-        var displacement = new Vector3d(0, -4, 0);
+        var sphere = new Sphere3(PhysicsTestVectors.V(1, (float)2.0, 1), radius: 0.15f);
+        var displacement = PhysicsTestVectors.V(0, -4, 0);
         var hit = BallisticsQueries.SweepProjectileSphere(world, in sphere, displacement, out var info);
 
         var o = NovolisPhysicsTestTrace.Out;
@@ -40,7 +41,7 @@ public sealed class CollisionSweepScenarioTests
             tableCaption: "sweeps inflated ray along displacement; expect hit before full travel");
 
         await Assert.That(hit).IsTrue();
-        await Assert.That(info.Distance).IsGreaterThan(0).And.IsLessThan(displacement.Length());
+        await Assert.That(info.Distance).IsGreaterThan((float)(0)).And.IsLessThan((float)(displacement.Length()));
     }
 
     [Test]
@@ -48,12 +49,12 @@ public sealed class CollisionSweepScenarioTests
     {
         var verts = new[]
         {
-            new Vector3d(0, 0, 0),
-            new Vector3d(1, 0, 0),
-            new Vector3d(0, 0, 1),
+            PhysicsTestVectors.V(0, 0, 0),
+            PhysicsTestVectors.V(1, 0, 0),
+            PhysicsTestVectors.V(0, 0, 1),
         };
         var world = new BvhStaticWorld(new StaticTriangleMesh(verts, new[] { 0, 1, 2 }));
-        var ray = new Ray3d(new Vector3d(5, 5, 5), new Vector3d(0, 1, 0).Normalized());
+        var ray = new Ray3(PhysicsTestVectors.V(5, 5, 5), PhysicsTestVectors.V(0, 1, 0).Normalized());
         var hit = world.Raycast(in ray, maxDistance: 100, out _);
 
         var o = NovolisPhysicsTestTrace.Out;

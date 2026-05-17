@@ -1,11 +1,12 @@
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Collision.Simple;
 
 /// <summary>Indexed triangle soup; immutable after construction.</summary>
 public sealed class StaticTriangleMesh
 {
-    public StaticTriangleMesh(Vector3d[] vertices, int[] triangleIndices)
+    public StaticTriangleMesh(Vector3[] vertices, int[] triangleIndices)
     {
         if (triangleIndices.Length % 3 != 0)
         {
@@ -17,11 +18,11 @@ public sealed class StaticTriangleMesh
         TriangleCount = triangleIndices.Length / 3;
     }
 
-    public Vector3d[] Vertices { get; }
+    public Vector3[] Vertices { get; }
     public int[] TriangleIndices { get; }
     public int TriangleCount { get; }
 
-    public void GetTriangle(int triangleIndex, out Vector3d v0, out Vector3d v1, out Vector3d v2)
+    public void GetTriangle(int triangleIndex, out Vector3 v0, out Vector3 v1, out Vector3 v2)
     {
         var i = triangleIndex * 3;
         v0 = Vertices[TriangleIndices[i]];
@@ -29,26 +30,26 @@ public sealed class StaticTriangleMesh
         v2 = Vertices[TriangleIndices[i + 2]];
     }
 
-    public AxisAlignedBox3d TriangleBounds(int triangleIndex)
+    public AxisAlignedBox3 TriangleBounds(int triangleIndex)
     {
         GetTriangle(triangleIndex, out var v0, out var v1, out var v2);
-        var box = AxisAlignedBox3d.FromMinMax(v0, v0);
-        box = AxisAlignedBox3d.Expand(box, v1);
-        box = AxisAlignedBox3d.Expand(box, v2);
+        var box = AxisAlignedBox3.FromMinMax(v0, v0);
+        box = AxisAlignedBox3.Expand(box, v1);
+        box = AxisAlignedBox3.Expand(box, v2);
         return box;
     }
 
-    public AxisAlignedBox3d MeshBounds()
+    public AxisAlignedBox3 MeshBounds()
     {
         if (Vertices.Length == 0)
         {
-            return new AxisAlignedBox3d(Vector3d.Zero, Vector3d.Zero);
+            return new AxisAlignedBox3(Vector3.Zero, Vector3.Zero);
         }
 
-        var b = AxisAlignedBox3d.FromMinMax(Vertices[0], Vertices[0]);
+        var b = AxisAlignedBox3.FromMinMax(Vertices[0], Vertices[0]);
         foreach (var v in Vertices)
         {
-            b = AxisAlignedBox3d.Expand(b, v);
+            b = AxisAlignedBox3.Expand(b, v);
         }
 
         return b;

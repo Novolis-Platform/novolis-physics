@@ -1,7 +1,8 @@
+using Novolis.Physics.TestSupport;
 using Novolis.Physics.Abstractions;
 using Novolis.Physics.Motion;
-using Novolis.Physics.Numerics;
-using Novolis.Physics.TestSupport;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -13,15 +14,15 @@ public sealed class QuaternionIntegrationSmokeTests
     public async Task ConstantTorque_QuaternionStaysNormalized_AndOmegaGrowsAlongAxis()
     {
         var integrator = new SemiImplicitEulerRigidBodyIntegrator();
-        var torque = new Vector3d(0, 0, 0.6);
+        var torque = PhysicsTestVectors.V(0, 0, 0.6);
         var pipeline = new SimulationPipeline<RigidBodyState, int>(integrator, new ConstantTorqueWorldForce(torque));
         var body = new RigidBodyState(
-            Vector3d.Zero,
-            Vector3d.Zero,
-            Quaterniond.Identity,
-            Vector3d.Zero,
+            Vector3.Zero,
+            Vector3.Zero,
+            Quaternion.Identity,
+            Vector3.Zero,
             mass: 1.0,
-            inertiaDiagonalBody: new Vector3d(1, 2, 4));
+            inertiaDiagonalBody: PhysicsTestVectors.V(1, 2, 4));
         const double dt = 1.0 / 240.0;
         const int steps = 400;
         var samples = new List<SpinSampleRow>(capacity: 9);
@@ -40,20 +41,20 @@ public sealed class QuaternionIntegrationSmokeTests
             new TableOptions { MaxCellWidth = 22, RightAlignNumericColumns = true },
             tableCaption: "world torque (0,0,0.6) Nm, Iz=4 kg m2; expect |q|~1, omega_z ~ alpha*t");
 
-        await Assert.That(Math.Abs(QuaternionNorm(body.Orientation) - 1.0)).IsLessThanOrEqualTo(1e-8);
+        await Assert.That(global::System.Math.Abs(QuaternionNorm(body.Orientation) - 1.0)).IsLessThanOrEqualTo((float)(1e-8));
         var alphaZ = torque.Z / body.InertiaDiagonalBody.Z;
         var expectedOmega = alphaZ * steps * dt;
-        await Assert.That(Math.Abs(body.AngularVelocity.Z - expectedOmega)).IsLessThanOrEqualTo(0.02 * Math.Max(1, Math.Abs(expectedOmega)));
+        await Assert.That(global::System.Math.Abs(body.AngularVelocity.Z - expectedOmega)).IsLessThanOrEqualTo((float)(0.02 * global::System.Math.Max(1, global::System.Math.Abs(expectedOmega))));
     }
 
-    private sealed class ConstantTorqueWorldForce(Vector3d torqueWorld) : IForceModel<RigidBodyState, int>
+    private sealed class ConstantTorqueWorldForce(Vector3 torqueWorld) : IForceModel<RigidBodyState, int>
     {
         public ForceSample Evaluate(RigidBodyState body, int environment, double timeSeconds) =>
-            new(Vector3d.Zero, torqueWorld);
+            new(Vector3.Zero, torqueWorld);
     }
 
     private sealed record SpinSampleRow(int Step, double OmegaZ, double OrientationNorm);
 
-    private static double QuaternionNorm(Quaterniond q) =>
-        Math.Sqrt(q.X * q.X + q.Y * q.Y + q.Z * q.Z + q.W * q.W);
+    private static double QuaternionNorm(Quaternion q) =>
+        global::System.Math.Sqrt(q.X * q.X + q.Y * q.Y + q.Z * q.Z + q.W * q.W);
 }

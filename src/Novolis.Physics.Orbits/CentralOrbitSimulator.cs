@@ -31,7 +31,7 @@ public static class CentralOrbitSimulator
         ArgumentOutOfRangeException.ThrowIfNegative(durationSeconds);
         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(deltaSeconds, 0);
 
-        var steps = (int)Math.Floor((durationSeconds + 1e-9) / deltaSeconds);
+        var steps = (int)System.Math.Floor((durationSeconds + 1e-9) / deltaSeconds);
         integrator.SetState(bodyIndex, initial.Position, initial.Velocity);
         for (var s = 0; s < steps; s++)
             integrator.Step(deltaSeconds, mode);

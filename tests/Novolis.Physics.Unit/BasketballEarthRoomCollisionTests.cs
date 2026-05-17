@@ -1,7 +1,8 @@
+using Novolis.Physics.TestSupport;
 using Novolis.Physics.Collision.Simple;
 using Novolis.Physics.Motion;
-using Novolis.Physics.Numerics;
-using Novolis.Physics.TestSupport;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -48,24 +49,24 @@ public sealed class BasketballEarthRoomCollisionTests
     private const double QuickPassSpeedMps = 8.05;
 
     /// <summary>Skew direction so the rally visits all six faces without aligning to a symmetry axis.</summary>
-    private static readonly Vector3d QuickPassDirection = new Vector3d(2.35, 4.05, -2.65).Normalized();
+    private static readonly Vector3 QuickPassDirection = PhysicsTestVectors.V(2.35, 4.05, -2.65).Normalized();
 
     /// <summary>Example uniform acceleration (m/s²), +Y up — numeric magnitude matches SI standard gravity for this scenario only.</summary>
-    private static readonly Vector3d UniformGravityExampleMps2 = new(0, -GStd, 0);
+    private static readonly Vector3 UniformGravityExampleMps2 = PhysicsTestVectors.V(0, -GStd, 0);
 
     [Test]
     public async Task Basketball_InTwoPointFiveMeterCube_OnEarth_LongRun_GravityLinearDragAndEnergyTrace()
     {
-        var roomMin = new Vector3d(RoomWallOffsetM, RoomWallOffsetM, RoomWallOffsetM);
-        var roomMax = new Vector3d(
+        var roomMin = PhysicsTestVectors.V(RoomWallOffsetM, RoomWallOffsetM, RoomWallOffsetM);
+        var roomMax = PhysicsTestVectors.V(
             RoomWallOffsetM + RoomInteriorSpanM,
             RoomWallOffsetM + RoomInteriorSpanM,
             RoomWallOffsetM + RoomInteriorSpanM);
         var world = CollisionTestGeometry.BuildAxisAlignedRoom(roomMin, roomMax, edgePad: 0.35);
 
         // Waist-ish release, skewed aim so the path threads the volume (quick pass speed, not a spike).
-        var pos = new Vector3d(roomMin.X + 0.52, roomMin.Y + 0.38, roomMin.Z + 0.44);
-        var vel = QuickPassDirection * QuickPassSpeedMps;
+        var pos = PhysicsTestVectors.V(roomMin.X + 0.52, roomMin.Y + 0.38, roomMin.Z + 0.44);
+        var vel = QuickPassDirection.Multiply(QuickPassSpeedMps);
         var v0 = vel.Length();
         var e0Kin = UniformAccelerationEnergy.KineticEnergyJ(BallMassKg, vel);
         var e0Pot = UniformAccelerationEnergy.PotentialEnergyJ(BallMassKg, UniformGravityExampleMps2, pos);
@@ -147,13 +148,13 @@ public sealed class BasketballEarthRoomCollisionTests
                 maxReflectionsPerSubstep: 96,
                 normalRestitution: WallNormalRestitution);
 
-            yMax = Math.Max(yMax, pos.Y);
+            yMax = global::System.Math.Max(yMax, pos.Y);
             var sp = vel.Length();
-            speedMax = Math.Max(speedMax, sp);
-            speedMin = Math.Min(speedMin, sp);
+            speedMax = global::System.Math.Max(speedMax, sp);
+            speedMin = global::System.Math.Min(speedMin, sp);
             var eTot = UniformAccelerationEnergy.MechanicalEnergyJ(BallMassKg, vel, UniformGravityExampleMps2, pos);
-            eTotMin = Math.Min(eTotMin, eTot);
-            eTotMax = Math.Max(eTotMax, eTot);
+            eTotMin = global::System.Math.Min(eTotMin, eTot);
+            eTotMax = global::System.Math.Max(eTotMax, eTot);
 
             if (i % sampleStride == 0 || i == steps - 1)
             {
@@ -175,14 +176,14 @@ public sealed class BasketballEarthRoomCollisionTests
         var zMax = roomMax.Z - BallRadiusM + s;
         foreach (var row in samples)
         {
-            await Assert.That(row.Xm).IsGreaterThanOrEqualTo(xMin).And.IsLessThanOrEqualTo(xMax);
-            await Assert.That(row.Ym).IsGreaterThanOrEqualTo(yMin).And.IsLessThanOrEqualTo(yMaxBound);
-            await Assert.That(row.Zm).IsGreaterThanOrEqualTo(zMin).And.IsLessThanOrEqualTo(zMax);
+            await Assert.That(row.Xm).IsGreaterThanOrEqualTo((float)(xMin)).And.IsLessThanOrEqualTo((float)(xMax));
+            await Assert.That(row.Ym).IsGreaterThanOrEqualTo((float)(yMin)).And.IsLessThanOrEqualTo((float)(yMaxBound));
+            await Assert.That(row.Zm).IsGreaterThanOrEqualTo((float)(zMin)).And.IsLessThanOrEqualTo((float)(zMax));
         }
 
-        await Assert.That(pos.X).IsGreaterThanOrEqualTo(xMin).And.IsLessThanOrEqualTo(xMax);
-        await Assert.That(pos.Y).IsGreaterThanOrEqualTo(yMin).And.IsLessThanOrEqualTo(yMaxBound);
-        await Assert.That(pos.Z).IsGreaterThanOrEqualTo(zMin).And.IsLessThanOrEqualTo(zMax);
+        await Assert.That(pos.X).IsGreaterThanOrEqualTo((float)(xMin)).And.IsLessThanOrEqualTo((float)(xMax));
+        await Assert.That(pos.Y).IsGreaterThanOrEqualTo((float)(yMin)).And.IsLessThanOrEqualTo((float)(yMaxBound));
+        await Assert.That(pos.Z).IsGreaterThanOrEqualTo((float)(zMin)).And.IsLessThanOrEqualTo((float)(zMax));
 
         var eEndTot = UniformAccelerationEnergy.MechanicalEnergyJ(BallMassKg, vel, UniformGravityExampleMps2, pos);
 
@@ -222,23 +223,23 @@ public sealed class BasketballEarthRoomCollisionTests
         o.Line("delta_Etot_J", PhysicsTraceFormatting.Rd(eEndTot - e0Tot, 3));
 
         await Assert.That(totalReflections).IsGreaterThan(25);
-        await Assert.That(yMax).IsLessThanOrEqualTo(yMaxBound + 0.15);
-        await Assert.That(eEndTot).IsLessThan(e0Tot * 0.5);
-        await Assert.That(vel.Length()).IsLessThan(v0 * 0.55);
+        await Assert.That(yMax).IsLessThanOrEqualTo((float)(yMaxBound + 0.15));
+        await Assert.That(eEndTot).IsLessThan((float)(e0Tot * 0.5));
+        await Assert.That(vel.Length()).IsLessThan((float)(v0 * 0.55));
     }
 
     /// <summary>Same geometry with <c>linearDragPerSecond = 0</c>: mechanical energy should stay in a tight band (no non-conservative damping).</summary>
     [Test]
     public async Task Basketball_GravityNoDrag_Shorter_MechanicalEnergyBoundedAndManyRicochets()
     {
-        var roomMin = new Vector3d(RoomWallOffsetM, RoomWallOffsetM, RoomWallOffsetM);
-        var roomMax = new Vector3d(
+        var roomMin = PhysicsTestVectors.V(RoomWallOffsetM, RoomWallOffsetM, RoomWallOffsetM);
+        var roomMax = PhysicsTestVectors.V(
             RoomWallOffsetM + RoomInteriorSpanM,
             RoomWallOffsetM + RoomInteriorSpanM,
             RoomWallOffsetM + RoomInteriorSpanM);
         var world = CollisionTestGeometry.BuildAxisAlignedRoom(roomMin, roomMax, edgePad: 0.35);
-        var pos = new Vector3d(roomMin.X + 0.65, roomMin.Y + 0.3, roomMin.Z + 0.8);
-        var vel = new Vector3d(2.2, 4.1, -1.55);
+        var pos = PhysicsTestVectors.V(roomMin.X + 0.65, roomMin.Y + 0.3, roomMin.Z + 0.8);
+        var vel = PhysicsTestVectors.V(2.2, 4.1, -1.55);
         var v0 = vel.Length();
 
         var o = NovolisPhysicsTestTrace.Out;
@@ -267,8 +268,8 @@ public sealed class BasketballEarthRoomCollisionTests
                 normalRestitution: 1.0);
 
             var e = UniformAccelerationEnergy.MechanicalEnergyJ(BallMassKg, vel, UniformGravityExampleMps2, pos);
-            eMin = Math.Min(eMin, e);
-            eMax = Math.Max(eMax, e);
+            eMin = global::System.Math.Min(eMin, e);
+            eMax = global::System.Math.Max(eMax, e);
         }
 
         o.Results(nameof(Basketball_GravityNoDrag_Shorter_MechanicalEnergyBoundedAndManyRicochets));
@@ -286,9 +287,9 @@ public sealed class BasketballEarthRoomCollisionTests
         var yMaxBound = roomMax.Y - BallRadiusM + s;
         var zMin = roomMin.Z + BallRadiusM - s;
         var zMax = roomMax.Z - BallRadiusM + s;
-        await Assert.That(pos.X).IsGreaterThanOrEqualTo(xMin).And.IsLessThanOrEqualTo(xMax);
-        await Assert.That(pos.Y).IsGreaterThanOrEqualTo(yMin).And.IsLessThanOrEqualTo(yMaxBound);
-        await Assert.That(pos.Z).IsGreaterThanOrEqualTo(zMin).And.IsLessThanOrEqualTo(zMax);
+        await Assert.That(pos.X).IsGreaterThanOrEqualTo((float)(xMin)).And.IsLessThanOrEqualTo((float)(xMax));
+        await Assert.That(pos.Y).IsGreaterThanOrEqualTo((float)(yMin)).And.IsLessThanOrEqualTo((float)(yMaxBound));
+        await Assert.That(pos.Z).IsGreaterThanOrEqualTo((float)(zMin)).And.IsLessThanOrEqualTo((float)(zMax));
 
         await Assert.That(reflections).IsGreaterThan(45);
         await Assert.That(eMax - eMin).IsLessThan(4.0);
@@ -350,7 +351,7 @@ public sealed class BasketballEarthRoomCollisionTests
         internal static SampleRow From(
             int step,
             double timeS,
-            Vector3d pos,
+            Vector3 pos,
             double speed,
             double eTot,
             int reflTotal,

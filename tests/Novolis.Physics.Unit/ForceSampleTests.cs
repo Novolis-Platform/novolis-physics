@@ -1,6 +1,7 @@
-using Novolis.Physics.Abstractions;
-using Novolis.Physics.Numerics;
 using Novolis.Physics.TestSupport;
+using Novolis.Physics.Abstractions;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -11,8 +12,8 @@ public sealed class ForceSampleTests
     [Test]
     public async Task ForceSample_Addition_Aggregates()
     {
-        var a = new ForceSample(new Vector3d(1, 0, 0), Vector3d.Zero);
-        var b = new ForceSample(new Vector3d(0, 2, 0), new Vector3d(0, 0, 3));
+        var a = new ForceSample(PhysicsTestVectors.V(1, 0, 0), Vector3.Zero);
+        var b = new ForceSample(PhysicsTestVectors.V(0, 2, 0), PhysicsTestVectors.V(0, 0, 3));
         var s = a + b;
 
         var o = NovolisPhysicsTestTrace.Out;
@@ -31,8 +32,8 @@ public sealed class ForceSampleTests
             new TableOptions { RightAlignNumericColumns = true },
             caption: "Force (N) and torque (N·m); expect sum force (1,2,0), sum torque (0,0,3)");
 
-        await Assert.That(s.Force).IsEqualTo(new Vector3d(1, 2, 0));
-        await Assert.That(s.Torque).IsEqualTo(new Vector3d(0, 0, 3));
+        await Assert.That(s.Force).IsEqualTo(PhysicsTestVectors.V(1, 2, 0));
+        await Assert.That(s.Torque).IsEqualTo(PhysicsTestVectors.V(0, 0, 3));
     }
 
     private sealed record WrenchRow(string Label, double Fx, double Fy, double Fz, double Tx, double Ty, double Tz);

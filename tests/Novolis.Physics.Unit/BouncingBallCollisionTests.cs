@@ -1,6 +1,7 @@
-using Novolis.Physics.Collision.Simple;
-using Novolis.Physics.Numerics;
 using Novolis.Physics.TestSupport;
+using Novolis.Physics.Collision.Simple;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -17,11 +18,11 @@ public sealed class BouncingBallCollisionTests
     public async Task BouncingBall_1DSlabAlongX_PreservesSpeedAndStaysBetweenWalls()
     {
         // Wide YZ so motion stays essentially 1D along X between two x-walls.
-        var min = new Vector3d(0, -80, -80);
-        var max = new Vector3d(10, 80, 80);
+        var min = PhysicsTestVectors.V(0, -80, -80);
+        var max = PhysicsTestVectors.V(10, 80, 80);
         var world = CollisionTestGeometry.BuildAxisAlignedRoom(min, max, edgePad: 8);
-        var pos = new Vector3d(5, 0, 0);
-        var vel = new Vector3d(-6.5, 0, 0);
+        var pos = PhysicsTestVectors.V(5, 0, 0);
+        var vel = PhysicsTestVectors.V(-6.5, 0, 0);
         var v0 = vel.Length();
 
         var o = NovolisPhysicsTestTrace.Out;
@@ -41,7 +42,7 @@ public sealed class BouncingBallCollisionTests
         var totalReflections = 0;
         var rows = new List<BounceSampleRow>(capacity: 64);
         const int steps = 8000;
-        var fExt = Vector3d.Zero;
+        var fExt = Vector3.Zero;
         for (var i = 0; i < steps; i++)
         {
             totalReflections += BvhStaticSphereIntegrator.AdvanceOneStep(
@@ -53,9 +54,9 @@ public sealed class BouncingBallCollisionTests
             if (i % 400 == 0 || i == steps - 1)
                 rows.Add(BounceSampleRow.FromState(i, pos, vel, totalReflections, fExt));
 
-            await Assert.That(pos.X).IsGreaterThanOrEqualTo(minX - boundSlack).And.IsLessThanOrEqualTo(maxX + boundSlack);
-            await Assert.That(pos.Y).IsGreaterThanOrEqualTo(min.Y + Radius * 0.25 - boundSlack);
-            await Assert.That(pos.Z).IsGreaterThanOrEqualTo(min.Z + Radius * 0.25 - boundSlack);
+            await Assert.That(pos.X).IsGreaterThanOrEqualTo((float)(minX - boundSlack)).And.IsLessThanOrEqualTo((float)(maxX + boundSlack));
+            await Assert.That(pos.Y).IsGreaterThanOrEqualTo((float)(min.Y + Radius * 0.25 - boundSlack));
+            await Assert.That(pos.Z).IsGreaterThanOrEqualTo((float)(min.Z + Radius * 0.25 - boundSlack));
         }
 
         o.Results(nameof(BouncingBall_1DSlabAlongX_PreservesSpeedAndStaysBetweenWalls) + " — samples");
@@ -68,19 +69,19 @@ public sealed class BouncingBallCollisionTests
         o.Line("|v|_final_m_s", vel.Length());
         o.Line("total_reflections", totalReflections);
 
-        await Assert.That(Math.Abs(vel.Length() - v0)).IsLessThanOrEqualTo(0.02);
-        await Assert.That(Math.Abs(vel.Y)).IsLessThan(0.05);
-        await Assert.That(Math.Abs(vel.Z)).IsLessThan(0.05);
+        await Assert.That(MathF.Abs(vel.Length() - (float)v0)).IsLessThanOrEqualTo((float)(0.02));
+        await Assert.That(MathF.Abs(vel.Y)).IsLessThan((float)(0.05));
+        await Assert.That(MathF.Abs(vel.Z)).IsLessThan((float)(0.05));
     }
 
     [Test]
     public async Task BouncingBall_ThinChannelXY_KeepsZNearZeroAndConservesSpeed()
     {
-        var min = Vector3d.Zero;
-        var max = new Vector3d(12, 8, 1.2);
+        var min = Vector3.Zero;
+        var max = PhysicsTestVectors.V(12, 8, 1.2);
         var world = CollisionTestGeometry.BuildAxisAlignedRoom(min, max, edgePad: 6);
-        var pos = new Vector3d(6, 4, max.Z * 0.5);
-        var vel = new Vector3d(4.2, -3.1, 0.05);
+        var pos = PhysicsTestVectors.V(6, 4, max.Z * 0.5);
+        var vel = PhysicsTestVectors.V(4.2, -3.1, 0.05);
         var v0 = vel.Length();
 
         var o = NovolisPhysicsTestTrace.Out;
@@ -95,14 +96,14 @@ public sealed class BouncingBallCollisionTests
         var totalReflections = 0;
         var rows = new List<BounceSampleRow>();
         const int steps = 6000;
-        var fExt = Vector3d.Zero;
+        var fExt = Vector3.Zero;
         for (var i = 0; i < steps; i++)
         {
             totalReflections += BvhStaticSphereIntegrator.AdvanceOneStep(world, ref pos, ref vel, Radius, Dt);
             if (i % 500 == 0 || i == steps - 1)
                 rows.Add(BounceSampleRow.FromState(i, pos, vel, totalReflections, fExt));
 
-            await Assert.That(pos.Z).IsGreaterThanOrEqualTo(zMin - zSlack).And.IsLessThanOrEqualTo(max.Z + Radius + 0.28);
+            await Assert.That(pos.Z).IsGreaterThanOrEqualTo((float)(zMin - zSlack)).And.IsLessThanOrEqualTo((float)(max.Z + Radius + 0.28));
         }
 
         o.Results("thin channel — samples");
@@ -111,20 +112,20 @@ public sealed class BouncingBallCollisionTests
             new TableOptions { MaxRows = 20, RightAlignNumericColumns = true, MaxCellWidth = 22 },
             caption: "Every 500 steps: r, v, unit(v), F_ext (N @ m_ref=1 kg)",
             BounceSampleRow.ColumnOrder);
-        o.Line("|v|_initial_vs_final", v0, vel.Length(), Math.Abs(vel.Length() - v0));
+        o.Line("|v|_initial_vs_final", v0, vel.Length(), global::System.Math.Abs(vel.Length() - v0));
 
-        await Assert.That(Math.Abs(vel.Length() - v0)).IsLessThanOrEqualTo(0.06);
-        await Assert.That(Math.Abs(pos.Z - max.Z * 0.5)).IsLessThan(0.35);
+        await Assert.That(MathF.Abs(vel.Length() - (float)v0)).IsLessThanOrEqualTo((float)(0.06));
+        await Assert.That(global::System.Math.Abs(pos.Z - max.Z * 0.5)).IsLessThan((float)(0.35));
     }
 
     [Test]
     public async Task BouncingBall_ClosedBox_ManyReflections_StaysInsideAndConservesEnergy()
     {
-        var min = new Vector3d(0.5, 0.5, 0.5);
-        var max = new Vector3d(9.5, 9.5, 9.5);
+        var min = PhysicsTestVectors.V(0.5, 0.5, 0.5);
+        var max = PhysicsTestVectors.V(9.5, 9.5, 9.5);
         var world = CollisionTestGeometry.BuildAxisAlignedRoom(min, max, edgePad: 10);
-        var pos = new Vector3d(3.1, 4.2, 5.3);
-        var vel = new Vector3d(2.7, -2.4, 1.9);
+        var pos = PhysicsTestVectors.V(3.1, 4.2, 5.3);
+        var vel = PhysicsTestVectors.V(2.7, -2.4, 1.9);
         var v0 = vel.Length();
 
         var o = NovolisPhysicsTestTrace.Out;
@@ -134,21 +135,21 @@ public sealed class BouncingBallCollisionTests
         o.Line("ic_vel_m_s", vel.X, vel.Y, vel.Z);
 
         const double boxSlack = 0.16;
-        var innerMin = new Vector3d(min.X + Radius, min.Y + Radius, min.Z + Radius);
-        var innerMax = new Vector3d(max.X - Radius, max.Y - Radius, max.Z - Radius);
+        var innerMin = PhysicsTestVectors.V(min.X + Radius, min.Y + Radius, min.Z + Radius);
+        var innerMax = PhysicsTestVectors.V(max.X - Radius, max.Y - Radius, max.Z - Radius);
         var totalReflections = 0;
         var rows = new List<BounceSampleRow>();
         const int steps = 9000;
-        var fExt = Vector3d.Zero;
+        var fExt = Vector3.Zero;
         for (var i = 0; i < steps; i++)
         {
             totalReflections += BvhStaticSphereIntegrator.AdvanceOneStep(world, ref pos, ref vel, Radius, Dt);
             if (i % 900 == 0 || i == steps - 1)
                 rows.Add(BounceSampleRow.FromState(i, pos, vel, totalReflections, fExt));
 
-            await Assert.That(pos.X).IsGreaterThanOrEqualTo(innerMin.X - boxSlack).And.IsLessThanOrEqualTo(innerMax.X + boxSlack);
-            await Assert.That(pos.Y).IsGreaterThanOrEqualTo(innerMin.Y - boxSlack).And.IsLessThanOrEqualTo(innerMax.Y + boxSlack);
-            await Assert.That(pos.Z).IsGreaterThanOrEqualTo(innerMin.Z - boxSlack).And.IsLessThanOrEqualTo(innerMax.Z + boxSlack);
+            await Assert.That(pos.X).IsGreaterThanOrEqualTo((float)(innerMin.X - boxSlack)).And.IsLessThanOrEqualTo((float)(innerMax.X + boxSlack));
+            await Assert.That(pos.Y).IsGreaterThanOrEqualTo((float)(innerMin.Y - boxSlack)).And.IsLessThanOrEqualTo((float)(innerMax.Y + boxSlack));
+            await Assert.That(pos.Z).IsGreaterThanOrEqualTo((float)(innerMin.Z - boxSlack)).And.IsLessThanOrEqualTo((float)(innerMax.Z + boxSlack));
         }
 
         o.Results("closed box — samples");
@@ -162,7 +163,7 @@ public sealed class BouncingBallCollisionTests
         o.Line("|v|_final_m_s", vel.Length());
 
         await Assert.That(totalReflections).IsGreaterThan(20);
-        await Assert.That(Math.Abs(vel.Length() - v0)).IsLessThanOrEqualTo(0.08);
+        await Assert.That(MathF.Abs(vel.Length() - (float)v0)).IsLessThanOrEqualTo((float)(0.08));
     }
 
     /// <summary>Trace row: position, velocity, speed, velocity direction, external force (N) for a 1 kg reference mass.</summary>
@@ -202,7 +203,7 @@ public sealed class BouncingBallCollisionTests
             nameof(Reflections),
         ];
 
-        internal static BounceSampleRow FromState(int step, Vector3d pos, Vector3d vel, int reflections, Vector3d externalForceN)
+        internal static BounceSampleRow FromState(int step, Vector3 pos, Vector3 vel, int reflections, Vector3 externalForceN)
         {
             var speed = vel.Length();
             double ux, uy, uz;

@@ -1,4 +1,5 @@
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Aerodynamics;
 
@@ -8,11 +9,11 @@ public readonly struct SimpleAeroEnvironment
     public SimpleAeroEnvironment(
         IAtmosphereModel atmosphere,
         double altitudeMeters,
-        Vector3d windWorld,
+        Vector3 windWorld,
         double referenceAreaM2,
         double dragCoefficient,
         double liftCoefficient,
-        Vector3d liftReferenceForwardWorld)
+        Vector3 liftReferenceForwardWorld)
     {
         Atmosphere = atmosphere;
         AltitudeMeters = altitudeMeters;
@@ -25,9 +26,9 @@ public readonly struct SimpleAeroEnvironment
 
     public IAtmosphereModel Atmosphere { get; }
     public double AltitudeMeters { get; }
-    public Vector3d WindWorld { get; }
+    public Vector3 WindWorld { get; }
     public double ReferenceAreaM2 { get; }
     public double DragCoefficient { get; }
     public double LiftCoefficient { get; }
-    public Vector3d LiftReferenceForwardWorld { get; }
+    public Vector3 LiftReferenceForwardWorld { get; }
 }

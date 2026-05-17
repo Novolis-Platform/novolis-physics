@@ -1,9 +1,10 @@
+using Novolis.Physics.TestSupport;
 using Novolis.Physics.Abstractions;
 using Novolis.Physics.Ballistics;
 using Novolis.Physics.Gravity;
 using Novolis.Physics.Motion;
-using Novolis.Physics.Numerics;
-using Novolis.Physics.TestSupport;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -30,11 +31,11 @@ public sealed class KnownPhysicsScenarioTests
         const double H = 500.0;
         const double vx = 12.0;
         const double dt = 1.0 / 120.0;
-        var expectedRange = vx * Math.Sqrt(2.0 * H / GStd);
+        var expectedRange = vx * global::System.Math.Sqrt(2.0 * H / GStd);
 
         var env = new ProjectileBallisticEnvironment(GStd, AirDensityKgPerM3: 0);
         var sim = new ProjectileBallisticSimulation(dragProfile: null);
-        var start = new ProjectileState(new Vector3d(0, H, 0), new Vector3d(vx, 0, 0), massKg: 1.0, timeSeconds: 0);
+        var start = new ProjectileState(PhysicsTestVectors.V(0, H, 0), PhysicsTestVectors.V(vx, 0, 0), massKg: 1.0, timeSeconds: 0);
         var impact = RunUntilGroundCrossing(sim, start, env, dt);
 
         var o = NovolisPhysicsTestTrace.Out;
@@ -50,14 +51,14 @@ public sealed class KnownPhysicsScenarioTests
                     "range X (m)",
                     expectedRange,
                     impact.Position.X,
-                    Math.Abs(impact.Position.X - expectedRange)),
+                    global::System.Math.Abs(impact.Position.X - expectedRange)),
             },
             new TableOptions { MaxCellWidth = 24 },
             caption: "expected = vx * sqrt(2H/g)");
 
-        var relTol = 0.008 * Math.Max(1.0, Math.Abs(expectedRange));
-        await Assert.That(Math.Abs(impact.Position.X - expectedRange)).IsLessThanOrEqualTo(relTol);
-        await Assert.That(Math.Abs(impact.Position.Z)).IsLessThanOrEqualTo(1e-9);
+        var relTol = 0.008 * global::System.Math.Max(1.0, global::System.Math.Abs(expectedRange));
+        await Assert.That(global::System.Math.Abs(impact.Position.X - expectedRange)).IsLessThanOrEqualTo((float)(relTol));
+        await Assert.That(global::System.Math.Abs(impact.Position.Z)).IsLessThanOrEqualTo((float)(1e-9));
     }
 
     /// <summary>Ground-to-ground vacuum range: R = 2 vx vy / g (no drag).</summary>
@@ -71,7 +72,7 @@ public sealed class KnownPhysicsScenarioTests
 
         var env = new ProjectileBallisticEnvironment(GStd, 0);
         var sim = new ProjectileBallisticSimulation(null);
-        var start = new ProjectileState(Vector3d.Zero, new Vector3d(vx, vy, 0), massKg: 1.0, 0);
+        var start = new ProjectileState(Vector3.Zero, PhysicsTestVectors.V(vx, vy, 0), massKg: 1.0, 0);
         var impact = RunUntilGroundCrossing(sim, start, env, dt);
 
         var o = NovolisPhysicsTestTrace.Out;
@@ -86,13 +87,13 @@ public sealed class KnownPhysicsScenarioTests
                     "range X (m)",
                     expectedRange,
                     impact.Position.X,
-                    Math.Abs(impact.Position.X - expectedRange)),
+                    global::System.Math.Abs(impact.Position.X - expectedRange)),
             },
             new TableOptions { MaxCellWidth = 24 },
             caption: "expected = 2 vx vy / g");
 
-        var relTol = 0.01 * Math.Max(1.0, Math.Abs(expectedRange));
-        await Assert.That(Math.Abs(impact.Position.X - expectedRange)).IsLessThanOrEqualTo(relTol);
+        var relTol = 0.01 * global::System.Math.Max(1.0, global::System.Math.Abs(expectedRange));
+        await Assert.That(global::System.Math.Abs(impact.Position.X - expectedRange)).IsLessThanOrEqualTo((float)(relTol));
     }
 
     /// <summary>Vacuum vertical toss: impact speed magnitude should match launch (energy); Euler only approximates.</summary>
@@ -103,7 +104,7 @@ public sealed class KnownPhysicsScenarioTests
         const double dt = 1.0 / 120.0;
         var env = new ProjectileBallisticEnvironment(GStd, 0);
         var sim = new ProjectileBallisticSimulation(null);
-        var start = new ProjectileState(Vector3d.Zero, new Vector3d(0, v0, 0), massKg: 1.0, 0);
+        var start = new ProjectileState(Vector3.Zero, PhysicsTestVectors.V(0, v0, 0), massKg: 1.0, 0);
         var impact = RunUntilGroundCrossing(sim, start, env, dt);
         var speedImpact = impact.Velocity.Length();
 
@@ -116,13 +117,13 @@ public sealed class KnownPhysicsScenarioTests
         o.Table(
             new[]
             {
-                new ScenarioCompareRow("|v| at impact (m/s)", v0, speedImpact, Math.Abs(speedImpact - v0)),
+                new ScenarioCompareRow("|v| at impact (m/s)", v0, speedImpact, global::System.Math.Abs(speedImpact - v0)),
             },
             new TableOptions { MaxCellWidth = 24 },
             caption: "continuous vacuum: impact speed equals launch speed (Euler drift in AbsError)");
-        o.Line("relative error", Math.Abs(speedImpact - v0) / v0);
+        o.Line("relative error", global::System.Math.Abs(speedImpact - v0) / v0);
 
-        await Assert.That(Math.Abs(speedImpact - v0) / v0).IsLessThanOrEqualTo(0.025);
+        await Assert.That(global::System.Math.Abs(speedImpact - v0) / v0).IsLessThanOrEqualTo((float)(0.025));
     }
 
     /// <summary>Circular orbit: v = sqrt(GM/r). After quarter period, body should sit near +Y on the circle.</summary>
@@ -131,24 +132,24 @@ public sealed class KnownPhysicsScenarioTests
     {
         const double R = 10_000.0;
         const double Gm = 4.0e11;
-        var vOrb = Math.Sqrt(Gm / R);
-        var quarterPeriod = 0.5 * Math.PI * Math.Sqrt((R * R * R) / Gm);
+        var vOrb = global::System.Math.Sqrt(Gm / R);
+        var quarterPeriod = 0.5 * global::System.Math.PI * global::System.Math.Sqrt((R * R * R) / Gm);
         const double dt = 0.001;
-        var steps = (int)Math.Ceiling(quarterPeriod / dt);
+        var steps = (int)global::System.Math.Ceiling(quarterPeriod / dt);
 
-        var sources = new[] { (Vector3d.Zero, Gm) };
+        var sources = new[] { (Vector3.Zero, Gm) };
         var field = new PointMassField(sources);
         var gravity = new PointMassGravityModel();
         var integrator = new SemiImplicitEulerRigidBodyIntegrator();
         var pipeline = new SimulationPipeline<RigidBodyState, PointMassField>(integrator, gravity);
 
         var body = new RigidBodyState(
-            new Vector3d(R, 0, 0),
-            new Vector3d(0, vOrb, 0),
-            Quaterniond.Identity,
-            Vector3d.Zero,
+            PhysicsTestVectors.V(R, 0, 0),
+            PhysicsTestVectors.V(0, vOrb, 0),
+            Quaternion.Identity,
+            Vector3.Zero,
             mass: 1.0,
-            inertiaDiagonalBody: new Vector3d(1e9, 1e9, 1e9));
+            inertiaDiagonalBody: PhysicsTestVectors.V(1e9, 1e9, 1e9));
 
         var t = 0.0;
         for (var i = 0; i < steps; i++)
@@ -157,9 +158,9 @@ public sealed class KnownPhysicsScenarioTests
             t += dt;
         }
 
-        var expected = new Vector3d(0, R, 0);
+        var expected = PhysicsTestVectors.V(0, R, 0);
         var err = (body.Position - expected).Length();
-        var rErr = Math.Abs(body.Position.Length() - R);
+        var rErr = global::System.Math.Abs(body.Position.Length() - R);
 
         var o = NovolisPhysicsTestTrace.Out;
         o.Section("Scenario - central gravity quarter orbit");
@@ -171,18 +172,18 @@ public sealed class KnownPhysicsScenarioTests
         o.Table(
             new[]
             {
-                new OrbitAxisRow("x", 0, body.Position.X, Math.Abs(body.Position.X)),
-                new OrbitAxisRow("y", R, body.Position.Y, Math.Abs(body.Position.Y - R)),
-                new OrbitAxisRow("z", 0, body.Position.Z, Math.Abs(body.Position.Z)),
+                new OrbitAxisRow("x", 0, body.Position.X, global::System.Math.Abs(body.Position.X)),
+                new OrbitAxisRow("y", R, body.Position.Y, global::System.Math.Abs(body.Position.Y - R)),
+                new OrbitAxisRow("z", 0, body.Position.Z, global::System.Math.Abs(body.Position.Z)),
             },
             new TableOptions { MaxCellWidth = 22 },
             caption: "per-axis vs ideal quadrature (m)");
         o.Line("position error Euclid (m)", err);
         o.Line("radius drift |r-R| (m)", rErr);
 
-        await Assert.That(err).IsLessThanOrEqualTo(0.02 * R);
-        await Assert.That(rErr).IsLessThanOrEqualTo(0.03 * R);
-        await Assert.That(Math.Abs(body.Position.Z)).IsLessThanOrEqualTo(1.0);
+        await Assert.That(err).IsLessThanOrEqualTo((float)(0.02 * R));
+        await Assert.That(rErr).IsLessThanOrEqualTo((float)(0.03 * R));
+        await Assert.That(global::System.Math.Abs(body.Position.Z)).IsLessThanOrEqualTo((float)(1.0));
     }
 
     /// <summary>Quadratic drag vs weight: terminal speed |v_y| -> sqrt(2 m g / (rho Cd A)).</summary>
@@ -193,20 +194,20 @@ public sealed class KnownPhysicsScenarioTests
         const double rho = 1.225;
         const double cd = 0.45;
         const double area = 0.35;
-        var vTerm = Math.Sqrt(2.0 * m * GStd / (rho * cd * area));
+        var vTerm = global::System.Math.Sqrt(2.0 * m * GStd / (rho * cd * area));
 
         var profile = new ProjectileProfile(m, area, cd);
         var env = new ProjectileBallisticEnvironment(GStd, rho);
         var sim = new ProjectileBallisticSimulation(profile);
         const double dt = 1.0 / 120.0;
-        var state = new ProjectileState(new Vector3d(0, 4000, 0), Vector3d.Zero, m, 0);
+        var state = new ProjectileState(PhysicsTestVectors.V(0, 4000, 0), Vector3.Zero, m, 0);
 
         const int warmSteps = 120 * 25;
         for (var i = 0; i < warmSteps; i++)
             state = sim.Step(state, dt, env);
 
         var vy = state.Velocity.Y;
-        var measured = Math.Abs(vy);
+        var measured = global::System.Math.Abs(vy);
 
         var o = NovolisPhysicsTestTrace.Out;
         o.Section("Scenario - terminal velocity (drag balances weight)");
@@ -217,13 +218,13 @@ public sealed class KnownPhysicsScenarioTests
         o.Table(
             new[]
             {
-                new ScenarioCompareRow("|vy| after warm fall (m/s)", vTerm, measured, Math.Abs(measured - vTerm)),
+                new ScenarioCompareRow("|vy| after warm fall (m/s)", vTerm, measured, global::System.Math.Abs(measured - vTerm)),
             },
             new TableOptions { MaxCellWidth = 24 },
             caption: "expected v_term = sqrt(2 m g / (rho Cd A))");
-        o.Line("relative gap", Math.Abs(measured - vTerm) / vTerm);
+        o.Line("relative gap", global::System.Math.Abs(measured - vTerm) / vTerm);
 
-        await Assert.That(Math.Abs(measured - vTerm) / vTerm).IsLessThanOrEqualTo(0.06);
+        await Assert.That(global::System.Math.Abs(measured - vTerm) / vTerm).IsLessThanOrEqualTo((float)(0.06));
     }
 
     /// <summary>Specific energy in uniform vacuum field (no drag): E = v^2/2 + g y should drift slowly for this integrator.</summary>
@@ -235,7 +236,7 @@ public sealed class KnownPhysicsScenarioTests
         const double dt = 1.0 / 240.0;
         var env = new ProjectileBallisticEnvironment(GStd, 0);
         var sim = new ProjectileBallisticSimulation(null);
-        var state = new ProjectileState(Vector3d.Zero, new Vector3d(vx, vy, 0), massKg: 1.0, 0);
+        var state = new ProjectileState(Vector3.Zero, PhysicsTestVectors.V(vx, vy, 0), massKg: 1.0, 0);
 
         static double SpecificEnergy(ProjectileState s) =>
             0.5 * s.Velocity.LengthSquared() + GStd * s.Position.Y;
@@ -248,11 +249,11 @@ public sealed class KnownPhysicsScenarioTests
         {
             state = sim.Step(state, dt, env);
             var e = SpecificEnergy(state);
-            peakE = Math.Max(peakE, e);
-            minE = Math.Min(minE, e);
+            peakE = global::System.Math.Max(peakE, e);
+            minE = global::System.Math.Min(minE, e);
         }
 
-        var relSpread = (peakE - minE) / Math.Max(1e-9, Math.Abs(e0));
+        var relSpread = (peakE - minE) / global::System.Math.Max(1e-9, global::System.Math.Abs(e0));
 
         var o = NovolisPhysicsTestTrace.Out;
         o.Section("Scenario - specific energy drift (vacuum, oblique)");
@@ -271,7 +272,7 @@ public sealed class KnownPhysicsScenarioTests
             new TableOptions { MaxCellWidth = 22 },
             caption: "E = v^2/2 + g y per kg; continuous vacuum keeps E constant");
 
-        await Assert.That(relSpread).IsLessThanOrEqualTo(0.04);
+        await Assert.That(relSpread).IsLessThanOrEqualTo((float)(0.04));
     }
 
     private static GroundImpact RunUntilGroundCrossing(

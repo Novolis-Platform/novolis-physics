@@ -1,4 +1,5 @@
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Gravity;
 
@@ -6,10 +7,10 @@ namespace Novolis.Physics.Gravity;
 public readonly struct PatchedConicPairField
 {
     public PatchedConicPairField(
-        Vector3d primaryPosition,
+        Vector3 primaryPosition,
         double primaryGm,
         double primarySphereOfInfluenceRadius,
-        Vector3d secondaryPosition,
+        Vector3 secondaryPosition,
         double secondaryGm)
     {
         PrimaryPosition = primaryPosition;
@@ -19,9 +20,9 @@ public readonly struct PatchedConicPairField
         SecondaryGm = secondaryGm;
     }
 
-    public Vector3d PrimaryPosition { get; }
+    public Vector3 PrimaryPosition { get; }
     public double PrimaryGm { get; }
     public double PrimarySphereOfInfluenceRadius { get; }
-    public Vector3d SecondaryPosition { get; }
+    public Vector3 SecondaryPosition { get; }
     public double SecondaryGm { get; }
 }

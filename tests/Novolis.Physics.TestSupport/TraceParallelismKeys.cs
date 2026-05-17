@@ -1,3 +1,4 @@
+using Novolis.Physics.TestSupport;
 namespace Novolis.Physics.TestSupport;
 
 /// <summary>TUnit <c>[NotInParallel(...)]</c> keys for console trace scopes (see <see cref="TestOutput"/>).</summary>

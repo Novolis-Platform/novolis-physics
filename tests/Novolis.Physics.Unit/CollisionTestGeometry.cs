@@ -1,5 +1,7 @@
+using Novolis.Physics.TestSupport;
 using Novolis.Physics.Collision.Simple;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Unit;
 
@@ -7,9 +9,9 @@ namespace Novolis.Physics.Unit;
 internal static class CollisionTestGeometry
 {
     /// <summary>Closed axis-aligned room: interior is <c>min &lt; position &lt; max</c> on each axis (strict inequality for open set; walls sit on the boundary planes).</summary>
-    internal static BvhStaticWorld BuildAxisAlignedRoom(Vector3d min, Vector3d max, double edgePad = 24.0)
+    internal static BvhStaticWorld BuildAxisAlignedRoom(Vector3 min, Vector3 max, double edgePad = 24.0)
     {
-        var verts = new List<Vector3d>();
+        var verts = new List<Vector3>();
         var tris = new List<int>();
 
         var mx0 = min.X;
@@ -30,50 +32,50 @@ internal static class CollisionTestGeometry
         AddQuad(
             verts,
             tris,
-            new Vector3d(mx0, ey0, ez0),
-            new Vector3d(mx0, ey0, ez1),
-            new Vector3d(mx0, ey1, ez1),
-            new Vector3d(mx0, ey1, ez0));
+            PhysicsTestVectors.V(mx0, ey0, ez0),
+            PhysicsTestVectors.V(mx0, ey0, ez1),
+            PhysicsTestVectors.V(mx0, ey1, ez1),
+            PhysicsTestVectors.V(mx0, ey1, ez0));
 
         AddQuad(
             verts,
             tris,
-            new Vector3d(mx1, ey0, ez0),
-            new Vector3d(mx1, ey1, ez0),
-            new Vector3d(mx1, ey1, ez1),
-            new Vector3d(mx1, ey0, ez1));
+            PhysicsTestVectors.V(mx1, ey0, ez0),
+            PhysicsTestVectors.V(mx1, ey1, ez0),
+            PhysicsTestVectors.V(mx1, ey1, ez1),
+            PhysicsTestVectors.V(mx1, ey0, ez1));
 
         AddQuad(
             verts,
             tris,
-            new Vector3d(ex0, my0, ez0),
-            new Vector3d(ex1, my0, ez0),
-            new Vector3d(ex1, my0, ez1),
-            new Vector3d(ex0, my0, ez1));
+            PhysicsTestVectors.V(ex0, my0, ez0),
+            PhysicsTestVectors.V(ex1, my0, ez0),
+            PhysicsTestVectors.V(ex1, my0, ez1),
+            PhysicsTestVectors.V(ex0, my0, ez1));
 
         AddQuad(
             verts,
             tris,
-            new Vector3d(ex0, my1, ez0),
-            new Vector3d(ex0, my1, ez1),
-            new Vector3d(ex1, my1, ez1),
-            new Vector3d(ex1, my1, ez0));
+            PhysicsTestVectors.V(ex0, my1, ez0),
+            PhysicsTestVectors.V(ex0, my1, ez1),
+            PhysicsTestVectors.V(ex1, my1, ez1),
+            PhysicsTestVectors.V(ex1, my1, ez0));
 
         AddQuad(
             verts,
             tris,
-            new Vector3d(ex0, ey0, mz0),
-            new Vector3d(ex0, ey1, mz0),
-            new Vector3d(ex1, ey1, mz0),
-            new Vector3d(ex1, ey0, mz0));
+            PhysicsTestVectors.V(ex0, ey0, mz0),
+            PhysicsTestVectors.V(ex0, ey1, mz0),
+            PhysicsTestVectors.V(ex1, ey1, mz0),
+            PhysicsTestVectors.V(ex1, ey0, mz0));
 
         AddQuad(
             verts,
             tris,
-            new Vector3d(ex0, ey0, mz1),
-            new Vector3d(ex1, ey0, mz1),
-            new Vector3d(ex1, ey1, mz1),
-            new Vector3d(ex0, ey1, mz1));
+            PhysicsTestVectors.V(ex0, ey0, mz1),
+            PhysicsTestVectors.V(ex1, ey0, mz1),
+            PhysicsTestVectors.V(ex1, ey1, mz1),
+            PhysicsTestVectors.V(ex0, ey1, mz1));
 
         return new BvhStaticWorld(new StaticTriangleMesh(verts.ToArray(), tris.ToArray()));
     }
@@ -88,7 +90,7 @@ internal static class CollisionTestGeometry
         double padBeyondTable,
         double? ceilingY = null)
     {
-        var verts = new List<Vector3d>();
+        var verts = new List<Vector3>();
         var tris = new List<int>();
 
         var fx0 = tableX0 - padBeyondTable;
@@ -100,89 +102,89 @@ internal static class CollisionTestGeometry
         AddQuad(
             verts,
             tris,
-            new Vector3d(fx0, 0, fz0),
-            new Vector3d(fx1, 0, fz0),
-            new Vector3d(fx1, 0, fz1),
-            new Vector3d(fx0, 0, fz1));
+            PhysicsTestVectors.V(fx0, 0, fz0),
+            PhysicsTestVectors.V(fx1, 0, fz0),
+            PhysicsTestVectors.V(fx1, 0, fz1),
+            PhysicsTestVectors.V(fx0, 0, fz1));
 
         // Bumper x = tableX0 (thin wall in +X interior)
         AddQuad(
             verts,
             tris,
-            new Vector3d(tableX0, 0, fz0),
-            new Vector3d(tableX0, bumperHeight, fz0),
-            new Vector3d(tableX0, bumperHeight, fz1),
-            new Vector3d(tableX0, 0, fz1));
+            PhysicsTestVectors.V(tableX0, 0, fz0),
+            PhysicsTestVectors.V(tableX0, bumperHeight, fz0),
+            PhysicsTestVectors.V(tableX0, bumperHeight, fz1),
+            PhysicsTestVectors.V(tableX0, 0, fz1));
 
         AddQuad(
             verts,
             tris,
-            new Vector3d(tableX1, 0, fz0),
-            new Vector3d(tableX1, 0, fz1),
-            new Vector3d(tableX1, bumperHeight, fz1),
-            new Vector3d(tableX1, bumperHeight, fz0));
+            PhysicsTestVectors.V(tableX1, 0, fz0),
+            PhysicsTestVectors.V(tableX1, 0, fz1),
+            PhysicsTestVectors.V(tableX1, bumperHeight, fz1),
+            PhysicsTestVectors.V(tableX1, bumperHeight, fz0));
 
         AddQuad(
             verts,
             tris,
-            new Vector3d(fx0, 0, tableZ0),
-            new Vector3d(fx1, 0, tableZ0),
-            new Vector3d(fx1, bumperHeight, tableZ0),
-            new Vector3d(fx0, bumperHeight, tableZ0));
+            PhysicsTestVectors.V(fx0, 0, tableZ0),
+            PhysicsTestVectors.V(fx1, 0, tableZ0),
+            PhysicsTestVectors.V(fx1, bumperHeight, tableZ0),
+            PhysicsTestVectors.V(fx0, bumperHeight, tableZ0));
 
         AddQuad(
             verts,
             tris,
-            new Vector3d(fx0, 0, tableZ1),
-            new Vector3d(fx0, bumperHeight, tableZ1),
-            new Vector3d(fx1, bumperHeight, tableZ1),
-            new Vector3d(fx1, 0, tableZ1));
+            PhysicsTestVectors.V(fx0, 0, tableZ1),
+            PhysicsTestVectors.V(fx0, bumperHeight, tableZ1),
+            PhysicsTestVectors.V(fx1, bumperHeight, tableZ1),
+            PhysicsTestVectors.V(fx1, 0, tableZ1));
 
         if (ceilingY is double cy && cy > 0.01)
         {
             AddQuad(
                 verts,
                 tris,
-                new Vector3d(fx0, cy, fz0),
-                new Vector3d(fx1, cy, fz0),
-                new Vector3d(fx1, cy, fz1),
-                new Vector3d(fx0, cy, fz1));
+                PhysicsTestVectors.V(fx0, cy, fz0),
+                PhysicsTestVectors.V(fx1, cy, fz0),
+                PhysicsTestVectors.V(fx1, cy, fz1),
+                PhysicsTestVectors.V(fx0, cy, fz1));
 
             // Close the padded footprint so elastic rallies cannot drift off the felt into infinity.
             AddQuad(
                 verts,
                 tris,
-                new Vector3d(fx0, 0, fz0),
-                new Vector3d(fx0, 0, fz1),
-                new Vector3d(fx0, cy, fz1),
-                new Vector3d(fx0, cy, fz0));
+                PhysicsTestVectors.V(fx0, 0, fz0),
+                PhysicsTestVectors.V(fx0, 0, fz1),
+                PhysicsTestVectors.V(fx0, cy, fz1),
+                PhysicsTestVectors.V(fx0, cy, fz0));
             AddQuad(
                 verts,
                 tris,
-                new Vector3d(fx1, 0, fz0),
-                new Vector3d(fx1, cy, fz0),
-                new Vector3d(fx1, cy, fz1),
-                new Vector3d(fx1, 0, fz1));
+                PhysicsTestVectors.V(fx1, 0, fz0),
+                PhysicsTestVectors.V(fx1, cy, fz0),
+                PhysicsTestVectors.V(fx1, cy, fz1),
+                PhysicsTestVectors.V(fx1, 0, fz1));
             AddQuad(
                 verts,
                 tris,
-                new Vector3d(fx0, 0, fz0),
-                new Vector3d(fx0, cy, fz0),
-                new Vector3d(fx1, cy, fz0),
-                new Vector3d(fx1, 0, fz0));
+                PhysicsTestVectors.V(fx0, 0, fz0),
+                PhysicsTestVectors.V(fx0, cy, fz0),
+                PhysicsTestVectors.V(fx1, cy, fz0),
+                PhysicsTestVectors.V(fx1, 0, fz0));
             AddQuad(
                 verts,
                 tris,
-                new Vector3d(fx0, 0, fz1),
-                new Vector3d(fx1, 0, fz1),
-                new Vector3d(fx1, cy, fz1),
-                new Vector3d(fx0, cy, fz1));
+                PhysicsTestVectors.V(fx0, 0, fz1),
+                PhysicsTestVectors.V(fx1, 0, fz1),
+                PhysicsTestVectors.V(fx1, cy, fz1),
+                PhysicsTestVectors.V(fx0, cy, fz1));
         }
 
         return new BvhStaticWorld(new StaticTriangleMesh(verts.ToArray(), tris.ToArray()));
     }
 
-    private static void AddQuad(List<Vector3d> verts, List<int> tris, Vector3d a, Vector3d b, Vector3d c, Vector3d d)
+    private static void AddQuad(List<Vector3> verts, List<int> tris, Vector3 a, Vector3 b, Vector3 c, Vector3 d)
     {
         var o = verts.Count;
         verts.Add(a);

@@ -1,7 +1,8 @@
+using Novolis.Physics.TestSupport;
 using Novolis.Physics.Abstractions;
 using Novolis.Physics.Collision.Simple;
-using Novolis.Physics.Numerics;
-using Novolis.Physics.TestSupport;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -47,7 +48,7 @@ public sealed class BilliardsScenarioOrderedTests
         o.Line("ball_radius_m", BallRadius);
 
         await Assert.That(SharedTableWorld).IsNotNull();
-        var rayDown = new Ray3d(new Vector3d(8, 2.0, 4.5), new Vector3d(0, -1, 0).Normalized());
+        var rayDown = new Ray3(PhysicsTestVectors.V(8, 2.0, 4.5), PhysicsTestVectors.V(0, -1, 0).Normalized());
         var hitFloor = SharedTableWorld.Raycast(in rayDown, maxDistance: 10, out var floorHit);
         o.Results("Step01 — floor raycast");
         o.Line("hit", hitFloor);
@@ -55,8 +56,8 @@ public sealed class BilliardsScenarioOrderedTests
             o.Line("floor_hit_distance_m", floorHit.Distance);
 
         await Assert.That(hitFloor).IsTrue();
-        await Assert.That(floorHit.Distance).IsGreaterThan(1.0).And.IsLessThan(2.5);
-        await Assert.That(floorHit.Normal.Y).IsGreaterThan(0.5);
+        await Assert.That(floorHit.Distance).IsGreaterThan((float)(1.0)).And.IsLessThan((float)(2.5));
+        await Assert.That(floorHit.Normal.Y).IsGreaterThan((float)(0.5));
     }
 
     [Test]
@@ -68,9 +69,9 @@ public sealed class BilliardsScenarioOrderedTests
         o.Section(nameof(Billiards_Step02_SweepCueTowardLongRail_HitsBeforeLeavingTable));
 
         // Stay well above the felt so the sphere does not start penetrated into the floor mesh.
-        var center = new Vector3d(12, 0.95, 4.5);
-        var displacement = new Vector3d(-14, 0, 0);
-        var sphere = new Sphere3d(center, BallRadius);
+        var center = PhysicsTestVectors.V(12, 0.95, 4.5);
+        var displacement = PhysicsTestVectors.V(-14, 0, 0);
+        var sphere = new Sphere3(center, (float)BallRadius);
         var swept = world.SweepSphere(in sphere, displacement, out var hit);
 
         PhysicsDashboard.ResultsAndTable(
@@ -84,7 +85,7 @@ public sealed class BilliardsScenarioOrderedTests
             tableCaption: "Inflated sphere sweep along cue displacement");
 
         await Assert.That(swept).IsTrue();
-        await Assert.That(hit.Distance).IsGreaterThan(0.01).And.IsLessThan(displacement.Length());
+        await Assert.That(hit.Distance).IsGreaterThan((float)(0.01)).And.IsLessThan((float)(displacement.Length()));
     }
 
     [Test]
@@ -92,8 +93,8 @@ public sealed class BilliardsScenarioOrderedTests
     public async Task Billiards_Step03_ElasticRally_InClosedBilliardsRoom()
     {
         var world = SharedTableWorld ?? throw new InvalidOperationException("Expected Step01 to set SharedTableWorld.");
-        var pos = new Vector3d(4.0, 0.85, 2.2);
-        var vel = new Vector3d(5.2, 1.8, 2.4);
+        var pos = PhysicsTestVectors.V(4.0, 0.85, 2.2);
+        var vel = PhysicsTestVectors.V(5.2, 1.8, 2.4);
         var v0 = vel.Length();
         var reflections = 0;
         const int steps = 5000;
@@ -112,9 +113,9 @@ public sealed class BilliardsScenarioOrderedTests
         }
 
         // Post-run: outer perimeter walls align with padded table footprint (see CollisionTestGeometry).
-        await Assert.That(pos.X).IsGreaterThanOrEqualTo(-0.25).And.IsLessThanOrEqualTo(19.4);
-        await Assert.That(pos.Z).IsGreaterThanOrEqualTo(-0.25).And.IsLessThanOrEqualTo(12.4);
-        await Assert.That(pos.Y).IsGreaterThanOrEqualTo(-0.05).And.IsLessThanOrEqualTo(3.35);
+        await Assert.That(pos.X).IsGreaterThanOrEqualTo((float)(-0.25)).And.IsLessThanOrEqualTo((float)(19.4));
+        await Assert.That(pos.Z).IsGreaterThanOrEqualTo((float)(-0.25)).And.IsLessThanOrEqualTo((float)(12.4));
+        await Assert.That(pos.Y).IsGreaterThanOrEqualTo((float)(-0.05)).And.IsLessThanOrEqualTo((float)(3.35));
 
         SharedRallyReflections = reflections;
 
@@ -125,7 +126,7 @@ public sealed class BilliardsScenarioOrderedTests
         o.Line("|v|_final_m_s", vel.Length());
 
         await Assert.That(reflections).IsGreaterThan(15);
-        await Assert.That(Math.Abs(vel.Length() - v0)).IsLessThanOrEqualTo(0.1);
+        await Assert.That(MathF.Abs(vel.Length() - (float)v0)).IsLessThanOrEqualTo((float)(0.1));
     }
 
     [Test]

@@ -1,5 +1,6 @@
 using Novolis.Physics.Abstractions;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Ballistics;
 
@@ -16,8 +17,8 @@ public sealed class ProjectileBallisticSimulation
 
     public ProjectileState Step(ProjectileState state, double dtSeconds, ProjectileBallisticEnvironment environment)
     {
-        var gravity = new Vector3d(0, -state.MassKg * environment.GravityMetersPerSecondSquared, 0);
-        var drag = Vector3d.Zero;
+        var gravity = new Vector3(0f, (float)(-state.MassKg * environment.GravityMetersPerSecondSquared), 0f);
+        var drag = Vector3.Zero;
         if (_dragProfile is { } profile && environment.AirDensityKgPerM3 > 1e-30)
         {
             var v = state.Velocity;
@@ -25,11 +26,11 @@ public sealed class ProjectileBallisticSimulation
             if (speed > 1e-9)
             {
                 var q = 0.5 * environment.AirDensityKgPerM3 * profile.DragCoefficient * profile.ReferenceAreaM2 * speed * speed;
-                drag = -q * (v / speed);
+                drag = (v / speed).Multiply(-q);
             }
         }
 
-        var next = _integrator.Step(state, new ForceSample(gravity + drag, Vector3d.Zero), dtSeconds);
+        var next = _integrator.Step(state, new ForceSample(gravity + drag, Vector3.Zero), dtSeconds);
         return next with { TimeSeconds = state.TimeSeconds + dtSeconds };
     }
 }

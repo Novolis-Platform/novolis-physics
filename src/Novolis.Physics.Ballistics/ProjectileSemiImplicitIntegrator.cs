@@ -1,5 +1,6 @@
 using Novolis.Physics.Abstractions;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Ballistics;
 
@@ -9,9 +10,9 @@ public sealed class ProjectileSemiImplicitIntegrator : IIntegrator<ProjectileSta
     public ProjectileState Step(ProjectileState body, in ForceSample totalForcesAndTorques, double dtSeconds)
     {
         var invM = body.MassKg > 1e-30 ? 1.0 / body.MassKg : 0;
-        var a = totalForcesAndTorques.Force * invM;
-        var v = body.Velocity + a * dtSeconds;
-        var p = body.Position + v * dtSeconds;
+        var a = totalForcesAndTorques.Force.Multiply(invM);
+        var v = body.Velocity + a.Multiply(dtSeconds);
+        var p = body.Position + v.Multiply(dtSeconds);
         return new ProjectileState(p, v, body.MassKg, body.TimeSeconds);
     }
 }

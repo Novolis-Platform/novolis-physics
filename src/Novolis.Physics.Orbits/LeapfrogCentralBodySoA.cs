@@ -1,5 +1,5 @@
 using System.Numerics;
-using Novolis.Physics.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Orbits;
 
@@ -33,7 +33,7 @@ public sealed class LeapfrogCentralBodySoA
         _vz = new double[_n];
     }
 
-    public void SetState(int index, Vector3d position, Vector3d velocity)
+    public void SetState(int index, Vector3 position, Vector3 velocity)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(index);
         if (index >= _n)
@@ -49,8 +49,8 @@ public sealed class LeapfrogCentralBodySoA
 
     public OrbitState GetState(int index) =>
         new(
-            new Vector3d(_px[index], _py[index], _pz[index]),
-            new Vector3d(_vx[index], _vy[index], _vz[index]));
+            new Vector3((float)_px[index], (float)_py[index], (float)_pz[index]),
+            new Vector3((float)_vx[index], (float)_vy[index], (float)_vz[index]));
 
     public void Step(double deltaSeconds, KernelMode mode)
     {
@@ -72,7 +72,7 @@ public sealed class LeapfrogCentralBodySoA
         ref var vy = ref _vy[i];
         ref var vz = ref _vz[i];
 
-        var a0 = OrbitalMath.CentralAcceleration(new Vector3d(px, py, pz), _mu);
+        var a0 = OrbitalMath.CentralAcceleration(new Vector3((float)px, (float)py, (float)pz), _mu);
         vx += 0.5 * a0.X * dt;
         vy += 0.5 * a0.Y * dt;
         vz += 0.5 * a0.Z * dt;
@@ -81,7 +81,7 @@ public sealed class LeapfrogCentralBodySoA
         py += vy * dt;
         pz += vz * dt;
 
-        var a1 = OrbitalMath.CentralAcceleration(new Vector3d(px, py, pz), _mu);
+        var a1 = OrbitalMath.CentralAcceleration(new Vector3((float)px, (float)py, (float)pz), _mu);
         vx += 0.5 * a1.X * dt;
         vy += 0.5 * a1.Y * dt;
         vz += 0.5 * a1.Z * dt;
@@ -127,7 +127,7 @@ public sealed class LeapfrogCentralBodySoA
         for (var j = 0; j < 3; j++)
             r2 += p2[j];
 
-        var invR = 1.0 / Math.Sqrt(r2);
+        var invR = 1.0 / System.Math.Sqrt(r2);
         var invR3 = invR / r2;
         var acc = p * new Vector<double>(-mu * invR3);
         ax = acc[0];

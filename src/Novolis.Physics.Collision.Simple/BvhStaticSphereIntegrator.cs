@@ -1,5 +1,6 @@
 using Novolis.Physics.Abstractions;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Collision.Simple;
 
@@ -13,14 +14,14 @@ public static class BvhStaticSphereIntegrator
     public const double DefaultSurfaceEpsilon = 4e-4;
 
     /// <summary>Isotropic linear drag acceleration <c>a = −k v</c> with <paramref name="dragPerSecond"/> in 1/s.</summary>
-    public static Vector3d LinearDragAcceleration(in Vector3d velocityMps, double dragPerSecond) =>
-        -dragPerSecond * velocityMps;
+    public static Vector3 LinearDragAcceleration(in Vector3 velocityMps, double dragPerSecond) =>
+        velocityMps.Multiply(-dragPerSecond);
 
     /// <summary>Same as the <c>double dtSeconds</c> overload using <paramref name="dt"/>.<see cref="TimeSpan.TotalSeconds"/>.</summary>
     public static int AdvanceOneStep(
         BvhStaticWorld world,
-        ref Vector3d centerM,
-        ref Vector3d velocityMps,
+        ref Vector3 centerM,
+        ref Vector3 velocityMps,
         double radiusM,
         TimeSpan dt,
         double surfaceEpsilon = DefaultSurfaceEpsilon,
@@ -43,8 +44,8 @@ public static class BvhStaticSphereIntegrator
     /// </summary>
     public static int AdvanceOneStep(
         BvhStaticWorld world,
-        ref Vector3d centerM,
-        ref Vector3d velocityMps,
+        ref Vector3 centerM,
+        ref Vector3 velocityMps,
         double radiusM,
         double dtSeconds,
         double surfaceEpsilon = DefaultSurfaceEpsilon,
@@ -56,12 +57,12 @@ public static class BvhStaticSphereIntegrator
         var grazingStuck = 0;
         while (dtRem > 1e-14 && reflections < maxReflectionsPerStep)
         {
-            var displacement = velocityMps * dtRem;
+            var displacement = velocityMps.Multiply(dtRem);
             var len = displacement.Length();
             if (len < 1e-30)
                 break;
 
-            var sphere = new Sphere3d(centerM, radiusM);
+            var sphere = new Sphere3(centerM, (float)radiusM);
             if (!world.SweepSphere(in sphere, displacement, out var hit))
             {
                 centerM += displacement;
@@ -73,11 +74,11 @@ public static class BvhStaticSphereIntegrator
             {
                 if (++grazingStuck > 32)
                 {
-                    centerM += displacement * 1e-8;
+                    centerM += displacement.Multiply(1e-8);
                     break;
                 }
 
-                centerM = hit.Point + hit.Normal * surfaceEpsilon;
+                centerM = hit.Point + hit.Normal.Multiply(surfaceEpsilon);
                 velocityMps = SphereContactKinematics.ReflectWithRestitution(velocityMps, hit.Normal, normalRestitution);
                 reflections++;
                 continue;
@@ -86,7 +87,7 @@ public static class BvhStaticSphereIntegrator
             grazingStuck = 0;
 
             dtRem *= 1.0 - frac;
-            centerM = hit.Point + hit.Normal * surfaceEpsilon;
+            centerM = hit.Point + hit.Normal.Multiply(surfaceEpsilon);
             velocityMps = SphereContactKinematics.ReflectWithRestitution(velocityMps, hit.Normal, normalRestitution);
             reflections++;
         }
@@ -97,11 +98,11 @@ public static class BvhStaticSphereIntegrator
     /// <summary>Same as the <c>double dtSeconds</c> overload using <paramref name="dt"/>.<see cref="TimeSpan.TotalSeconds"/>.</summary>
     public static int AdvanceWithUniformAccelerationAndLinearDrag(
         BvhStaticWorld world,
-        ref Vector3d centerM,
-        ref Vector3d velocityMps,
+        ref Vector3 centerM,
+        ref Vector3 velocityMps,
         double radiusM,
         TimeSpan dt,
-        Vector3d uniformAccelerationMps2,
+        Vector3 uniformAccelerationMps2,
         double linearDragPerSecond,
         int substepsPerStep = 10,
         double surfaceEpsilon = DefaultSurfaceEpsilon,
@@ -125,11 +126,11 @@ public static class BvhStaticSphereIntegrator
     /// </summary>
     public static int AdvanceWithUniformAccelerationAndLinearDrag(
         BvhStaticWorld world,
-        ref Vector3d centerM,
-        ref Vector3d velocityMps,
+        ref Vector3 centerM,
+        ref Vector3 velocityMps,
         double radiusM,
         double dtSeconds,
-        Vector3d uniformAccelerationMps2,
+        Vector3 uniformAccelerationMps2,
         double linearDragPerSecond,
         int substepsPerStep = 10,
         double surfaceEpsilon = DefaultSurfaceEpsilon,
@@ -144,10 +145,10 @@ public static class BvhStaticSphereIntegrator
             if (linearDragPerSecond > 0)
             {
                 var d = linearDragPerSecond * sub;
-                velocityMps = d < 0.999 ? velocityMps * (1.0 - d) : Vector3d.Zero;
+                velocityMps = d < 0.999 ? velocityMps.Multiply(1.0 - d) : Vector3.Zero;
             }
 
-            velocityMps += uniformAccelerationMps2 * sub;
+            velocityMps += uniformAccelerationMps2.Multiply(sub);
             reflections += AdvanceOneStep(
                 world,
                 ref centerM,

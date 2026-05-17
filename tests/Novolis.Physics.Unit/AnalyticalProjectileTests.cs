@@ -1,5 +1,7 @@
+using Novolis.Physics.TestSupport;
 using Novolis.Physics.Ballistics;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
@@ -13,13 +15,13 @@ public sealed class AnalyticalProjectileTests
     {
         const double gravity = 9.80665;
         const double speed = 100.0;
-        const double angle = Math.PI / 4.0;
+        const double angle = global::System.Math.PI / 4.0;
         const double dt = 1.0 / 120.0;
 
-        var vx = speed * Math.Cos(angle);
-        var vy = speed * Math.Sin(angle);
-        var velocity = new Vector3d(vx, vy, 0);
-        var state = new ProjectileState(Vector3d.Zero, velocity, massKg: 1.0, timeSeconds: 0);
+        var vx = speed * global::System.Math.Cos(angle);
+        var vy = speed * global::System.Math.Sin(angle);
+        var velocity = PhysicsTestVectors.V(vx, vy, 0);
+        var state = new ProjectileState(Vector3.Zero, velocity, massKg: 1.0, timeSeconds: 0);
         var environment = new ProjectileBallisticEnvironment(gravity, AirDensityKgPerM3: 0);
         var simulation = new ProjectileBallisticSimulation(dragProfile: null);
 
@@ -29,7 +31,7 @@ public sealed class AnalyticalProjectileTests
         {
             previous = state;
             state = simulation.Step(state, dt, environment);
-            maxHeight = Math.Max(maxHeight, state.Position.Y);
+            maxHeight = global::System.Math.Max(maxHeight, state.Position.Y);
         }
 
         var impact = ProjectileMath.InterpolateGroundImpact(previous, state);
@@ -66,10 +68,10 @@ public sealed class AnalyticalProjectileTests
         o.Line("assert limits |dRange|<=0.65m |dTime|<=0.02s |dMaxH|<=0.35m Z~0", "(see assertions below)");
 
         // Semi-implicit Euler vs continuous-time formulas: expect sub-meter range drift at dt = 1/120 s.
-        await Assert.That(Math.Abs(impact.Position.X - expectedRange)).IsLessThanOrEqualTo(0.65);
-        await Assert.That(Math.Abs(impact.TimeSeconds - expectedTime)).IsLessThanOrEqualTo(0.02);
-        await Assert.That(Math.Abs(maxHeight - expectedHeight)).IsLessThanOrEqualTo(0.35);
-        await Assert.That(Math.Abs(impact.Position.Z)).IsLessThanOrEqualTo(1e-9);
+        await Assert.That(global::System.Math.Abs(impact.Position.X - expectedRange)).IsLessThanOrEqualTo((float)(0.65));
+        await Assert.That(global::System.Math.Abs(impact.TimeSeconds - expectedTime)).IsLessThanOrEqualTo((float)(0.02));
+        await Assert.That(global::System.Math.Abs(maxHeight - expectedHeight)).IsLessThanOrEqualTo((float)(0.35));
+        await Assert.That(global::System.Math.Abs(impact.Position.Z)).IsLessThanOrEqualTo((float)(1e-9));
     }
 
     /// <summary>Row 0 = highest y; bottom row = ground line. Columns = x along range.</summary>
@@ -95,8 +97,8 @@ public sealed class AnalyticalProjectileTests
             var t = tFlight * (s / (double)samples);
             var x = vx * t;
             var y = vy * t - 0.5 * g * t * t;
-            var c = (int)Math.Round(x / maxX * (cols - 1));
-            var r = plotRows - 1 - (int)Math.Round(y / maxY * (plotRows - 1));
+            var c = (int)global::System.Math.Round(x / maxX * (cols - 1));
+            var r = plotRows - 1 - (int)global::System.Math.Round(y / maxY * (plotRows - 1));
             if ((uint)r < (uint)plotRows && (uint)c < (uint)cols)
                 grid[r, c] = '*';
         }

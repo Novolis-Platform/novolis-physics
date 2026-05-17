@@ -1,5 +1,6 @@
 using Novolis.Physics.Abstractions;
-using Novolis.Physics.Numerics;
+using System.Numerics;
+using Novolis.Math.Geometry;
 
 namespace Novolis.Physics.Collision.Simple;
 
@@ -33,7 +34,7 @@ public sealed class BvhStaticWorld : IStaticWorld
         _nodes = nodes.ToArray();
     }
 
-    public bool Raycast(in Ray3d ray, double maxDistance, out HitInfo hit)
+    public bool Raycast(in Ray3 ray, double maxDistance, out HitInfo hit)
     {
         hit = default;
         if (_rootIndex < 0)
@@ -49,7 +50,7 @@ public sealed class BvhStaticWorld : IStaticWorld
         return found;
     }
 
-    public bool SweepSphere(in Sphere3d sphere, Vector3d displacement, out HitInfo hit)
+    public bool SweepSphere(in Sphere3 sphere, Vector3 displacement, out HitInfo hit)
     {
         hit = default;
         var len = displacement.Length();
@@ -59,7 +60,7 @@ public sealed class BvhStaticWorld : IStaticWorld
         }
 
         var dir = displacement / len;
-        var ray = new Ray3d(sphere.Center, dir);
+        var ray = new Ray3(sphere.Center, dir);
         if (!Raycast(in ray, len + sphere.Radius, out var raw))
         {
             return false;
@@ -81,22 +82,22 @@ public sealed class BvhStaticWorld : IStaticWorld
                 return false;
             }
 
-            adjusted = Math.Min(len * 1e-5, len * 0.5);
+            adjusted = System.Math.Min(len * 1e-5, len * 0.5);
             if (adjusted < 1e-14)
             {
                 adjusted = 1e-14;
             }
         }
 
-        var point = ray.PointAt(adjusted);
+        var point = ray.PointAt((float)adjusted);
         hit = new HitInfo(adjusted, point, raw.Normal, raw.PrimitiveIndex);
         return true;
     }
 
-    public bool SweepCapsule(in Capsule3d capsule, Vector3d displacement, out HitInfo hit)
+    public bool SweepCapsule(in Capsule capsule, Vector3 displacement, out HitInfo hit)
     {
-        var s0 = new Sphere3d(capsule.A, capsule.Radius);
-        var s1 = new Sphere3d(capsule.B, capsule.Radius);
+        var s0 = new Sphere3(capsule.A, capsule.Radius);
+        var s1 = new Sphere3(capsule.B, capsule.Radius);
         var h0 = SweepSphere(in s0, displacement, out var hit0);
         var h1 = SweepSphere(in s1, displacement, out var hit1);
         if (h0 && h1)
@@ -121,7 +122,7 @@ public sealed class BvhStaticWorld : IStaticWorld
         return false;
     }
 
-    private void Traverse(int nodeIndex, in Ray3d ray, double maxDistance, ref double bestT, ref bool found, ref HitInfo best)
+    private void Traverse(int nodeIndex, in Ray3 ray, double maxDistance, ref double bestT, ref bool found, ref HitInfo best)
     {
         ref readonly var node = ref _nodes[nodeIndex];
         if (!RaySlabIntersect(node.Bounds, ray.Origin, ray.Direction, 0, maxDistance, out var tEnter, out var tExit))
@@ -147,7 +148,7 @@ public sealed class BvhStaticWorld : IStaticWorld
 
                 found = true;
                 bestT = t;
-                var p = ray.PointAt(t);
+                var p = ray.PointAt((float)t);
                 best = new HitInfo(t, p, n, tri);
             }
 
@@ -159,9 +160,9 @@ public sealed class BvhStaticWorld : IStaticWorld
     }
 
     private static bool RaySlabIntersect(
-        AxisAlignedBox3d box,
-        Vector3d origin,
-        Vector3d dir,
+        AxisAlignedBox3 box,
+        Vector3 origin,
+        Vector3 dir,
         double minT,
         double maxT,
         out double tEnter,
@@ -175,7 +176,7 @@ public sealed class BvhStaticWorld : IStaticWorld
             var d = axis == 0 ? dir.X : axis == 1 ? dir.Y : dir.Z;
             var min = axis == 0 ? box.Min.X : axis == 1 ? box.Min.Y : box.Min.Z;
             var max = axis == 0 ? box.Max.X : axis == 1 ? box.Max.Y : box.Max.Z;
-            if (Math.Abs(d) < 1e-15)
+            if (System.Math.Abs(d) < 1e-15)
             {
                 if (o < min || o > max)
                 {
@@ -193,8 +194,8 @@ public sealed class BvhStaticWorld : IStaticWorld
                 (t0, t1) = (t1, t0);
             }
 
-            tEnter = Math.Max(tEnter, t0);
-            tExit = Math.Min(tExit, t1);
+            tEnter = System.Math.Max(tEnter, t0);
+            tExit = System.Math.Min(tExit, t1);
             if (tEnter > tExit)
             {
                 return false;
@@ -250,7 +251,7 @@ public sealed class BvhStaticWorld : IStaticWorld
         return thisIndex;
     }
 
-    private static AxisAlignedBox3d ComputeTriangleListBounds(StaticTriangleMesh mesh, int[] order, int offset, int count)
+    private static AxisAlignedBox3 ComputeTriangleListBounds(StaticTriangleMesh mesh, int[] order, int offset, int count)
     {
         var b = mesh.TriangleBounds(order[offset]);
         for (var i = 1; i < count; i++)
@@ -262,9 +263,9 @@ public sealed class BvhStaticWorld : IStaticWorld
         return b;
     }
 
-    private static Vector3d Centroid(Vector3d a, Vector3d b, Vector3d c) => (a + b + c) / 3.0;
+    private static Vector3 Centroid(Vector3 a, Vector3 b, Vector3 c) => (a + b + c).Divide(3.0);
 
-    private static int LongestAxis(AxisAlignedBox3d b)
+    private static int LongestAxis(AxisAlignedBox3 b)
     {
         var e = b.Max - b.Min;
         if (e.X >= e.Y && e.X >= e.Z)
@@ -275,15 +276,15 @@ public sealed class BvhStaticWorld : IStaticWorld
         return e.Y >= e.Z ? 1 : 2;
     }
 
-    private static AxisAlignedBox3d Union(AxisAlignedBox3d a, AxisAlignedBox3d b) =>
-        AxisAlignedBox3d.FromMinMax(
-            new Vector3d(Math.Min(a.Min.X, b.Min.X), Math.Min(a.Min.Y, b.Min.Y), Math.Min(a.Min.Z, b.Min.Z)),
-            new Vector3d(Math.Max(a.Max.X, b.Max.X), Math.Max(a.Max.Y, b.Max.Y), Math.Max(a.Max.Z, b.Max.Z)));
+    private static AxisAlignedBox3 Union(AxisAlignedBox3 a, AxisAlignedBox3 b) =>
+        AxisAlignedBox3.FromMinMax(
+            new Vector3(System.Math.Min(a.Min.X, b.Min.X), System.Math.Min(a.Min.Y, b.Min.Y), System.Math.Min(a.Min.Z, b.Min.Z)),
+            new Vector3(System.Math.Max(a.Max.X, b.Max.X), System.Math.Max(a.Max.Y, b.Max.Y), System.Math.Max(a.Max.Z, b.Max.Z)));
 
     private readonly struct BvhNode
     {
         public BvhNode(
-            AxisAlignedBox3d bounds,
+            AxisAlignedBox3 bounds,
             int triangleOrderOffset,
             int triangleCount,
             int leftChild,
@@ -298,7 +299,7 @@ public sealed class BvhStaticWorld : IStaticWorld
             IsLeaf = isLeaf;
         }
 
-        public AxisAlignedBox3d Bounds { get; }
+        public AxisAlignedBox3 Bounds { get; }
         public int TriangleOrderOffset { get; }
         public int TriangleCount { get; }
         public int LeftChild { get; }

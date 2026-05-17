@@ -12,11 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\novolis-math\src\Novolis.Math.Geometry\Novolis.Math.Geometry.csproj" />
     <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Novolis.Physics.Numerics\Novolis.Physics.Numerics.csproj" />
     <ProjectReference Include="..\Novolis.Physics.Abstractions\Novolis.Physics.Abstractions.csproj" />
     <ProjectReference Include="..\Novolis.Physics.Motion\Novolis.Physics.Motion.csproj" />
     <ProjectReference Include="..\Novolis.Physics.Gravity\Novolis.Physics.Gravity.csproj" />
@@ -27,3 +27,4 @@
   </ItemGroup>
 
 </Project>
+

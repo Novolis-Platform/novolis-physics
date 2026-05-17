@@ -1,4 +1,6 @@
-using Novolis.Physics.Numerics;
+using Novolis.Physics.TestSupport;
+using System.Numerics;
+using Novolis.Math.Geometry;
 using Novolis.Physics.Orbits;
 
 namespace Novolis.Physics.TestSupport.Orbits;
@@ -10,6 +12,6 @@ public static class OrbitalTestState
     {
         var rp = OrbitalTestConstants.PeriapsisRadius;
         var vp = OrbitalTestConstants.PeriapsisSpeed;
-        return new OrbitState(new Vector3d(rp, 0, 0), new Vector3d(0, vp, 0));
+        return new OrbitState(PhysicsTestVectors.V((float)rp, 0f, 0f), PhysicsTestVectors.V(0f, (float)vp, 0f));
     }
 }
