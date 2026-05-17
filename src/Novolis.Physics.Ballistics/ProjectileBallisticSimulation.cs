@@ -21,12 +21,12 @@ public sealed class ProjectileBallisticSimulation
         var drag = Vector3.Zero;
         if (_dragProfile is { } profile && environment.AirDensityKgPerM3 > 1e-30)
         {
-            var v = state.Velocity;
-            var speed = v.Length();
+            var vRel = state.Velocity - environment.WindMetersPerSecond;
+            var speed = vRel.Length();
             if (speed > 1e-9)
             {
                 var q = 0.5 * environment.AirDensityKgPerM3 * profile.DragCoefficient * profile.ReferenceAreaM2 * speed * speed;
-                drag = (v / speed).Multiply(-q);
+                drag = (vRel / speed).Multiply(-q);
             }
         }
 

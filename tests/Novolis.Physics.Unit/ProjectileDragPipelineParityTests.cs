@@ -17,7 +17,7 @@ public sealed class ProjectileDragPipelineParityTests
     {
         var profile = new ProjectileProfile(1.0, 0.5, 0.35);
         var env = new ProjectileBallisticEnvironment(9.80665, 1.225);
-        var parity = new ParityEnv(env, new ProjectileDragEnvironment(env.AirDensityKgPerM3));
+        var parity = new ParityEnv(env, new ProjectileDragEnvironment(env.AirDensityKgPerM3, env.WindMetersPerSecond));
         var state = new ProjectileState(PhysicsTestVectors.V(10, 120, 0), PhysicsTestVectors.V(35, 12, -2), massKg: 1.2, 0);
         const double dt = 1.0 / 120.0;
 
@@ -48,7 +48,7 @@ public sealed class ProjectileDragPipelineParityTests
     {
         var profile = new ProjectileProfile(0.9, 0.4, 0.42);
         var env = new ProjectileBallisticEnvironment(9.80665, 1.225);
-        var parity = new ParityEnv(env, new ProjectileDragEnvironment(env.AirDensityKgPerM3));
+        var parity = new ParityEnv(env, new ProjectileDragEnvironment(env.AirDensityKgPerM3, env.WindMetersPerSecond));
         var ballisticSim = new ProjectileBallisticSimulation(profile);
         var pipeline = BuildPipeline(profile);
         var stateA = new ProjectileState(Vector3.Zero, PhysicsTestVectors.V(40, 55, 0), massKg: 1.0, 0);

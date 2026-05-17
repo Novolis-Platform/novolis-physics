@@ -14,15 +14,15 @@ public sealed class ProjectileQuadraticDragModel : IForceModel<ProjectileState, 
 
     public ForceSample Evaluate(ProjectileState body, ProjectileDragEnvironment environment, double timeSeconds)
     {
-        var v = body.Velocity;
-        var speed = v.Length();
+        var vRel = body.Velocity - environment.WindMetersPerSecond;
+        var speed = vRel.Length();
         if (speed < 1e-9 || environment.AirDensityKgPerM3 < 1e-30)
         {
             return ForceSample.Zero;
         }
 
         var q = 0.5 * environment.AirDensityKgPerM3 * _profile.DragCoefficient * _profile.ReferenceAreaM2 * speed * speed;
-        var f = (v / speed).Multiply(-q);
+        var f = (vRel / speed).Multiply(-q);
         return new ForceSample(f, Vector3.Zero);
     }
 }
