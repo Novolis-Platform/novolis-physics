@@ -1,6 +1,8 @@
 # Novolis.Physics
 
-Force-first physics simulation for .NET — numerics, motion pipeline, gravity, ballistics, collision, and orbits.
+Force-first **textbook** physics for .NET — numerics, motion pipeline, gravity, ballistics, collision, and orbits.
+
+**Scope:** fundamental forces, integration, collision mathematics (BVH, sweeps, restitution), and domain solvers. **Not** game occupancy rules, camera controllers, or composed world motion — use [`novolis-simulation`](../novolis-simulation) and [simulation-layer policy](../novolis-governance/docs/simulation-layer-policy.md).
 
 **Documentation:** [docs/README.md](docs/README.md) (integration guide, architecture, examples).
 
