@@ -40,6 +40,20 @@ For default uniform gravity and quadratic drag, the facade and pipeline are **eq
 
 Convention: +Y up, range often along +X, set `Z = 0` for planar cannon problems.
 
+### Terrain flight loop
+
+For projectile vs heightfield + triangle mesh, use **`ProjectileTerrainStepper`** or stateful **`BallisticTrajectoryRunner`** — do not hand-roll integrate-then-sweep unless you match `ProjectileSemiImplicitIntegrator` displacement (`candidate.Position - startPos`).
+
+| Piece | API |
+|-------|-----|
+| Height sampling | `IHeightSampler` |
+| Range box | `AxisAlignedRangeBox` + `IProjectileTerrainContact` (e.g. `BoundedHeightfield` in Simulation.World) |
+| One physics step | `ProjectileTerrainStepper.AdvanceOne` |
+| Full shot + trail | `BallisticTrajectoryRunner` |
+| Aim preview (no mesh) | `BallisticTrajectoryRunner.BuildPreview` |
+
+Do **not** use `GroundImpact` / `ProjectileMath.InterpolateGroundImpact` for arbitrary terrain — those assume **Y = 0** plane only.
+
 Full examples: [examples/ballistics.md](examples/ballistics.md).
 
 ## 3. Aerodynamics (pipeline)
