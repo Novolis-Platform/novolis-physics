@@ -2,7 +2,7 @@
 
 Force-first **textbook** physics for .NET — numerics, motion pipeline, gravity, ballistics, collision, and orbits.
 
-**Scope:** fundamental forces, integration, collision mathematics (BVH, sweeps, restitution), and domain solvers. **Not** game occupancy rules, camera controllers, or composed world motion — use [`novolis-simulation`](../novolis-simulation) and [simulation-layer policy](../novolis-governance/docs/simulation-layer-policy.md).
+**Scope:** forces, integration, collision **response**, and domain solvers (ballistics, orbits, gravity, aero). Depends on `Novolis.Math.*` only. **Not** cameras, players, AI, rendering, ECS, or simulation orchestration — see [`novolis-simulation`](../novolis-simulation) and [library boundaries](../novolis-governance/docs/library-boundaries.md).
 
 **Documentation:** [docs/README.md](docs/README.md) (integration guide, architecture, examples).
 
