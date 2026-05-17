@@ -22,7 +22,7 @@ public sealed class BasketballEarthRoomCollisionTests
 
     /// <summary>
     /// Mesh walls sit at <c>±</c> this offset so the interior cube is <see cref="RoomInteriorSpanM"/> wide
-    /// (same pattern as <see cref="BouncingBallCollisionTests.BouncingBall_3DBox_ManyReflections_StaysInsideAndConservesEnergy"/>: avoids axis-aligned sweeps grazing the origin).
+    /// (same pattern as <see cref="BouncingBallCollisionTests.BouncingBall_ClosedBox_ManyReflections_StaysInsideAndConservesEnergy"/>: avoids axis-aligned sweeps grazing the origin).
     /// </summary>
     private const double RoomWallOffsetM = 0.25;
 

@@ -5,7 +5,7 @@ using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
 
-/// <summary>Elastic sphere in axis-aligned rooms: 1D-like slab, thin 2D channel, full 3D box.</summary>
+/// <summary>Elastic sphere in axis-aligned rooms: narrow slab, thin channel, closed box.</summary>
 [NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class BouncingBallCollisionTests
 {
@@ -74,7 +74,7 @@ public sealed class BouncingBallCollisionTests
     }
 
     [Test]
-    public async Task BouncingBall_2DChannelXY_KeepsZNearZeroAndConservesSpeed()
+    public async Task BouncingBall_ThinChannelXY_KeepsZNearZeroAndConservesSpeed()
     {
         var min = Vector3d.Zero;
         var max = new Vector3d(12, 8, 1.2);
@@ -84,7 +84,7 @@ public sealed class BouncingBallCollisionTests
         var v0 = vel.Length();
 
         var o = NovolisPhysicsTestTrace.Out;
-        o.Section(nameof(BouncingBall_2DChannelXY_KeepsZNearZeroAndConservesSpeed));
+        o.Section(nameof(BouncingBall_ThinChannelXY_KeepsZNearZeroAndConservesSpeed));
         o.Line("room_max_m", max.X, max.Y, max.Z);
         o.Line("radius_m", Radius);
         o.Line("ic_vel_m_s", vel.X, vel.Y, vel.Z);
@@ -105,7 +105,7 @@ public sealed class BouncingBallCollisionTests
             await Assert.That(pos.Z).IsGreaterThanOrEqualTo(zMin - zSlack).And.IsLessThanOrEqualTo(max.Z + Radius + 0.28);
         }
 
-        o.Results("2D channel — samples");
+        o.Results("thin channel — samples");
         o.Table(
             rows,
             new TableOptions { MaxRows = 20, RightAlignNumericColumns = true, MaxCellWidth = 22 },
@@ -118,7 +118,7 @@ public sealed class BouncingBallCollisionTests
     }
 
     [Test]
-    public async Task BouncingBall_3DBox_ManyReflections_StaysInsideAndConservesEnergy()
+    public async Task BouncingBall_ClosedBox_ManyReflections_StaysInsideAndConservesEnergy()
     {
         var min = new Vector3d(0.5, 0.5, 0.5);
         var max = new Vector3d(9.5, 9.5, 9.5);
@@ -128,7 +128,7 @@ public sealed class BouncingBallCollisionTests
         var v0 = vel.Length();
 
         var o = NovolisPhysicsTestTrace.Out;
-        o.Section(nameof(BouncingBall_3DBox_ManyReflections_StaysInsideAndConservesEnergy));
+        o.Section(nameof(BouncingBall_ClosedBox_ManyReflections_StaysInsideAndConservesEnergy));
         o.Line("radius_m", Radius);
         o.Line("ic_pos_m", pos.X, pos.Y, pos.Z);
         o.Line("ic_vel_m_s", vel.X, vel.Y, vel.Z);
@@ -151,7 +151,7 @@ public sealed class BouncingBallCollisionTests
             await Assert.That(pos.Z).IsGreaterThanOrEqualTo(innerMin.Z - boxSlack).And.IsLessThanOrEqualTo(innerMax.Z + boxSlack);
         }
 
-        o.Results("3D box — samples");
+        o.Results("closed box — samples");
         o.Table(
             rows,
             new TableOptions { MaxRows = 16, RightAlignNumericColumns = true, MaxCellWidth = 22 },

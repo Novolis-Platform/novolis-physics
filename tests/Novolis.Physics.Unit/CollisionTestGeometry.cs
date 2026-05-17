@@ -78,7 +78,7 @@ internal static class CollisionTestGeometry
         return new BvhStaticWorld(new StaticTriangleMesh(verts.ToArray(), tris.ToArray()));
     }
 
-    /// <summary>Billiards-style box: floor at y=0, four vertical bumpers on a rectangle in XZ, optional ceiling (closed room for 3D rally tests).</summary>
+    /// <summary>Billiards-style box: floor at y=0, four vertical bumpers on a rectangle in XZ, optional ceiling (closed room for rally tests).</summary>
     internal static BvhStaticWorld BuildBilliardsTableWithBumpers(
         double tableX0,
         double tableX1,
