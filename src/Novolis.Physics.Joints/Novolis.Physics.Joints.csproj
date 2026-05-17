@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\build\Novolis.Physics.Packaging.props" />
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Novolis.Physics.Joints</PackageId>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Novolis.Physics.Joints</RootNamespace>
+    <Description>Distance constraints between dynamic spheres for ragdolls and chains.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Novolis.Physics.Collision.Simple\Novolis.Physics.Collision.Simple.csproj" />
+  </ItemGroup>
+</Project>

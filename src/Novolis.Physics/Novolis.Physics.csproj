@@ -22,6 +22,7 @@
     <ProjectReference Include="..\Novolis.Physics.Gravity\Novolis.Physics.Gravity.csproj" />
     <ProjectReference Include="..\Novolis.Physics.Aerodynamics\Novolis.Physics.Aerodynamics.csproj" />
     <ProjectReference Include="..\Novolis.Physics.Collision.Simple\Novolis.Physics.Collision.Simple.csproj" />
+    <ProjectReference Include="..\Novolis.Physics.Joints\Novolis.Physics.Joints.csproj" />
     <ProjectReference Include="..\Novolis.Physics.Ballistics\Novolis.Physics.Ballistics.csproj" />
     <ProjectReference Include="..\Novolis.Physics.Orbits\Novolis.Physics.Orbits.csproj" />
   </ItemGroup>
