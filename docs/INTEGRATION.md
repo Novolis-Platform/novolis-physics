@@ -109,7 +109,30 @@ For a bouncing sphere in a static mesh, use `BvhStaticSphereIntegrator.AdvanceOn
 
 Example walkthrough: [examples/collision-room.md](examples/collision-room.md).
 
-## 5. Orbits (separate stack)
+## 5. Sphere ragdoll / joints
+
+For chained equal-radius spheres (ragdolls, rope-like piles):
+
+| Piece | Role |
+|-------|------|
+| `DistanceJoint` + `DistanceJointSolver` | Maintain rest length between sphere indices |
+| `SwingLimit` / `HingeLimit` | Angular cones and hinge arcs; use `CreateLocal` + `FrameReferenceSphere` so limits follow the torso |
+| `BoneFrame` | Parent-local rest directions from parent + reference sphere positions |
+| `ConstrainedSphereSimulator` | Integrates spheres against a static BVH, solves joints + optional angular limits + filtered self-collision |
+| `RagdollHumanoidPreset` | 11-sphere humanoid topology, standing spawn, and limit set |
+
+```csharp
+var sim = new ConstrainedSphereSimulator { Options = { Radius = 0.2f, ... } };
+RagdollHumanoidPreset.BuildStanding(groundPoint, spheres, joints, swings, hinges);
+sim.SetJoints(joints);
+RagdollHumanoidPreset.StabilizeSpawn(spheres, joints, clamp, sim);
+// each frame:
+sim.Step(world, spheres, clamp, dt, swings, hinges);
+```
+
+Self-collision skips joint-adjacent pairs automatically when joints are set via `SetJoints`.
+
+## 6. Orbits (separate stack)
 
 `CentralOrbitSimulator` / `LeapfrogCentralBodySoA` use symplectic leapfrog for central-body problems. Does **not** plug into `SimulationPipeline`. Use `Novolis.Physics.Gravity` point-mass models for game-style gravity instead.
 
@@ -122,4 +145,5 @@ For repeated propagation, reuse one `LeapfrogCentralBodySoA` via `CentralOrbitSi
 | Rigid body + arbitrary forces | `SimulationPipeline` + `SemiImplicitEulerRigidBodyIntegrator` |
 | Cannon / projectile with drag | `ProjectileBallisticSimulation` or ballistics pipeline |
 | Sphere in a static room | `BvhStaticSphereIntegrator` + mesh world |
+| Ragdoll / jointed sphere chain | `ConstrainedSphereSimulator` + `RagdollHumanoidPreset` |
 | Long-term two-body orbit test | `CentralOrbitSimulator` |

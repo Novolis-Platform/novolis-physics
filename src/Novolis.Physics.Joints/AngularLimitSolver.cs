@@ -42,7 +42,7 @@ public static class AngularLimitSolver
 
         var len = MathF.Sqrt(lenSq);
         var bone = delta / len;
-        var rest = Vector3.Normalize(limit.RestDirection);
+        var rest = ResolveSwingRest(limit, spheres);
         var maxRadians = MathF.Max(limit.MaxRadians, 0f);
         var cosMax = MathF.Cos(maxRadians);
         var dot = Vector3.Dot(bone, rest);
@@ -58,18 +58,8 @@ public static class AngularLimitSolver
         if ((uint)limit.ParentSphere >= (uint)spheres.Count || (uint)limit.ChildSphere >= (uint)spheres.Count)
             return 0;
 
-        var axis = limit.HingeAxis;
-        var axisLenSq = axis.LengthSquared();
-        if (axisLenSq < 1e-10f)
+        if (!TryResolveHingeAxisAndRest(limit, spheres, out var axis, out var rest))
             return 0;
-
-        axis = axis / MathF.Sqrt(axisLenSq);
-        var rest = Vector3.Normalize(limit.RestDirection);
-        var restPlane = ProjectOnPlane(rest, axis);
-        if (restPlane.LengthSquared() < 1e-10f)
-            return 0;
-
-        restPlane = Vector3.Normalize(restPlane);
 
         var parent = spheres[limit.ParentSphere];
         var child = spheres[limit.ChildSphere];
@@ -80,6 +70,12 @@ public static class AngularLimitSolver
 
         var len = MathF.Sqrt(lenSq);
         var bone = delta / len;
+        var restPlane = ProjectOnPlane(rest, axis);
+        if (restPlane.LengthSquared() < 1e-10f)
+            return 0;
+
+        restPlane = Vector3.Normalize(restPlane);
+
         var bonePlane = ProjectOnPlane(bone, axis);
         if (bonePlane.LengthSquared() < 1e-10f)
             bonePlane = restPlane;
@@ -93,6 +89,78 @@ public static class AngularLimitSolver
 
         var clampedBone = RotateAroundAxis(restPlane, axis, clamped);
         return ApplyBoneCorrection(ref parent, ref child, clampedBone, len, limit.Stiffness, spheres, limit.ParentSphere, limit.ChildSphere);
+    }
+
+    private static Vector3 ResolveSwingRest(SwingLimit limit, IList<SphereState> spheres)
+    {
+        if (limit.FrameReferenceSphere < 0)
+            return Vector3.Normalize(limit.RestDirection);
+
+        if ((uint)limit.FrameReferenceSphere >= (uint)spheres.Count)
+            return Vector3.Normalize(limit.RestDirection);
+
+        if (!BoneFrame.TryCreate(
+                spheres[limit.ParentSphere].Position,
+                spheres[limit.FrameReferenceSphere].Position,
+                out var frame))
+            return Vector3.Normalize(limit.RestDirection);
+
+        var world = frame.LocalToWorld(limit.RestDirectionLocal);
+        var lenSq = world.LengthSquared();
+        return lenSq < 1e-10f ? Vector3.Normalize(limit.RestDirection) : world / MathF.Sqrt(lenSq);
+    }
+
+    private static bool TryResolveHingeAxisAndRest(
+        HingeLimit limit,
+        IList<SphereState> spheres,
+        out Vector3 axis,
+        out Vector3 rest)
+    {
+        if (limit.FrameReferenceSphere < 0)
+        {
+            axis = limit.HingeAxis;
+            rest = limit.RestDirection;
+        }
+        else
+        {
+            if ((uint)limit.FrameReferenceSphere >= (uint)spheres.Count)
+            {
+                axis = limit.HingeAxis;
+                rest = limit.RestDirection;
+            }
+            else if (!BoneFrame.TryCreate(
+                         spheres[limit.ParentSphere].Position,
+                         spheres[limit.FrameReferenceSphere].Position,
+                         out var frame))
+            {
+                axis = limit.HingeAxis;
+                rest = limit.RestDirection;
+            }
+            else
+            {
+                axis = frame.LocalToWorld(limit.HingeAxisLocal);
+                rest = frame.LocalToWorld(limit.RestDirectionLocal);
+            }
+        }
+
+        var axisLenSq = axis.LengthSquared();
+        if (axisLenSq < 1e-10f)
+        {
+            axis = Vector3.UnitX;
+            rest = Vector3.UnitY;
+            return false;
+        }
+
+        axis /= MathF.Sqrt(axisLenSq);
+        var restLenSq = rest.LengthSquared();
+        if (restLenSq < 1e-10f)
+        {
+            rest = Vector3.UnitY;
+            return false;
+        }
+
+        rest /= MathF.Sqrt(restLenSq);
+        return true;
     }
 
     private static int ApplyBoneCorrection(
