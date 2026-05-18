@@ -36,7 +36,7 @@ public static class DistanceJointSolver
                     continue;
 
                 var n = delta / dist;
-                var strength = Math.Clamp(joint.Stiffness, 0f, 1f);
+                var strength = System.Math.Clamp(joint.Stiffness, 0f, 1f);
                 var correction = n * (error * 0.5f * strength);
                 a.Position += correction;
                 b.Position -= correction;

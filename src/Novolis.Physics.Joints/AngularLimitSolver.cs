@@ -87,7 +87,7 @@ public static class AngularLimitSolver
             bonePlane = Vector3.Normalize(bonePlane);
 
         var angle = SignedAngle(restPlane, bonePlane, axis);
-        var clamped = Math.Clamp(angle, limit.MinRadians, limit.MaxRadians);
+        var clamped = System.Math.Clamp(angle, limit.MinRadians, limit.MaxRadians);
         if (MathF.Abs(angle - clamped) < 1e-5f)
             return 0;
 
@@ -105,7 +105,7 @@ public static class AngularLimitSolver
         int parentIndex,
         int childIndex)
     {
-        var w = Math.Clamp(stiffness, 0f, 1f);
+        var w = System.Math.Clamp(stiffness, 0f, 1f);
         if (w <= 0f)
             return 0;
 
@@ -126,8 +126,8 @@ public static class AngularLimitSolver
             return rest;
 
         axis /= MathF.Sqrt(axisLenSq);
-        var angle = MathF.Acos(Math.Clamp(Vector3.Dot(bone, rest), -1f, 1f));
-        var maxAngle = MathF.Acos(Math.Clamp(cosMax, -1f, 1f));
+        var angle = MathF.Acos(System.Math.Clamp(Vector3.Dot(bone, rest), -1f, 1f));
+        var maxAngle = MathF.Acos(System.Math.Clamp(cosMax, -1f, 1f));
         return RotateAroundAxis(bone, axis, maxAngle - angle);
     }
 
