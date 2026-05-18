@@ -37,9 +37,13 @@ public static class DistanceJointSolver
 
                 var n = delta / dist;
                 var strength = System.Math.Clamp(joint.Stiffness, 0f, 1f);
+                var maxError = joint.RestLength * 0.35f;
+                error = System.Math.Clamp(error, -maxError, maxError);
                 var correction = n * (error * 0.5f * strength);
                 a.Position += correction;
                 b.Position -= correction;
+                spheres[joint.SphereA] = a;
+                spheres[joint.SphereB] = b;
                 corrections++;
             }
         }
