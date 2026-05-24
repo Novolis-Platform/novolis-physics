@@ -1,7 +1,6 @@
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
 $pkgs = @(
-    "src/Novolis.Physics.Numerics/Novolis.Physics.Numerics.csproj",
     "src/Novolis.Physics.Abstractions/Novolis.Physics.Abstractions.csproj",
     "src/Novolis.Physics.Motion/Novolis.Physics.Motion.csproj",
     "src/Novolis.Physics.Gravity/Novolis.Physics.Gravity.csproj",
