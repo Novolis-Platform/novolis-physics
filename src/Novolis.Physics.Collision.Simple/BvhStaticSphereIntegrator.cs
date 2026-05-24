@@ -62,7 +62,7 @@ public static class BvhStaticSphereIntegrator
             if (len < 1e-30)
                 break;
 
-            var sphere = new Sphere3(centerM, (float)radiusM);
+            var sphere = new Sphere(centerM, (float)radiusM);
             if (!world.SweepSphere(in sphere, displacement, out var hit))
             {
                 centerM += displacement;

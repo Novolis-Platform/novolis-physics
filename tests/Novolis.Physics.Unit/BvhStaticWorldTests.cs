@@ -21,7 +21,7 @@ public sealed class BvhStaticWorldTests
         var indices = new[] { 0, 1, 2 };
         var mesh = new StaticTriangleMesh(verts, indices);
         var world = new BvhStaticWorld(mesh);
-        var ray = new Ray3(PhysicsTestVectors.V(1, 2, 1), PhysicsTestVectors.V(0, -1, 0).Normalized());
+        var ray = new Ray(PhysicsTestVectors.V(1, 2, 1), PhysicsTestVectors.V(0, -1, 0).Normalized());
         var hit = world.Raycast(in ray, maxDistance: 10, out var info);
 
         var o = NovolisPhysicsTestTrace.Out;

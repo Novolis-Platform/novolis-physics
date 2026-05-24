@@ -22,7 +22,7 @@ public sealed class CollisionSweepScenarioTests
         };
         var mesh = new StaticTriangleMesh(verts, new[] { 0, 1, 2 });
         var world = new BvhStaticWorld(mesh);
-        var sphere = new Sphere3(PhysicsTestVectors.V(1, (float)2.0, 1), radius: 0.15f);
+        var sphere = new Sphere(PhysicsTestVectors.V(1, (float)2.0, 1), radius: 0.15f);
         var displacement = PhysicsTestVectors.V(0, -4, 0);
         var hit = BallisticsQueries.SweepProjectileSphere(world, in sphere, displacement, out var info);
 
@@ -54,7 +54,7 @@ public sealed class CollisionSweepScenarioTests
             PhysicsTestVectors.V(0, 0, 1),
         };
         var world = new BvhStaticWorld(new StaticTriangleMesh(verts, new[] { 0, 1, 2 }));
-        var ray = new Ray3(PhysicsTestVectors.V(5, 5, 5), PhysicsTestVectors.V(0, 1, 0).Normalized());
+        var ray = new Ray(PhysicsTestVectors.V(5, 5, 5), PhysicsTestVectors.V(0, 1, 0).Normalized());
         var hit = world.Raycast(in ray, maxDistance: 100, out _);
 
         var o = NovolisPhysicsTestTrace.Out;

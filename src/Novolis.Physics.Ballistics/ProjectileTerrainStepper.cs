@@ -187,7 +187,7 @@ public static class ProjectileTerrainStepper
 
             if (collisionWorld is not null)
             {
-                var sphere = new Sphere3(segStart, radius);
+                var sphere = new Sphere(segStart, radius);
                 if (BallisticsQueries.SweepProjectileSphere(collisionWorld, in sphere, chunk, out var hit))
                 {
                     var impactPos = SegmentImpactInterpolator.PositionAlongSegment(segStart, chunk, in hit);

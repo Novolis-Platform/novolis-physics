@@ -34,24 +34,24 @@ public readonly struct Quaterniond
     public static implicit operator Quaternion(Quaterniond q) => q.Value;
 }
 
-/// <summary>Obsolete ray shim; use <see cref="Ray3"/>.</summary>
-[Obsolete("Use Novolis.Math.Geometry.Ray3.")]
-public readonly struct Ray3d(Ray3 value)
+/// <summary>Obsolete ray shim; use <see cref="Ray"/>.</summary>
+[Obsolete("Use Novolis.Math.Geometry.Ray.")]
+public readonly struct Ray3d(Ray value)
 {
     /// <summary>Underlying ray.</summary>
-    public Ray3 Value { get; } = value;
+    public Ray Value { get; } = value;
 
-    /// <summary>Implicit conversion to <see cref="Ray3"/>.</summary>
-    public static implicit operator Ray3(Ray3d r) => r.Value;
+    /// <summary>Implicit conversion to <see cref="Ray"/>.</summary>
+    public static implicit operator Ray(Ray3d r) => r.Value;
 }
 
-/// <summary>Obsolete sphere shim; use <see cref="Sphere3"/>.</summary>
-[Obsolete("Use Novolis.Math.Geometry.Sphere3.")]
-public readonly struct Sphere3d(Sphere3 value)
+/// <summary>Obsolete sphere shim; use <see cref="Sphere"/>.</summary>
+[Obsolete("Use Novolis.Math.Geometry.Sphere.")]
+public readonly struct Sphere3d(Sphere value)
 {
     /// <summary>Underlying sphere.</summary>
-    public Sphere3 Value { get; } = value;
+    public Sphere Value { get; } = value;
 
-    /// <summary>Implicit conversion to <see cref="Sphere3"/>.</summary>
-    public static implicit operator Sphere3(Sphere3d s) => s.Value;
+    /// <summary>Implicit conversion to <see cref="Sphere"/>.</summary>
+    public static implicit operator Sphere(Sphere3d s) => s.Value;
 }

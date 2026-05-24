@@ -8,14 +8,14 @@ namespace Novolis.Physics.Collision.Simple;
 public sealed class EmptyStaticWorld : IStaticWorld
 {
     /// <inheritdoc />
-    public bool Raycast(in Ray3 ray, double maxDistance, out HitInfo hit)
+    public bool Raycast(in Ray ray, double maxDistance, out HitInfo hit)
     {
         hit = default;
         return false;
     }
 
     /// <inheritdoc />
-    public bool SweepSphere(in Sphere3 sphere, Vector3 displacement, out HitInfo hit)
+    public bool SweepSphere(in Sphere sphere, Vector3 displacement, out HitInfo hit)
     {
         hit = default;
         return false;

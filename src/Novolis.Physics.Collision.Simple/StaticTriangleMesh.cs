@@ -36,24 +36,24 @@ public sealed class StaticTriangleMesh
     }
 
     /// <summary>Axis-aligned bounds of triangle <paramref name="triangleIndex"/>.</summary>
-    public AxisAlignedBox3 TriangleBounds(int triangleIndex)
+    public AxisAlignedBox TriangleBounds(int triangleIndex)
     {
         GetTriangle(triangleIndex, out var v0, out var v1, out var v2);
-        var box = AxisAlignedBox3.FromMinMax(v0, v0);
-        box = AxisAlignedBox3.Expand(box, v1);
-        box = AxisAlignedBox3.Expand(box, v2);
+        var box = AxisAlignedBox.FromMinMax(v0, v0);
+        box = AxisAlignedBox.Expand(box, v1);
+        box = AxisAlignedBox.Expand(box, v2);
         return box;
     }
 
     /// <summary>Axis-aligned bounds enclosing all vertices.</summary>
-    public AxisAlignedBox3 MeshBounds()
+    public AxisAlignedBox MeshBounds()
     {
         if (Vertices.Length == 0)
-            return new AxisAlignedBox3(Vector3.Zero, Vector3.Zero);
+            return new AxisAlignedBox(Vector3.Zero, Vector3.Zero);
 
-        var b = AxisAlignedBox3.FromMinMax(Vertices[0], Vertices[0]);
+        var b = AxisAlignedBox.FromMinMax(Vertices[0], Vertices[0]);
         foreach (var v in Vertices)
-            b = AxisAlignedBox3.Expand(b, v);
+            b = AxisAlignedBox.Expand(b, v);
 
         return b;
     }

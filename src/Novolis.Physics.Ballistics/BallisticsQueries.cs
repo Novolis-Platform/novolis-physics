@@ -8,13 +8,13 @@ namespace Novolis.Physics.Ballistics;
 public static class BallisticsQueries
 {
     /// <summary>LineOfSight operation.</summary>
-    public static bool LineOfSight(IStaticWorld world, in Ray3 ray, double maxDistance, out HitInfo hit) =>
+    public static bool LineOfSight(IStaticWorld world, in Ray ray, double maxDistance, out HitInfo hit) =>
         world.Raycast(in ray, maxDistance, out hit);
 /// <summary>SweepProjectileSphere operation.</summary>
 
     public static bool SweepProjectileSphere(
         IStaticWorld world,
-        in Sphere3 sphere,
+        in Sphere sphere,
         Vector3 displacement,
         out HitInfo hit) =>
         world.SweepSphere(in sphere, displacement, out hit);

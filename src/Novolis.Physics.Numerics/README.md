@@ -1,6 +1,6 @@
 # Novolis.Physics.Numerics
 
-**Obsolete** compatibility shims (`Vector3d`, `Ray3d`, …). New code should use `System.Numerics` and `Novolis.Math.Geometry`.
+**Obsolete** compatibility shims (`Vector3d`, `Rayd`, …). New code should use `System.Numerics` and `Novolis.Math.Geometry`.
 
 ## Install
 
@@ -17,14 +17,14 @@ Prefer BCL types instead of this package:
 ```csharp
 using System.Numerics;
 using Novolis.Math.Geometry;
-// Use Vector3, Quaternion, Ray3 — not Vector3d / Ray3d
+// Use Vector3, Quaternion, Ray — not Vector3d / Rayd
 ```
 
 ## Related packages
 
 | Package | When to use |
 |---------|-------------|
-| `Novolis.Math.Geometry` | `Ray3`, `Sphere3`, meshes |
+| `Novolis.Math.Geometry` | `Ray`, `Sphere3`, meshes |
 | `Novolis.Physics.Abstractions` | Current physics contracts |
 
 ## More documentation

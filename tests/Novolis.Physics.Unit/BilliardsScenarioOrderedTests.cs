@@ -48,7 +48,7 @@ public sealed class BilliardsScenarioOrderedTests
         o.Line("ball_radius_m", BallRadius);
 
         await Assert.That(SharedTableWorld).IsNotNull();
-        var rayDown = new Ray3(PhysicsTestVectors.V(8, 2.0, 4.5), PhysicsTestVectors.V(0, -1, 0).Normalized());
+        var rayDown = new Ray(PhysicsTestVectors.V(8, 2.0, 4.5), PhysicsTestVectors.V(0, -1, 0).Normalized());
         var hitFloor = SharedTableWorld.Raycast(in rayDown, maxDistance: 10, out var floorHit);
         o.Results("Step01 — floor raycast");
         o.Line("hit", hitFloor);
@@ -71,7 +71,7 @@ public sealed class BilliardsScenarioOrderedTests
         // Stay well above the felt so the sphere does not start penetrated into the floor mesh.
         var center = PhysicsTestVectors.V(12, 0.95, 4.5);
         var displacement = PhysicsTestVectors.V(-14, 0, 0);
-        var sphere = new Sphere3(center, (float)BallRadius);
+        var sphere = new Sphere(center, (float)BallRadius);
         var swept = world.SweepSphere(in sphere, displacement, out var hit);
 
         PhysicsDashboard.ResultsAndTable(
