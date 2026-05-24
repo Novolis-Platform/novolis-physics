@@ -3,16 +3,31 @@ namespace Novolis.Physics.Collision.Simple;
 /// <summary>Structure-of-arrays layout for many spheres (SIMD-friendly broad-phase).</summary>
 public sealed class SphereSoA
 {
+    /// <summary>World X positions (meters).</summary>
     public float[] PosX = [];
+
+    /// <summary>World Y positions (meters).</summary>
     public float[] PosY = [];
+
+    /// <summary>World Z positions (meters).</summary>
     public float[] PosZ = [];
+
+    /// <summary>World X velocities (m/s).</summary>
     public float[] VelX = [];
+
+    /// <summary>World Y velocities (m/s).</summary>
     public float[] VelY = [];
+
+    /// <summary>World Z velocities (m/s).</summary>
     public float[] VelZ = [];
+
+    /// <summary>Per-sphere sleeping flags.</summary>
     public bool[] Sleeping = [];
 
+    /// <summary>Number of active spheres in the arrays.</summary>
     public int Count { get; private set; }
 
+    /// <summary>Grows internal buffers to hold at least <paramref name="count"/> spheres.</summary>
     public void Resize(int count)
     {
         Count = count;
@@ -28,6 +43,7 @@ public sealed class SphereSoA
         Sleeping = new bool[count];
     }
 
+    /// <summary>Copies sphere state from <paramref name="spheres"/> into SoA buffers.</summary>
     public void SyncFrom(IList<SphereState> spheres)
     {
         Resize(spheres.Count);
@@ -44,6 +60,7 @@ public sealed class SphereSoA
         }
     }
 
+    /// <summary>Writes SoA velocities and positions back into <paramref name="spheres"/>.</summary>
     public void SyncTo(IList<SphereState> spheres)
     {
         for (var i = 0; i < Count; i++)

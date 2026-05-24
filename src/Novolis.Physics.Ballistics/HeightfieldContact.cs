@@ -6,6 +6,7 @@ namespace Novolis.Physics.Ballistics;
 /// <summary>Heightfield contact tests against <see cref="IHeightSampler"/> and <see cref="AxisAlignedRangeBox"/>.</summary>
 public static class HeightfieldContact
 {
+    /// <summary>TryContact operation.</summary>
     public static bool TryContact(
         IHeightSampler sampler,
         AxisAlignedRangeBox range,
@@ -17,6 +18,7 @@ public static class HeightfieldContact
 
         return position.Y <= sampler.SampleHeight(position.X, position.Z) + radius;
     }
+/// <summary>ProjectOntoSurface operation.</summary>
 
     public static Vector3 ProjectOntoSurface(
         IHeightSampler sampler,

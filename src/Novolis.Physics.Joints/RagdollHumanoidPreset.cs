@@ -7,21 +7,45 @@ namespace Novolis.Physics.Joints;
 /// <summary>Standard 11-sphere humanoid ragdoll topology and pose limits.</summary>
 public static class RagdollHumanoidPreset
 {
+    /// <summary>Sphere index: hip / root.</summary>
     public const int Hip = 0;
+
+    /// <summary>Sphere index: left knee.</summary>
     public const int LeftKnee = 1;
+
+    /// <summary>Sphere index: right knee.</summary>
     public const int RightKnee = 2;
+
+    /// <summary>Sphere index: chest.</summary>
     public const int Chest = 3;
+
+    /// <summary>Sphere index: head.</summary>
     public const int Head = 4;
+
+    /// <summary>Sphere index: left shoulder.</summary>
     public const int LeftShoulder = 5;
+
+    /// <summary>Sphere index: right shoulder.</summary>
     public const int RightShoulder = 6;
+
+    /// <summary>Sphere index: left hand.</summary>
     public const int LeftHand = 7;
+
+    /// <summary>Sphere index: right hand.</summary>
     public const int RightHand = 8;
+
+    /// <summary>Sphere index: left foot.</summary>
     public const int LeftFoot = 9;
+
+    /// <summary>Sphere index: right foot.</summary>
     public const int RightFoot = 10;
+
+    /// <summary>Total spheres in the humanoid preset.</summary>
     public const int SphereCount = 11;
 
     private const float Deg = MathF.PI / 180f;
 
+    /// <summary>Builds a standing humanoid pose, joints, and limits at <paramref name="groundPoint"/>.</summary>
     public static void BuildStanding(
         Vector3 groundPoint,
         IList<SphereState> spheres,
@@ -73,6 +97,7 @@ public static class RagdollHumanoidPreset
         BuildLimits(spheres, swingLimits, hingeLimits, runtimeStiffness);
     }
 
+    /// <summary>Populates swing and hinge limits for an existing humanoid sphere layout.</summary>
     public static void BuildLimits(
         IList<SphereState> spheres,
         IList<SwingLimit> swingLimits,
@@ -97,6 +122,7 @@ public static class RagdollHumanoidPreset
         AddLocalElbow(spheres, hingeLimits, RightShoulder, RightHand, frameRef: Chest, lateralSign: -1f, stiffness);
     }
 
+    /// <summary>Relaxes joints and limits after spawn, then depenetrates against <paramref name="clamp"/>.</summary>
     public static void StabilizeSpawn(
         IList<SphereState> spheres,
         ReadOnlySpan<DistanceJoint> joints,

@@ -5,6 +5,7 @@ namespace Novolis.Physics.Collision.Simple;
 /// <summary>Position and velocity resolution for equal-radius sphere pairs.</summary>
 public static class SphereOverlapResolution
 {
+    /// <summary>Separate operation.</summary>
     public static bool Separate(
         ref Vector3 positionA,
         ref Vector3 positionB,
@@ -36,6 +37,7 @@ public static class SphereOverlapResolution
         positionB += normal * (overlap * 0.5f);
         return true;
     }
+/// <summary>SeparateWithImpulse operation.</summary>
 
     public static bool SeparateWithImpulse(
         ref Vector3 positionA,

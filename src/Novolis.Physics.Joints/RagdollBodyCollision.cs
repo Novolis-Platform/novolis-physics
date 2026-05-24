@@ -5,6 +5,7 @@ namespace Novolis.Physics.Joints;
 /// <summary>Self-collision between spheres in a ragdoll group (prevents folding through itself).</summary>
 public static class RagdollBodyCollision
 {
+    /// <summary>Separates overlapping spheres for <paramref name="iterations"/> passes.</summary>
     public static int ResolveOverlaps(
         IList<SphereState> spheres,
         float radius,
@@ -12,6 +13,7 @@ public static class RagdollBodyCollision
         float separationScale = 1.02f) =>
         ResolveOverlaps(spheres, radius, iterations, separationScale, ReadOnlySpan<(int, int)>.Empty);
 
+    /// <summary>Separates overlaps while skipping adjacent joint pairs in <paramref name="skipPairs"/>.</summary>
     public static int ResolveOverlaps(
         IList<SphereState> spheres,
         float radius,
@@ -47,6 +49,7 @@ public static class RagdollBodyCollision
         return fixes;
     }
 
+    /// <summary>Builds undirected sphere index pairs from distance joints (for skip lists).</summary>
     public static (int A, int B)[] BuildAdjacentSkipPairs(ReadOnlySpan<DistanceJoint> joints)
     {
         if (joints.Length == 0)

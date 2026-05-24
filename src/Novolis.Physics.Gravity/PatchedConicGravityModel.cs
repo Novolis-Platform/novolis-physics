@@ -8,6 +8,7 @@ namespace Novolis.Physics.Gravity;
 /// <remarks>Time-invariant; simulation time passed to <see cref="Evaluate"/> is ignored.</remarks>
 public sealed class PatchedConicGravityModel : IForceModel<RigidBodyState, PatchedConicPairField>
 {
+    /// <summary>Evaluate operation.</summary>
     public ForceSample Evaluate(RigidBodyState body, PatchedConicPairField environment, double timeSeconds)
     {
         var toPrimary = body.Position - environment.PrimaryPosition;

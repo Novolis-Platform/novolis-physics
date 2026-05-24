@@ -9,12 +9,17 @@ public sealed class UniformGridSphereContactSolver
     private readonly Dictionary<int, List<int>> _cells = new();
     private readonly Stack<List<int>> _cellPool = new();
 
+    /// <summary>Pair-resolution statistics from one solve pass.</summary>
     public readonly struct Result
     {
+        /// <summary>Number of sphere pairs examined.</summary>
         public int PairChecks { get; init; }
+
+        /// <summary>Number of separating contacts resolved.</summary>
         public int Contacts { get; init; }
     }
 
+    /// <summary>Resolves sphere–sphere overlaps on a uniform grid broad-phase.</summary>
     public Result Resolve(
         SphereSoA spheres,
         float radius,

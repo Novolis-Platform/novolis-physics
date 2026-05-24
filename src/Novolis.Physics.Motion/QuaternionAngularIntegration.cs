@@ -18,6 +18,7 @@ public static class QuaternionAngularIntegration
         return Quaternion.Normalize(next);
     }
 
+    /// <summary>InverseRotate operation.</summary>
     public static Vector3 InverseRotate(Vector3 world, Quaternion orientation)
     {
         var inv = Quaternion.Inverse(orientation);

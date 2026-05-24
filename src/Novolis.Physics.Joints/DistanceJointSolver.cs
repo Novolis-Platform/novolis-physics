@@ -6,6 +6,7 @@ namespace Novolis.Physics.Joints;
 /// <summary>Iterative position projection for distance constraints (equal-mass spheres).</summary>
 public static class DistanceJointSolver
 {
+    /// <summary>Solve operation.</summary>
     public static int Solve(
         ReadOnlySpan<DistanceJoint> joints,
         IList<SphereState> spheres,

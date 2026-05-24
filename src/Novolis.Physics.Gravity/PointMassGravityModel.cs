@@ -8,6 +8,7 @@ namespace Novolis.Physics.Gravity;
 /// <remarks>Time-invariant; simulation time passed to <see cref="Evaluate"/> is ignored.</remarks>
 public sealed class PointMassGravityModel : IForceModel<RigidBodyState, PointMassField>
 {
+    /// <summary>Evaluate operation.</summary>
     public ForceSample Evaluate(RigidBodyState body, PointMassField environment, double timeSeconds)
     {
         var total = Vector3.Zero;

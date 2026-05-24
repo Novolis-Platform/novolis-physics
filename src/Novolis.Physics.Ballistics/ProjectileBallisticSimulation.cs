@@ -13,7 +13,9 @@ public sealed class ProjectileBallisticSimulation
     private readonly ProjectileSemiImplicitIntegrator _integrator = new();
     private readonly ProjectileProfile? _dragProfile;
 
+    /// <summary>ProjectileBallisticSimulation operation.</summary>
     public ProjectileBallisticSimulation(ProjectileProfile? dragProfile = null) => _dragProfile = dragProfile;
+/// <summary>Step operation.</summary>
 
     public ProjectileState Step(ProjectileState state, double dtSeconds, ProjectileBallisticEnvironment environment)
     {

@@ -7,6 +7,7 @@ namespace Novolis.Physics.Ballistics;
 /// <summary>Semi-implicit Euler for <see cref="ProjectileState"/> (no orientation).</summary>
 public sealed class ProjectileSemiImplicitIntegrator : IIntegrator<ProjectileState>
 {
+    /// <summary>Step operation.</summary>
     public ProjectileState Step(ProjectileState body, in ForceSample totalForcesAndTorques, double dtSeconds)
     {
         var invM = body.MassKg > 1e-30 ? 1.0 / body.MassKg : 0;

@@ -6,6 +6,7 @@ namespace Novolis.Physics.Orbits;
 /// <summary>Two-body Newtonian point mass in 3D: <c>a = −μ r / |r|³</c> (reduces to planar when Z and Vz are zero).</summary>
 public static class OrbitalMath
 {
+    /// <summary>Newtonian central acceleration at <paramref name="position"/> with gravitational parameter <paramref name="mu"/>.</summary>
     public static Vector3 CentralAcceleration(Vector3 position, double mu)
     {
         var r2 = position.LengthSquared();

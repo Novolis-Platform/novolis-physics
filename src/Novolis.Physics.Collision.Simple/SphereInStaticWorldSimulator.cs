@@ -9,14 +9,19 @@ public sealed class SphereInStaticWorldSimulator
     private readonly SphereSoA _soa = new();
     private bool _pileSettled;
 
+    /// <summary>Options.</summary>
     public SphereInStaticWorldOptions Options { get; set; } = new();
+/// <summary>LastStats.</summary>
 
     public SphereSimulationStats LastStats { get; private set; }
 
+    /// <summary>MarkPileUnsettled operation.</summary>
     public void ResetPileState() => _pileSettled = false;
+/// <summary>Step operation.</summary>
 
     public void MarkPileUnsettled() => _pileSettled = false;
 
+    /// <summary>Step operation.</summary>
     public void Step(
         BvhStaticWorld staticWorld,
         IList<SphereState> spheres,
@@ -107,6 +112,7 @@ public sealed class SphereInStaticWorldSimulator
         LastStats = stats;
     }
 
+    /// <summary>Depenetrates a slice of newly spawned spheres against the interior volume.</summary>
     public void DepenetrateSpawnedRange(
         IList<SphereState> spheres,
         int startIndex,
@@ -280,29 +286,67 @@ public sealed class SphereInStaticWorldSimulator
 /// <summary>Configuration for <see cref="SphereInStaticWorldSimulator"/>.</summary>
 public sealed class SphereInStaticWorldOptions
 {
+    /// <summary>Sphere radius (meters).</summary>
     public float Radius { get; set; } = 0.22f;
+
+    /// <summary>World gravity (m/s²).</summary>
     public Vector3 Gravity { get; set; } = new(0f, -9.80665f, 0f);
+
+    /// <summary>Linear drag coefficient (1/s).</summary>
     public double LinearDragPerSecond { get; set; } = 0.048;
+
+    /// <summary>Restitution for static mesh contacts.</summary>
     public double StaticRestitution { get; set; } = 0.82;
+
+    /// <summary>Restitution for sphere–sphere contacts.</summary>
     public float SphereRestitution { get; set; } = 0.88f;
+
+    /// <summary>Ground friction decay rate (1/s).</summary>
     public double GroundFrictionPerSecond { get; set; } = 9.5;
+
+    /// <summary>Floor height for ground plane contact (meters).</summary>
     public float FloorHeight { get; set; }
+
+    /// <summary>Slack before ground contact activates (meters).</summary>
     public float GroundContactSlack { get; set; } = 0.05f;
+
+    /// <summary>Speed below which spheres may sleep (m/s).</summary>
     public float SleepSpeedThreshold { get; set; } = 0.12f;
+
+    /// <summary>Maximum linear speed clamp (m/s).</summary>
     public float MaxSpeedMps { get; set; } = 18f;
+
+    /// <summary>Uniform-grid cell size as a multiple of radius.</summary>
     public float GridCellRadiusScale { get; set; } = 2.25f;
 }
 
 /// <summary>Per-frame counters from <see cref="SphereInStaticWorldSimulator.Step"/>.</summary>
 public struct SphereSimulationStats
 {
+    /// <summary>Spheres integrated this frame.</summary>
     public int ActiveCount;
+
+    /// <summary>Spheres marked sleeping.</summary>
     public int SleepingCount;
+
+    /// <summary>Sphere–sphere contacts resolved.</summary>
     public int SphereContacts;
+
+    /// <summary>Sphere pairs examined in broad-phase.</summary>
     public int SpherePairChecks;
+
+    /// <summary>Static-world reflection impulses applied.</summary>
     public int IntegratorReflections;
+
+    /// <summary>Internal physics substeps executed.</summary>
     public int PhysicsSubSteps;
+
+    /// <summary>Sphere contact solver iterations used.</summary>
     public int SphereContactIterations;
+
+    /// <summary>Spheres clamped to interior volume.</summary>
     public int ClampedCount;
+
+    /// <summary>True when sphere contact pass was skipped (e.g. all sleeping).</summary>
     public bool SphereContactSkipped;
 }

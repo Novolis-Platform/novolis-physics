@@ -10,7 +10,9 @@ public sealed class ProjectileQuadraticDragModel : IForceModel<ProjectileState, 
 {
     private readonly ProjectileProfile _profile;
 
+    /// <summary>ProjectileQuadraticDragModel operation.</summary>
     public ProjectileQuadraticDragModel(ProjectileProfile profile) => _profile = profile;
+/// <summary>Evaluate operation.</summary>
 
     public ForceSample Evaluate(ProjectileState body, ProjectileDragEnvironment environment, double timeSeconds)
     {

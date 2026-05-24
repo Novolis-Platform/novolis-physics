@@ -18,6 +18,9 @@ public sealed class LeapfrogCentralBodySoA
     private readonly double[] _vy;
     private readonly double[] _vz;
 
+    /// <summary>Initializes leapfrog storage for <paramref name="bodyCount"/> bodies with gravitational parameter <paramref name="mu"/>.</summary>
+    /// <param name="mu">Gravitational parameter (m³/s²).</param>
+    /// <param name="bodyCount">Number of bodies (at least 1).</param>
     public LeapfrogCentralBodySoA(double mu, int bodyCount)
     {
         if (bodyCount < 1)
@@ -33,6 +36,7 @@ public sealed class LeapfrogCentralBodySoA
         _vz = new double[_n];
     }
 
+    /// <summary>Writes position and velocity for body <paramref name="index"/>.</summary>
     public void SetState(int index, Vector3 position, Vector3 velocity)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(index);
@@ -47,11 +51,13 @@ public sealed class LeapfrogCentralBodySoA
         _vz[index] = velocity.Z;
     }
 
+    /// <summary>Reads position and velocity for body <paramref name="index"/>.</summary>
     public OrbitState GetState(int index) =>
         new(
             new Vector3((float)_px[index], (float)_py[index], (float)_pz[index]),
             new Vector3((float)_vx[index], (float)_vy[index], (float)_vz[index]));
 
+    /// <summary>Advances all bodies by one leapfrog step using the selected <paramref name="mode"/>.</summary>
     public void Step(double deltaSeconds, KernelMode mode)
     {
         for (var i = 0; i < _n; i++)

@@ -11,6 +11,7 @@ namespace Novolis.Physics.Ballistics;
 /// </summary>
 public static class ProjectileTerrainStepper
 {
+    /// <summary>AdvanceOne operation.</summary>
     public static bool AdvanceOne(
         ref ProjectileState state,
         ProjectileBallisticSimulation simulation,

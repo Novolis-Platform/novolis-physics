@@ -12,6 +12,7 @@ public sealed class BvhStaticWorld : IStaticWorld
     private readonly int[] _triangleOrder;
     private readonly int _rootIndex;
 
+    /// <summary>BvhStaticWorld operation.</summary>
     public BvhStaticWorld(StaticTriangleMesh mesh)
     {
         _mesh = mesh;
@@ -33,6 +34,7 @@ public sealed class BvhStaticWorld : IStaticWorld
         _rootIndex = BuildRecursive(mesh, _triangleOrder, 0, n, nodes, 0);
         _nodes = nodes.ToArray();
     }
+/// <summary>Raycast operation.</summary>
 
     public bool Raycast(in Ray3 ray, double maxDistance, out HitInfo hit)
     {
@@ -50,6 +52,7 @@ public sealed class BvhStaticWorld : IStaticWorld
         return found;
     }
 
+    /// <summary>Approximate swept sphere vs BVH static mesh.</summary>
     public bool SweepSphere(in Sphere3 sphere, Vector3 displacement, out HitInfo hit)
     {
         hit = default;
@@ -94,6 +97,7 @@ public sealed class BvhStaticWorld : IStaticWorld
         return true;
     }
 
+    /// <summary>Conservative capsule sweep using endpoint sphere sweeps.</summary>
     public bool SweepCapsule(in Capsule capsule, Vector3 displacement, out HitInfo hit)
     {
         var s0 = new Sphere3(capsule.A, capsule.Radius);

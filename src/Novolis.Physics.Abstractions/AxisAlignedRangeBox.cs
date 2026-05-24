@@ -5,6 +5,8 @@ namespace Novolis.Physics.Abstractions;
 /// <summary>Axis-aligned XZ range box from origin to <see cref="ExtentMeters"/> on both axes.</summary>
 public readonly struct AxisAlignedRangeBox
 {
+    /// <summary>Creates a square range box on the XZ plane from the origin.</summary>
+    /// <param name="extentMeters">Maximum X and Z coordinate inside the box (meters).</param>
     public AxisAlignedRangeBox(float extentMeters)
     {
         if (extentMeters <= 0f)
@@ -13,8 +15,10 @@ public readonly struct AxisAlignedRangeBox
         ExtentMeters = extentMeters;
     }
 
+    /// <summary>Maximum X and Z coordinate inside the box (meters).</summary>
     public float ExtentMeters { get; }
 
+    /// <summary>Returns whether <paramref name="x"/> and <paramref name="z"/> lie inside the box.</summary>
     public bool IsInside(float x, float z) =>
         x >= 0f && x <= ExtentMeters && z >= 0f && z <= ExtentMeters;
 

@@ -7,6 +7,7 @@ namespace Novolis.Physics.Motion;
 /// <summary>Semi-implicit (symplectic) Euler for translation and diagonal body inertia with quaternion orientation.</summary>
 public sealed class SemiImplicitEulerRigidBodyIntegrator : IIntegrator<RigidBodyState>
 {
+    /// <summary>Step operation.</summary>
     public RigidBodyState Step(RigidBodyState body, in ForceSample totalForcesAndTorques, double dtSeconds)
     {
         var invMass = body.Mass > 1e-30 ? 1.0 / body.Mass : 0;

@@ -14,3 +14,7 @@ dotnet add package Novolis.Physics
 - [Examples](https://github.com/Novolis-Platform/novolis-physics/tree/main/docs/examples) — ballistics, collision, DI
 
 Or reference individual packages (`Novolis.Physics.Motion`, `Novolis.Physics.Orbits`, …) if you only need a subset.
+
+## Support
+
+Pre-release platform library. All packable packages ship strict XML API documentation (`CS1591` enforced).

@@ -6,6 +6,7 @@ namespace Novolis.Physics.Joints;
 /// <summary>Position projections for swing cones and hinge arcs on sphere chains.</summary>
 public static class AngularLimitSolver
 {
+    /// <summary>Iteratively applies swing and hinge limits to sphere positions.</summary>
     public static int Solve(
         ReadOnlySpan<SwingLimit> swingLimits,
         ReadOnlySpan<HingeLimit> hingeLimits,
@@ -28,6 +29,7 @@ public static class AngularLimitSolver
         return corrections;
     }
 
+    /// <summary>Enforces one swing cone limit between parent and child spheres.</summary>
     public static int SolveSwing(SwingLimit limit, IList<SphereState> spheres)
     {
         if ((uint)limit.ParentSphere >= (uint)spheres.Count || (uint)limit.ChildSphere >= (uint)spheres.Count)
@@ -53,6 +55,7 @@ public static class AngularLimitSolver
         return ApplyBoneCorrection(ref parent, ref child, clampedBone, len, limit.Stiffness, spheres, limit.ParentSphere, limit.ChildSphere);
     }
 
+    /// <summary>Enforces one hinge arc limit between parent and child spheres.</summary>
     public static int SolveHinge(HingeLimit limit, IList<SphereState> spheres)
     {
         if ((uint)limit.ParentSphere >= (uint)spheres.Count || (uint)limit.ChildSphere >= (uint)spheres.Count)

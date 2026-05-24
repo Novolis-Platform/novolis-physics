@@ -8,11 +8,13 @@ public sealed class SimulationPipeline<TBody, TEnvironment>
     private readonly IForceModel<TBody, TEnvironment>[] _forces;
     private readonly IIntegrator<TBody> _integrator;
 
+    /// <summary>SimulationPipeline operation.</summary>
     public SimulationPipeline(IIntegrator<TBody> integrator, params IForceModel<TBody, TEnvironment>[] forces)
     {
         _integrator = integrator;
         _forces = forces;
     }
+/// <summary>Forces.</summary>
 
     public IReadOnlyList<IForceModel<TBody, TEnvironment>> Forces => _forces;
 

@@ -5,6 +5,7 @@ public sealed class FixedStepAccumulator
 {
     private double _carry;
 
+    /// <summary>FixedStepAccumulator operation.</summary>
     public FixedStepAccumulator(double fixedDeltaSeconds)
     {
         if (fixedDeltaSeconds <= 0)
@@ -14,6 +15,7 @@ public sealed class FixedStepAccumulator
 
         FixedDeltaSeconds = fixedDeltaSeconds;
     }
+/// <summary>FixedDeltaSeconds.</summary>
 
     public double FixedDeltaSeconds { get; }
 

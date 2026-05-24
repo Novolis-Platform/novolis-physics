@@ -8,6 +8,7 @@ namespace Novolis.Physics.Aerodynamics;
 /// <remarks>Time-invariant; simulation time passed to <see cref="Evaluate"/> is ignored.</remarks>
 public sealed class SimpleLiftDragModel : IForceModel<RigidBodyState, SimpleAeroEnvironment>
 {
+    /// <summary>Evaluate operation.</summary>
     public ForceSample Evaluate(RigidBodyState body, SimpleAeroEnvironment environment, double timeSeconds)
     {
         var rho = environment.Atmosphere.DensityAtAltitude(environment.AltitudeMeters);

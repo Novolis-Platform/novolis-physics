@@ -7,13 +7,11 @@
     <AssemblyName>Novolis.Physics</AssemblyName>
     <PackageId>Novolis.Physics</PackageId>
     <IsPackable>true</IsPackable>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>Force-first simulation stack for games and tools — one install for all Novolis.Physics packages.</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Novolis.Math.Geometry" />
-    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>

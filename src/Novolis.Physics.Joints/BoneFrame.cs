@@ -5,10 +5,16 @@ namespace Novolis.Physics.Joints;
 /// <summary>Orthonormal bone basis: right, up (parent→reference), forward.</summary>
 public readonly struct BoneFrame
 {
+    /// <summary>Right axis of the bone frame.</summary>
     public Vector3 Right { get; }
+
+    /// <summary>Up axis (parent toward reference).</summary>
     public Vector3 Up { get; }
+
+    /// <summary>Forward axis completing the right-handed basis.</summary>
     public Vector3 Forward { get; }
 
+    /// <summary>Initializes a bone frame from orthonormal axes.</summary>
     public BoneFrame(Vector3 right, Vector3 up, Vector3 forward)
     {
         Right = right;
@@ -16,6 +22,7 @@ public readonly struct BoneFrame
         Forward = forward;
     }
 
+    /// <summary>Builds a frame from parent and reference positions when they are separated.</summary>
     public static bool TryCreate(Vector3 parentPosition, Vector3 referencePosition, out BoneFrame frame)
     {
         var up = referencePosition - parentPosition;
@@ -37,9 +44,11 @@ public readonly struct BoneFrame
         return true;
     }
 
+    /// <summary>Transforms a local vector to world space.</summary>
     public Vector3 LocalToWorld(Vector3 local) =>
         Right * local.X + Up * local.Y + Forward * local.Z;
 
+    /// <summary>Transforms a world vector to local space.</summary>
     public Vector3 WorldToLocal(Vector3 world) =>
         new(Vector3.Dot(world, Right), Vector3.Dot(world, Up), Vector3.Dot(world, Forward));
 }

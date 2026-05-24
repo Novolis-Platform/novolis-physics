@@ -11,25 +11,34 @@ public sealed class BallisticTrajectoryRunner
     private ProjectileState _state;
     private int _stepCounter;
 
+    /// <summary>Initializes a runner with optional <paramref name="options"/>.</summary>
     public BallisticTrajectoryRunner(BallisticTrajectoryRunnerOptions? options = null)
     {
         Options = options ?? new BallisticTrajectoryRunnerOptions();
     }
 
+    /// <summary>Trail, stepping, and recording options.</summary>
     public BallisticTrajectoryRunnerOptions Options { get; }
 
+    /// <summary>Current flight phase.</summary>
     public BallisticTrajectoryPhase Phase { get; private set; } = BallisticTrajectoryPhase.Ready;
 
+    /// <summary>Recorded world positions along the trajectory.</summary>
     public IReadOnlyList<Vector3> Trail => _trail;
 
+    /// <summary>Impact details when <see cref="Phase"/> is <see cref="BallisticTrajectoryPhase.Impacted"/>.</summary>
     public ProjectileTerrainImpact? Impact { get; private set; }
 
+    /// <summary>Current projectile position (meters).</summary>
     public Vector3 CurrentPosition => _state.Position;
 
+    /// <summary>Current projectile velocity (m/s).</summary>
     public Vector3 CurrentVelocity => _state.Velocity;
 
+    /// <summary>Elapsed simulation time (seconds).</summary>
     public double TimeSeconds => _state.TimeSeconds;
 
+    /// <summary>Starts a new trajectory from <paramref name="start"/>.</summary>
     public void Begin(ProjectileState start)
     {
         _state = start;
@@ -41,6 +50,7 @@ public sealed class BallisticTrajectoryRunner
         Phase = BallisticTrajectoryPhase.InFlight;
     }
 
+    /// <summary>Clears trail and returns to <see cref="BallisticTrajectoryPhase.Ready"/>.</summary>
     public void Reset()
     {
         _trail.Clear();
@@ -49,6 +59,7 @@ public sealed class BallisticTrajectoryRunner
         _stepCounter = 0;
     }
 
+    /// <summary>Advances up to <paramref name="maxPhysicsSteps"/> while still in flight.</summary>
     public void AdvanceWithBudget(
         ProjectileBallisticSimulation simulation,
         ProjectileBallisticEnvironment environment,
@@ -61,6 +72,7 @@ public sealed class BallisticTrajectoryRunner
             AdvanceOne(simulation, environment, collisionWorld, terrain, rangeOrigin);
     }
 
+    /// <summary>Integrates one fixed step with terrain and optional mesh collision.</summary>
     public void AdvanceOne(
         ProjectileBallisticSimulation simulation,
         ProjectileBallisticEnvironment environment,
