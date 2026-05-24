@@ -28,17 +28,16 @@ body = integrator.Step(body, in total, dtSeconds);
 ## Package dependency graph
 
 ```
-Numerics
+Novolis.Math.Geometry
   └── Abstractions
         ├── Motion, Gravity, Aerodynamics, Collision.Simple
         ├── Ballistics (+ Collision.Simple)
-        └── Orbits (Numerics only)
+        └── Orbits
               Novolis.Physics (meta) → all product packages
 ```
 
 | Package | Responsibility |
 |---------|----------------|
-| **Numerics** | `Vector3d`, `Quaterniond`, rays, primitives |
 | **Abstractions** | `IForceModel`, `IIntegrator`, `IStaticWorld`, state samples |
 | **Motion** | `SimulationPipeline`, rigid-body integrator, fixed-step helper |
 | **Gravity** | Point-mass and patched-conic `IForceModel` |

@@ -8,7 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>Novolis.Physics.Orbits</RootNamespace>
-    <Description>Central-body orbital helpers, fixed-step Leapfrog, and SoA-oriented kernels (Vector3d only).</Description>
+    <Description>Central-body orbital helpers, fixed-step Leapfrog, and SoA-oriented kernels.</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Novolis.Math.Geometry" />

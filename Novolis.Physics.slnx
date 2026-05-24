@@ -1,6 +1,5 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="src/Novolis.Physics.Numerics/Novolis.Physics.Numerics.csproj" />
     <Project Path="src/Novolis.Physics.Abstractions/Novolis.Physics.Abstractions.csproj" />
     <Project Path="src/Novolis.Physics.Motion/Novolis.Physics.Motion.csproj" />
     <Project Path="src/Novolis.Physics.Gravity/Novolis.Physics.Gravity.csproj" />

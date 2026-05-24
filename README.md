@@ -14,7 +14,6 @@
 | `Novolis.Physics.Gravity` | `dotnet add package Novolis.Physics.Gravity` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Gravity/README.md) |
 | `Novolis.Physics.Joints` | `dotnet add package Novolis.Physics.Joints` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Joints/README.md) |
 | `Novolis.Physics.Motion` | `dotnet add package Novolis.Physics.Motion` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Motion/README.md) |
-| `Novolis.Physics.Numerics` | `dotnet add package Novolis.Physics.Numerics` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Numerics/README.md) |
 | `Novolis.Physics.Orbits` | `dotnet add package Novolis.Physics.Orbits` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Orbits/README.md) |
 
 For NuGet.org and Visual Studio, the **embedded** README.md inside each package is authoritative.
@@ -45,20 +44,20 @@ Or reference individual packages (`Novolis.Physics.Motion`, `Novolis.Physics.Orb
 using Novolis.Physics.Abstractions;
 using Novolis.Physics.Gravity;
 using Novolis.Physics.Motion;
-using Novolis.Physics.Numerics;
+using System.Numerics;
 
 var integrator = new SemiImplicitEulerRigidBodyIntegrator();
 var gravity = new PointMassGravityModel();
 var pipeline = new SimulationPipeline<RigidBodyState, PointMassField>(integrator, gravity);
 
-var field = new PointMassField([(Vector3d.Zero, 3.986e14)]);
+var field = new PointMassField([(Vector3.Zero, 3.986e14f)]);
 var body = new RigidBodyState(
-    new Vector3d(6_771_000, 0, 0),
-    new Vector3d(0, 7_500, 0),
-    Quaterniond.Identity,
-    Vector3d.Zero,
+    new Vector3(6_771_000f, 0, 0),
+    new Vector3(0, 7_500f, 0),
+    Quaternion.Identity,
+    Vector3.Zero,
     mass: 1.0,
-    inertiaDiagonalBody: new Vector3d(1, 1, 1));
+    inertiaDiagonalBody: new Vector3(1, 1, 1));
 
 var acc = new FixedStepAccumulator(1.0 / 60.0);
 double time = 0;
@@ -91,7 +90,6 @@ See [docs/INTEGRATION.md](docs/INTEGRATION.md) for ballistics (facade vs pipelin
 | Package | Role |
 |---------|------|
 | `Novolis.Physics` | Aggregate — all product packages |
-| `Novolis.Physics.Numerics` | Vectors, rays, primitives |
 | `Novolis.Physics.Abstractions` | Force models, integrators, static-world queries |
 | `Novolis.Physics.Motion` | Rigid-body motion pipeline |
 | `Novolis.Physics.Gravity` | Point / patched-conic gravity |

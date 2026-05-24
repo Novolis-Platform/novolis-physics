@@ -13,7 +13,6 @@ Multi-package **.NET 10** force-first physics library published as NuGet package
 | Path | Role |
 |------|------|
 | `src/Novolis.Physics/` | Meta package — install this for the full stack |
-| `src/Novolis.Physics.Numerics/` | Vectors, quaternions, primitives |
 | `src/Novolis.Physics.Abstractions/` | `IForceModel`, `IIntegrator`, `RigidBodyState`, `IStaticWorld` |
 | `src/Novolis.Physics.Motion/` | `SimulationPipeline`, `FixedStepAccumulator` |
 | `src/Novolis.Physics.Gravity/` | Point-mass and patched-conic gravity |

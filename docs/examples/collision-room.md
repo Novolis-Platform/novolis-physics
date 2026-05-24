@@ -5,16 +5,16 @@
 ## Build a static world
 
 ```csharp
+using System.Numerics;
 using Novolis.Physics.Collision.Simple;
-using Novolis.Physics.Numerics;
 
 // Floor quad (two triangles) in the XZ plane at y = 0.
 var verts = new[]
 {
-    new Vector3d(-50, 0, -50),
-    new Vector3d(50, 0, -50),
-    new Vector3d(50, 0, 50),
-    new Vector3d(-50, 0, 50),
+    new Vector3(-50, 0, -50),
+    new Vector3(50, 0, -50),
+    new Vector3(50, 0, 50),
+    new Vector3(-50, 0, 50),
 };
 var indices = new[] { 0, 1, 2, 0, 2, 3 };
 var mesh = new StaticTriangleMesh(verts, indices);
@@ -24,16 +24,16 @@ var world = new BvhStaticWorld(mesh);
 ## Advance a sphere with gravity and contact
 
 ```csharp
-using Novolis.Physics.Numerics;
+using System.Numerics;
 
-var center = new Vector3d(0, 5, 0);
-var velocity = Vector3d.Zero;
+var center = new Vector3(0, 5, 0);
+var velocity = Vector3.Zero;
 const double radius = 0.5;
-var gravity = new Vector3d(0, -9.81, 0);
+var gravity = new Vector3(0, -9.81f, 0);
 
 for (var step = 0; step < 300; step++)
 {
-    velocity += gravity * (1.0 / 60.0);
+    velocity += gravity * (1.0f / 60f);
     BvhStaticSphereIntegrator.AdvanceOneStep(
         world,
         ref center,

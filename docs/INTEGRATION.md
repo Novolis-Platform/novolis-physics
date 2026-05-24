@@ -65,17 +65,17 @@ using Novolis.Physics.Abstractions;
 using Novolis.Physics.Aerodynamics;
 using Novolis.Physics.Gravity;
 using Novolis.Physics.Motion;
-using Novolis.Physics.Numerics;
+using System.Numerics;
 
 var atmosphere = new ExponentialAtmosphereModel(seaLevelDensityKgPerM3: 1.225, scaleHeightMeters: 8500);
 var aeroEnv = new SimpleAeroEnvironment(
     atmosphere,
     altitudeMeters: body.Position.Y,
-    windWorld: Vector3d.Zero,
+    windWorld: Vector3.Zero,
     referenceAreaM2: 2.0,
     dragCoefficient: 0.35,
     liftCoefficient: 0.8,
-    liftReferenceForwardWorld: body.Orientation.Rotate(new Vector3d(0, 0, 1)));
+    liftReferenceForwardWorld: Vector3.Transform(Vector3.UnitZ, body.Orientation));
 
 var pipeline = new SimulationPipeline<RigidBodyState, SimpleAeroEnvironment>(
     integrator,

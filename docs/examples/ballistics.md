@@ -7,8 +7,8 @@ Convention: **+Y up**, range along **+X**, set **Z = 0** for a planar cannon.
 `ProjectileBallisticSimulation` applies uniform **−Y** gravity and optional quadratic drag:
 
 ```csharp
+using System.Numerics;
 using Novolis.Physics.Ballistics;
-using Novolis.Physics.Numerics;
 
 var sim = new ProjectileBallisticSimulation(
     new ProjectileProfile(massKg: 10, referenceAreaM2: 0.01, dragCoefficient: 0.47));
@@ -18,8 +18,8 @@ var env = new ProjectileBallisticEnvironment(
     AirDensityKgPerM3: 1.225);
 
 var state = new ProjectileState(
-    new Vector3d(0, 0, 0),
-    new Vector3d(100, 45, 0),
+    new Vector3(0, 0, 0),
+    new Vector3(100, 45, 0),
     massKg: 10);
 
 for (var i = 0; i < 600; i++)
@@ -31,10 +31,10 @@ for (var i = 0; i < 600; i++)
 Compose gravity and drag as separate `IForceModel` instances when you need custom forces or shared integrators:
 
 ```csharp
+using System.Numerics;
 using Novolis.Physics.Abstractions;
 using Novolis.Physics.Ballistics;
 using Novolis.Physics.Motion;
-using Novolis.Physics.Numerics;
 
 var profile = new ProjectileProfile(10, 0.01, 0.47);
 var ballisticEnv = new ProjectileBallisticEnvironment(9.81, 1.225);
@@ -45,7 +45,7 @@ var pipeline = new SimulationPipeline<ProjectileState, Env>(
     new UniformGravity(),
     new ProjectileQuadraticDragModel(profile));
 
-var state = new ProjectileState(new Vector3d(0, 0, 0), new Vector3d(100, 45, 0), profile.MassKg);
+var state = new ProjectileState(new Vector3(0, 0, 0), new Vector3(100, 45, 0), profile.MassKg);
 for (var i = 0; i < 600; i++)
     state = pipeline.Step(state, env, 1.0 / 60.0, state.TimeSeconds);
 
@@ -54,7 +54,7 @@ readonly record struct Env(ProjectileBallisticEnvironment Ballistic, ProjectileD
 sealed class UniformGravity : IForceModel<ProjectileState, Env>
 {
     public ForceSample Evaluate(ProjectileState body, Env env, double timeSeconds) =>
-        new(new Vector3d(0, -body.MassKg * env.Ballistic.GravityMetersPerSecondSquared, 0), Vector3d.Zero);
+        new(new Vector3(0, -body.MassKg * env.Ballistic.GravityMetersPerSecondSquared, 0), Vector3.Zero);
 }
 ```
 
