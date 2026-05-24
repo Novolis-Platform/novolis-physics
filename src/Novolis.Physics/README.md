@@ -1,9 +1,18 @@
 # Novolis.Physics (meta-package)
 
-Installs the full Novolis physics stack in one reference:
+Installs the full Novolis physics stack in one reference.
+
+## Install
 
 ```bash
 dotnet add package Novolis.Physics
+```
+
+## Quick start
+
+```csharp
+// Reference individual packages when you need a subset, or Novolis.Physics for the full stack.
+// See docs/INTEGRATION.md for ballistics, collision, and DI examples.
 ```
 
 ## Documentation
