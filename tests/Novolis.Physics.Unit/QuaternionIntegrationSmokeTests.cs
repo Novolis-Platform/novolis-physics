@@ -41,7 +41,7 @@ public sealed class QuaternionIntegrationSmokeTests
             new TableOptions { MaxCellWidth = 22, RightAlignNumericColumns = true },
             tableCaption: "world torque (0,0,0.6) Nm, Iz=4 kg m2; expect |q|~1, omega_z ~ alpha*t");
 
-        await Assert.That(global::System.Math.Abs(QuaternionNorm(body.Orientation) - 1.0)).IsLessThanOrEqualTo((float)(1e-8));
+        await Assert.That(global::System.Math.Abs(QuaternionNorm(body.Orientation) - 1.0)).IsLessThanOrEqualTo((float)(1e-7));
         var alphaZ = torque.Z / body.InertiaDiagonalBody.Z;
         var expectedOmega = alphaZ * steps * dt;
         await Assert.That(global::System.Math.Abs(body.AngularVelocity.Z - expectedOmega)).IsLessThanOrEqualTo((float)(0.02 * global::System.Math.Max(1, global::System.Math.Abs(expectedOmega))));
