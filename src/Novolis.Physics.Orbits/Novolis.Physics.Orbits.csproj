@@ -11,6 +11,6 @@
     <Description>Central-body orbital helpers, fixed-step Leapfrog, and SoA-oriented kernels (Vector3d only).</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\novolis-math\src\Novolis.Math.Geometry\Novolis.Math.Geometry.csproj" />
+    <PackageReference Include="Novolis.Math.Geometry" />
     </ItemGroup>
 </Project>

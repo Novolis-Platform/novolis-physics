@@ -11,7 +11,7 @@
     <Description>Rigid-body motion, fixed timestep helpers, and force aggregation pipeline.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\novolis-math\src\Novolis.Math.Geometry\Novolis.Math.Geometry.csproj" />
+    <PackageReference Include="Novolis.Math.Geometry" />
     <ProjectReference Include="..\Novolis.Physics.Abstractions/Novolis.Physics.Abstractions.csproj" />
     </ItemGroup>
 </Project>

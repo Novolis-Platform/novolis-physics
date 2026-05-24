@@ -11,6 +11,6 @@
     <Description>Force models, static world queries, and integration contracts for Novolis.Physics.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\novolis-math\src\Novolis.Math.Geometry\Novolis.Math.Geometry.csproj" />
+    <PackageReference Include="Novolis.Math.Geometry" />
     </ItemGroup>
 </Project>

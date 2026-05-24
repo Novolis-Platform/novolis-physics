@@ -11,7 +11,7 @@
     <Description>Projectile drag helpers and static-world ray/sweep queries.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\novolis-math\src\Novolis.Math.Geometry\Novolis.Math.Geometry.csproj" />
+    <PackageReference Include="Novolis.Math.Geometry" />
     <ProjectReference Include="..\Novolis.Physics.Abstractions/Novolis.Physics.Abstractions.csproj" />
     <ProjectReference Include="..\Novolis.Physics.Collision.Simple/Novolis.Physics.Collision.Simple.csproj" />
     </ItemGroup>

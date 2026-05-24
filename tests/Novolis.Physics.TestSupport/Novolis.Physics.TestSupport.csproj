@@ -6,9 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\novolis-math\src\Novolis.Math.Geometry\Novolis.Math.Geometry.csproj" />
+    <PackageReference Include="Novolis.Math.Geometry" />
     <ProjectReference Include="..\..\src\Novolis.Physics.Orbits\Novolis.Physics.Orbits.csproj" />
   </ItemGroup>
 
 </Project>
-
