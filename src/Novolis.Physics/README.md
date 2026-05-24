@@ -1,4 +1,4 @@
-# Novolis.Physics (meta-package)
+# Novolis.Physics
 
 Installs the full Novolis physics stack in one reference.
 
