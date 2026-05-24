@@ -1,3 +1,26 @@
+<!-- novolis-package-index:start -->
+> **GitHub Packages shows this repository README on every package page** (upstream limitation).
+> Open the **package README** for install and quick start — embedded in each .nupkg and linked below.
+
+## Published packages
+
+| Package | Install | Package README |
+|---------|---------|----------------|
+| `Novolis.Physics` | `dotnet add package Novolis.Physics` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics/README.md) |
+| `Novolis.Physics.Abstractions` | `dotnet add package Novolis.Physics.Abstractions` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Abstractions/README.md) |
+| `Novolis.Physics.Aerodynamics` | `dotnet add package Novolis.Physics.Aerodynamics` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Aerodynamics/README.md) |
+| `Novolis.Physics.Ballistics` | `dotnet add package Novolis.Physics.Ballistics` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Ballistics/README.md) |
+| `Novolis.Physics.Collision.Simple` | `dotnet add package Novolis.Physics.Collision.Simple` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Collision.Simple/README.md) |
+| `Novolis.Physics.Gravity` | `dotnet add package Novolis.Physics.Gravity` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Gravity/README.md) |
+| `Novolis.Physics.Joints` | `dotnet add package Novolis.Physics.Joints` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Joints/README.md) |
+| `Novolis.Physics.Motion` | `dotnet add package Novolis.Physics.Motion` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Motion/README.md) |
+| `Novolis.Physics.Numerics` | `dotnet add package Novolis.Physics.Numerics` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Numerics/README.md) |
+| `Novolis.Physics.Orbits` | `dotnet add package Novolis.Physics.Orbits` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Orbits/README.md) |
+
+For NuGet.org and Visual Studio, the **embedded** README.md inside each package is authoritative.
+
+<!-- novolis-package-index:end -->
+
 # Novolis.Physics
 
 Force-first **textbook** physics for .NET — numerics, motion pipeline, gravity, ballistics, collision, and orbits.
@@ -83,3 +106,4 @@ See [docs/INTEGRATION.md](docs/INTEGRATION.md) for ballistics (facade vs pipelin
 dotnet build Novolis.Physics.slnx
 dotnet run --project tests/Novolis.Physics.Unit -c Release
 ```
+
