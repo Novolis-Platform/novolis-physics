@@ -15,6 +15,7 @@
 | `Novolis.Physics.Joints` | `dotnet add package Novolis.Physics.Joints` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Joints/README.md) |
 | `Novolis.Physics.Motion` | `dotnet add package Novolis.Physics.Motion` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Motion/README.md) |
 | `Novolis.Physics.Orbits` | `dotnet add package Novolis.Physics.Orbits` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Orbits/README.md) |
+| `Novolis.Physics.Astro` | `dotnet add package Novolis.Physics.Astro` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Astro/README.md) |
 
 For NuGet.org and Visual Studio, the **embedded** README.md inside each package is authoritative.
 

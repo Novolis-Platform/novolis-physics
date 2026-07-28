@@ -45,6 +45,7 @@ Novolis.Math.Geometry
 | **Collision.Simple** | Static mesh BVH queries; sphere sweep integrator |
 | **Ballistics** | Projectile state, drag, queries, optional facade |
 | **Orbits** | Central-body leapfrog (parallel stack, not `SimulationPipeline`) |
+| **Astro** | ly/pc/AU ↔ meters unit bridges (no catalogs or jump graphs) |
 
 ## Four integration styles
 

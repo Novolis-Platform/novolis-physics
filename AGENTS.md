@@ -20,6 +20,7 @@ Multi-package **.NET 10** force-first physics library published as NuGet package
 | `src/Novolis.Physics.Collision.Simple/` | Static mesh BVH, sphere sweeps |
 | `src/Novolis.Physics.Ballistics/` | Projectile drag and queries |
 | `src/Novolis.Physics.Orbits/` | Two-body orbital helpers (parallel to force pipeline) |
+| `src/Novolis.Physics.Astro/` | ly/pc/AU ↔ meters unit bridges |
 | `build/` | NuGet packaging metadata |
 | `tests/Novolis.Physics.Unit/` | TUnit tests |
 | `tests/Novolis.Physics.TestSupport/` | Shared test helpers and fixtures |

@@ -8,6 +8,7 @@
     <Project Path="src/Novolis.Physics.Joints/Novolis.Physics.Joints.csproj" />
     <Project Path="src/Novolis.Physics.Ballistics/Novolis.Physics.Ballistics.csproj" />
     <Project Path="src/Novolis.Physics.Orbits/Novolis.Physics.Orbits.csproj" />
+    <Project Path="src/Novolis.Physics.Astro/Novolis.Physics.Astro.csproj" />
     <Project Path="src/Novolis.Physics/Novolis.Physics.csproj" />
   </Folder>
   <Folder Name="/tests/">

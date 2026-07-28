@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\build\Novolis.Physics.Packaging.props" />
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Novolis.Physics.Astro</PackageId>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Novolis.Physics.Astro</RootNamespace>
+    <Description>Astronomical unit conversions (ly/pc/AU) to SI meters for physics bridging.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+</Project>
