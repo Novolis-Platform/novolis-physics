@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <IsTestProject>false</IsTestProject>
+    <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
+    <OutputType>Library</OutputType>
     <IsPackable>false</IsPackable>
     <RootNamespace>Novolis.Physics.TestSupport</RootNamespace>
   </PropertyGroup>

@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\src\Novolis.Physics.Motion\Novolis.Physics.Motion.csproj" />
     <ProjectReference Include="..\..\src\Novolis.Physics.Orbits\Novolis.Physics.Orbits.csproj" />
     <ProjectReference Include="..\..\src\Novolis.Physics.Astro\Novolis.Physics.Astro.csproj" />
+    <ProjectReference Include="..\..\src\Novolis.Physics\Novolis.Physics.csproj" />
   </ItemGroup>
 
 </Project>
