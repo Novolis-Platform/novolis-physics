@@ -20,7 +20,21 @@ IIntegrator<RigidBodyState> integrator = new SemiImplicitEulerRigidBodyIntegrato
 // Sum ForceSample values from IForceModel implementations, then integrator.Step(...)
 ```
 
-## Related packages
+## API
+
+| Type | Role |
+|------|------|
+| `RigidBodyState` | Position, velocity, orientation, angular velocity |
+| `ForceSample` | Linear and torque contribution |
+| `IForceModel<TState>` | `Evaluate(state, environment)` → forces |
+| `IIntegrator<TState>` | `Step(state, forces, dt)` |
+| `IStaticWorld` | Raycast and overlap queries |
+| `HitInfo` | Ray hit distance, normal, triangle index |
+| `IHeightSampler` | Terrain height sampling |
+| `IProjectileTerrainContact` | Projectile ground contact hook |
+| `AxisAlignedRangeBox` | Spatial query bounds |
+
+## Related
 
 | Package | When to use |
 |---------|-------------|
@@ -31,7 +45,3 @@ IIntegrator<RigidBodyState> integrator = new SemiImplicitEulerRigidBodyIntegrato
 
 - [Getting started](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/getting-started.md)
 - [Architecture](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/ARCHITECTURE.md)
-
-## Support
-
-Pre-release platform library. Public API is fully documented with strict XML (`CS1591` enforced).

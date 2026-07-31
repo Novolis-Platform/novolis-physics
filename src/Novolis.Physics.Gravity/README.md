@@ -19,7 +19,15 @@ var field = new PointMassField(new Vector3(0, 0, 0), mu: 3.986004418e14);
 var gravity = new PointMassGravityModel(field);
 ```
 
-## Related packages
+## API
+
+| Type | Role |
+|------|------|
+| `PointMassField` | Central body with gravitational parameter μ |
+| `PointMassGravityModel` | `IForceModel` for a single attractor |
+| `PatchedConicGravityModel` | Sphere-of-influence handoff between bodies |
+
+## Related
 
 | Package | When to use |
 |---------|-------------|
@@ -29,7 +37,3 @@ var gravity = new PointMassGravityModel(field);
 ## More documentation
 
 - [Architecture](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/ARCHITECTURE.md)
-
-## Support
-
-Pre-release platform library. Public API is fully documented with strict XML (`CS1591` enforced).

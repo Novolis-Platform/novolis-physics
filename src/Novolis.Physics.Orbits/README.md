@@ -20,17 +20,23 @@ sim.SetState(0, position, velocity);
 sim.Step(dt, KernelMode.Scalar);
 ```
 
-## Related packages
+## API
+
+| Type | Role |
+|------|------|
+| `LeapfrogCentralBodySoA` | SoA leapfrog integrator for N bodies |
+| `CentralOrbitSimulator` | Single-body central orbit helper |
+| `OrbitalMath` | Kepler elements, vis-viva, anomaly conversions |
+| `OrbitState` | Semi-major axis, eccentricity, true anomaly |
+| `KernelMode` | `Scalar` vs vectorized stepping |
+
+## Related
 
 | Package | When to use |
 |---------|-------------|
 | `Novolis.Physics.Gravity` | `IForceModel` gravity in the pipeline |
-| `Novolis.Physics.Abstractions` | Shared hit/query types |
+| `Novolis.Physics.Astro` | Convert catalog ly to SI meters |
 
 ## More documentation
 
 - [Architecture](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/ARCHITECTURE.md)
-
-## Support
-
-Pre-release platform library. Public API is fully documented with strict XML (`CS1591` enforced).

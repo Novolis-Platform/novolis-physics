@@ -20,17 +20,27 @@ RagdollHumanoidPreset.BuildStanding(groundPoint, spheres, joints, swings, hinges
 simulator.Step(staticWorld, spheres, interior, dt, swings, hinges);
 ```
 
-## Related packages
+## API
+
+| Type | Role |
+|------|------|
+| `DistanceJoint` | Two-sphere length constraint |
+| `SwingLimit` | Cone swing limit between bones |
+| `HingeLimit` | Hinge axis limit |
+| `DistanceJointSolver` | Satisfy distance constraints |
+| `AngularLimitSolver` | Apply swing/hinge limits |
+| `ConstrainedSphereSimulator` | Joint + contact step |
+| `RagdollHumanoidPreset` | `BuildStanding`, humanoid sphere layout |
+| `RagdollBodyCollision` | Self-collision between ragdoll parts |
+| `BoneFrame` | Local bone orientation helper |
+
+## Related
 
 | Package | When to use |
 |---------|-------------|
 | `Novolis.Physics.Collision.Simple` | `SphereInStaticWorldSimulator`, BVH worlds |
-| `Novolis.Physics` | Full physics stack meta-package |
+| `Novolis.Simulation.Humanoid.Physics` | Bridge to humanoid bind poses |
 
 ## More documentation
 
 - [Integration guide](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/INTEGRATION.md)
-
-## Support
-
-Pre-release platform library. Public API is fully documented with strict XML (`CS1591` enforced).

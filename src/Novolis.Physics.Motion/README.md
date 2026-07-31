@@ -22,7 +22,17 @@ var pipeline = new SimulationPipeline<RigidBodyState>(
 body = pipeline.Step(body, environment, dtSeconds);
 ```
 
-## Related packages
+## API
+
+| Type | Role |
+|------|------|
+| `SimulationPipeline<TState>` | Sum force models + integrate one step |
+| `SemiImplicitEulerRigidBodyIntegrator` | Default rigid-body integrator |
+| `QuaternionAngularIntegration` | Angular velocity → orientation |
+| `FixedStepAccumulator` | Fixed-timestep sub-stepping |
+| `UniformAccelerationEnergy` | Kinetic/potential energy helpers |
+
+## Related
 
 | Package | When to use |
 |---------|-------------|
@@ -32,7 +42,3 @@ body = pipeline.Step(body, environment, dtSeconds);
 ## More documentation
 
 - [Integration guide](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/INTEGRATION.md)
-
-## Support
-
-Pre-release platform library. Public API is fully documented with strict XML (`CS1591` enforced).

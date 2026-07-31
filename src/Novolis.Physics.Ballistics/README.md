@@ -20,7 +20,19 @@ var state = sim.Launch(origin, velocity);
 state = sim.Step(state, dt, environment);
 ```
 
-## Related packages
+## API
+
+| Type | Role |
+|------|------|
+| `ProjectileState` | Position, velocity, mass, drag state |
+| `ProjectileProfile` | Mass, drag area, `CannonDefaults` preset |
+| `ProjectileBallisticSimulation` | Launch and step projectile |
+| `BallisticTrajectoryRunner` | Full trajectory with terrain contact |
+| `BallisticsQueries` | Range, apex, time-of-flight helpers |
+| `ProjectileTerrainStepper` | Heightfield-aware stepping |
+| `StandardAtmosphere` | ISA density model |
+
+## Related
 
 | Package | When to use |
 |---------|-------------|
@@ -30,7 +42,3 @@ state = sim.Step(state, dt, environment);
 ## More documentation
 
 - [Ballistics example](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/examples/ballistics.md)
-
-## Support
-
-Pre-release platform library. Public API is fully documented with strict XML (`CS1591` enforced).

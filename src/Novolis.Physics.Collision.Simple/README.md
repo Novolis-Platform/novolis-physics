@@ -19,7 +19,21 @@ IStaticWorld world = new BvhStaticWorld(mesh);
 var integrator = new BvhStaticSphereIntegrator(world);
 ```
 
-## Related packages
+## API
+
+| Type | Role |
+|------|------|
+| `BvhStaticWorld` | Triangle mesh BVH implementing `IStaticWorld` |
+| `EmptyStaticWorld` | No-op static world |
+| `StaticTriangleMesh` | Indexed triangle storage |
+| `SphereState` | Position, radius, velocity |
+| `SphereSoA` | Structure-of-arrays sphere batch |
+| `BvhStaticSphereIntegrator` | Swept-sphere against BVH |
+| `SphereInStaticWorldSimulator` | Pile simulation with contact resolution |
+| `UniformGridSphereContactSolver` | Broad-phase sphere contacts |
+| `InteriorClampVolume` | Keep spheres inside bounds |
+
+## Related
 
 | Package | When to use |
 |---------|-------------|
@@ -29,7 +43,3 @@ var integrator = new BvhStaticSphereIntegrator(world);
 ## More documentation
 
 - [Collision room example](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/examples/collision-room.md)
-
-## Support
-
-Pre-release platform library. Public API is fully documented with strict XML (`CS1591` enforced).
