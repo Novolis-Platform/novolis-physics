@@ -13,11 +13,14 @@ dotnet add package Novolis.Physics.Collision.Simple
 ## Quick start
 
 ```csharp
+using Novolis.Math.Geometry;
 using Novolis.Physics.Collision.Simple;
 
 IStaticWorld world = new BvhStaticWorld(mesh);
-var integrator = new BvhStaticSphereIntegrator(world);
+var reflections = BvhStaticSphereIntegrator.AdvanceOneStep(world, ref center, ref velocity, radius, dt);
 ```
+
+Mesh geometry is `Novolis.Math.Geometry.TriangleMesh` — Physics does not own a second mesh type.
 
 ## API
 
@@ -25,7 +28,6 @@ var integrator = new BvhStaticSphereIntegrator(world);
 |------|------|
 | `BvhStaticWorld` | Triangle mesh BVH implementing `IStaticWorld` |
 | `EmptyStaticWorld` | No-op static world |
-| `StaticTriangleMesh` | Indexed triangle storage |
 | `SphereState` | Position, radius, velocity |
 | `SphereSoA` | Structure-of-arrays sphere batch |
 | `BvhStaticSphereIntegrator` | Swept-sphere against BVH |

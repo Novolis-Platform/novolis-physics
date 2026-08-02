@@ -41,7 +41,7 @@ Numerics
 | **Gravity** | `PointMassGravityModel`, `PatchedConicGravityModel` | Algorithm (`IForceModel`) |
 | **Aerodynamics** | `IAtmosphereModel`, `ExponentialAtmosphereModel` | Contract / algorithm |
 | **Aerodynamics** | `SimpleAeroEnvironment`, `SimpleLiftDragModel` | Environment / algorithm |
-| **Collision.Simple** | `StaticTriangleMesh`, `BvhStaticWorld`, `EmptyStaticWorld` | Environment / algorithm |
+| **Collision.Simple** | `TriangleMesh` (Math) + `BvhStaticWorld`, `EmptyStaticWorld` | Environment / algorithm |
 | **Collision.Simple** | `BvhStaticSphereIntegrator`, `SphereContactKinematics` | Standalone integrator / helper |
 | **Ballistics** | `ProjectileState`, `ProjectileProfile`, `*Environment` | State / environment |
 | **Ballistics** | `ProjectileQuadraticDragModel`, `ProjectileSemiImplicitIntegrator` | Pipeline building blocks |

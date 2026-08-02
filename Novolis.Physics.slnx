@@ -6,6 +6,7 @@
     <Project Path="src/Novolis.Physics.Aerodynamics/Novolis.Physics.Aerodynamics.csproj" />
     <Project Path="src/Novolis.Physics.Collision.Simple/Novolis.Physics.Collision.Simple.csproj" />
     <Project Path="src/Novolis.Physics.Joints/Novolis.Physics.Joints.csproj" />
+    <Project Path="src/Novolis.Physics.Cloth/Novolis.Physics.Cloth.csproj" />
     <Project Path="src/Novolis.Physics.Ballistics/Novolis.Physics.Ballistics.csproj" />
     <Project Path="src/Novolis.Physics.Orbits/Novolis.Physics.Orbits.csproj" />
     <Project Path="src/Novolis.Physics.Astro/Novolis.Physics.Astro.csproj" />

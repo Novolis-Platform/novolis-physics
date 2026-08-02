@@ -9,18 +9,18 @@
 | `Novolis.Physics` | `dotnet add package Novolis.Physics` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics/README.md) |
 | `Novolis.Physics.Abstractions` | `dotnet add package Novolis.Physics.Abstractions` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Abstractions/README.md) |
 | `Novolis.Physics.Aerodynamics` | `dotnet add package Novolis.Physics.Aerodynamics` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Aerodynamics/README.md) |
+| `Novolis.Physics.Astro` | `dotnet add package Novolis.Physics.Astro` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Astro/README.md) |
 | `Novolis.Physics.Ballistics` | `dotnet add package Novolis.Physics.Ballistics` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Ballistics/README.md) |
+| `Novolis.Physics.Cloth` | `dotnet add package Novolis.Physics.Cloth` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Cloth/README.md) |
 | `Novolis.Physics.Collision.Simple` | `dotnet add package Novolis.Physics.Collision.Simple` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Collision.Simple/README.md) |
 | `Novolis.Physics.Gravity` | `dotnet add package Novolis.Physics.Gravity` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Gravity/README.md) |
 | `Novolis.Physics.Joints` | `dotnet add package Novolis.Physics.Joints` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Joints/README.md) |
 | `Novolis.Physics.Motion` | `dotnet add package Novolis.Physics.Motion` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Motion/README.md) |
 | `Novolis.Physics.Orbits` | `dotnet add package Novolis.Physics.Orbits` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Orbits/README.md) |
-| `Novolis.Physics.Astro` | `dotnet add package Novolis.Physics.Astro` | [README](https://github.com/Novolis-Platform/novolis-physics/blob/main/src/Novolis.Physics.Astro/README.md) |
 
 For NuGet.org and Visual Studio, the **embedded** README.md inside each package is authoritative.
 
 <!-- novolis-package-index:end -->
-
 # Novolis.Physics
 
 Force-first **textbook** physics for .NET — numerics, motion pipeline, gravity, ballistics, collision, and orbits.

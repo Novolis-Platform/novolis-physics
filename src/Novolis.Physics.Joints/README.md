@@ -2,6 +2,10 @@
 
 Distance joints, swing/hinge limits, ragdoll presets, and constrained sphere simulators.
 
+For fabric / particle sheets, use **`Novolis.Physics.Cloth`** (separate package).
+
+For **skeletal reach / FK / IK** (hand or foot targets), use **`Novolis.Simulation.Humanoid`** — joint constraint projection here is dynamics, not inverse kinematics.
+
 ## Install
 
 ```bash
@@ -27,7 +31,7 @@ simulator.Step(staticWorld, spheres, interior, dt, swings, hinges);
 | `DistanceJoint` | Two-sphere length constraint |
 | `SwingLimit` | Cone swing limit between bones |
 | `HingeLimit` | Hinge axis limit |
-| `DistanceJointSolver` | Satisfy distance constraints |
+| `DistanceJointSolver` | Satisfy distance constraints (ragdoll-tuned defaults) |
 | `AngularLimitSolver` | Apply swing/hinge limits |
 | `ConstrainedSphereSimulator` | Joint + contact step |
 | `RagdollHumanoidPreset` | `BuildStanding`, humanoid sphere layout |
@@ -38,7 +42,9 @@ simulator.Step(staticWorld, spheres, interior, dt, swings, hinges);
 
 | Package | When to use |
 |---------|-------------|
-| `Novolis.Physics.Collision.Simple` | `SphereInStaticWorldSimulator`, BVH worlds |
+| `Novolis.Physics.Cloth` | Flags, draping, cloth cutting |
+| `Novolis.Simulation.Humanoid` | Skeletal FK / IK (not joint dynamics) |
+| `Novolis.Physics.Collision.Simple` | `SphereInStaticWorldSimulator`, BVH worlds over Math `TriangleMesh` |
 | `Novolis.Simulation.Humanoid.Physics` | Bridge to humanoid bind poses |
 
 ## More documentation

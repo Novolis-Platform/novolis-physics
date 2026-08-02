@@ -21,7 +21,7 @@ public sealed class SweepLimitationScenarioTests
             PhysicsTestVectors.V(10, 0, 0),
             PhysicsTestVectors.V(0, 0, 10),
         };
-        var world = new BvhStaticWorld(new StaticTriangleMesh(verts, new[] { 0, 1, 2 }));
+        var world = new BvhStaticWorld(new TriangleMesh(verts, new[] { 0, 1, 2 }));
         var sphere = new Sphere(PhysicsTestVectors.V(1, (float)5.0, 1), radius: 0.15f);
         var largeDisplacement = PhysicsTestVectors.V(0, -4, 0);
 

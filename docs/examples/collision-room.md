@@ -6,6 +6,7 @@
 
 ```csharp
 using System.Numerics;
+using Novolis.Math.Geometry;
 using Novolis.Physics.Collision.Simple;
 
 // Floor quad (two triangles) in the XZ plane at y = 0.
@@ -17,7 +18,7 @@ var verts = new[]
     new Vector3(-50, 0, 50),
 };
 var indices = new[] { 0, 1, 2, 0, 2, 3 };
-var mesh = new StaticTriangleMesh(verts, indices);
+var mesh = new TriangleMesh(verts, indices);
 var world = new BvhStaticWorld(mesh);
 ```
 

@@ -132,6 +132,30 @@ sim.Step(world, spheres, clamp, dt, swings, hinges);
 
 Self-collision skips joint-adjacent pairs automatically when joints are set via `SetJoints`.
 
+## 5b. Cloth (`Novolis.Physics.Cloth`)
+
+Fabric simulation lives in **`Novolis.Physics.Cloth`**, not Joints. Ragdolls stay in Joints; cloth reuses `DistanceJoint` as a shared length primitive but steps with fabric strain limits, wind, and cutting.
+
+| Piece | Role |
+|-------|------|
+| `ClothSheetOptions` / `ClothPinMode` | Columns, rows, spacing, stiffness, pins |
+| `ClothSheetPreset` | Spawn particles + joints + anchors |
+| `ClothSheetSimulator` | Integrate → project → `MaxStretchRatio` clamp |
+| `ClothCutOps` + `ClothBlade` / `ClothBlast` | Topology sever (sword / explosion path) |
+
+```csharp
+using Novolis.Physics.Cloth;
+using Novolis.Physics.Joints;
+
+var cloth = new ClothSheetSimulator { MaxStretchRatio = 1.06f };
+ClothSheetPreset.BuildHanging(...);
+cloth.SetJoints(joints);
+cloth.Step(world, spheres, clamp, dt);
+ClothCutOps.CutWithBlade(joints, spheres, new ClothBlade(heel, tip));
+```
+
+Dogfood: `d:\novolis\novolis-dogfooding\apps\ClothPlay`.
+
 ## 6. Orbits (separate stack)
 
 `CentralOrbitSimulator` / `LeapfrogCentralBodySoA` use symplectic leapfrog for central-body problems. Does **not** plug into `SimulationPipeline`. Use `Novolis.Physics.Gravity` point-mass models for game-style gravity instead.
@@ -145,5 +169,7 @@ For repeated propagation, reuse one `LeapfrogCentralBodySoA` via `CentralOrbitSi
 | Rigid body + arbitrary forces | `SimulationPipeline` + `SemiImplicitEulerRigidBodyIntegrator` |
 | Cannon / projectile with drag | `ProjectileBallisticSimulation` or ballistics pipeline |
 | Sphere in a static room | `BvhStaticSphereIntegrator` + mesh world |
-| Ragdoll / jointed sphere chain | `ConstrainedSphereSimulator` + `RagdollHumanoidPreset` |
+| Ragdoll / jointed sphere chain | `ConstrainedSphereSimulator` + `RagdollHumanoidPreset` (`Novolis.Physics.Joints`) |
+| Cloth sheet / flag / drape | `ClothSheetSimulator` + `ClothSheetPreset` (`Novolis.Physics.Cloth`) |
+| Cloth cut / sword / blast | `ClothCutOps` (`Novolis.Physics.Cloth`) |
 | Long-term two-body orbit test | `CentralOrbitSimulator` |

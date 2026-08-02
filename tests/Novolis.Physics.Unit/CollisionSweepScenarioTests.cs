@@ -20,7 +20,7 @@ public sealed class CollisionSweepScenarioTests
             PhysicsTestVectors.V(10, 0, 0),
             PhysicsTestVectors.V(0, 0, 10),
         };
-        var mesh = new StaticTriangleMesh(verts, new[] { 0, 1, 2 });
+        var mesh = new TriangleMesh(verts, new[] { 0, 1, 2 });
         var world = new BvhStaticWorld(mesh);
         var sphere = new Sphere(PhysicsTestVectors.V(1, (float)2.0, 1), radius: 0.15f);
         var displacement = PhysicsTestVectors.V(0, -4, 0);
@@ -53,7 +53,7 @@ public sealed class CollisionSweepScenarioTests
             PhysicsTestVectors.V(1, 0, 0),
             PhysicsTestVectors.V(0, 0, 1),
         };
-        var world = new BvhStaticWorld(new StaticTriangleMesh(verts, new[] { 0, 1, 2 }));
+        var world = new BvhStaticWorld(new TriangleMesh(verts, new[] { 0, 1, 2 }));
         var ray = new Ray(PhysicsTestVectors.V(5, 5, 5), PhysicsTestVectors.V(0, 1, 0).Normalized());
         var hit = world.Raycast(in ray, maxDistance: 100, out _);
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\build\Novolis.Physics.Packaging.props" />
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Novolis.Physics.Cloth</PackageId>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Novolis.Physics.Cloth</RootNamespace>
+    <Description>Cloth / fabric simulation: particle sheets, strain limits, blade and blast cutting. Separate from ragdoll Joints.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Novolis.Physics.Collision.Simple\Novolis.Physics.Collision.Simple.csproj" />
+    <ProjectReference Include="..\Novolis.Physics.Joints\Novolis.Physics.Joints.csproj" />
+  </ItemGroup>
+</Project>

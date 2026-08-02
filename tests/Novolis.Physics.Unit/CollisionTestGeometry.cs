@@ -77,7 +77,7 @@ internal static class CollisionTestGeometry
             PhysicsTestVectors.V(ex1, ey1, mz1),
             PhysicsTestVectors.V(ex0, ey1, mz1));
 
-        return new BvhStaticWorld(new StaticTriangleMesh(verts.ToArray(), tris.ToArray()));
+        return new BvhStaticWorld(new TriangleMesh(verts.ToArray(), tris.ToArray()));
     }
 
     /// <summary>Billiards-style box: floor at y=0, four vertical bumpers on a rectangle in XZ, optional ceiling (closed room for rally tests).</summary>
@@ -181,7 +181,7 @@ internal static class CollisionTestGeometry
                 PhysicsTestVectors.V(fx0, cy, fz1));
         }
 
-        return new BvhStaticWorld(new StaticTriangleMesh(verts.ToArray(), tris.ToArray()));
+        return new BvhStaticWorld(new TriangleMesh(verts.ToArray(), tris.ToArray()));
     }
 
     private static void AddQuad(List<Vector3> verts, List<int> tris, Vector3 a, Vector3 b, Vector3 c, Vector3 d)

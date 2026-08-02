@@ -19,7 +19,7 @@ public sealed class BvhStaticWorldTests
             PhysicsTestVectors.V(0, 0, 10),
         };
         var indices = new[] { 0, 1, 2 };
-        var mesh = new StaticTriangleMesh(verts, indices);
+        var mesh = new TriangleMesh(verts, indices);
         var world = new BvhStaticWorld(mesh);
         var ray = new Ray(PhysicsTestVectors.V(1, 2, 1), PhysicsTestVectors.V(0, -1, 0).Normalized());
         var hit = world.Raycast(in ray, maxDistance: 10, out var info);

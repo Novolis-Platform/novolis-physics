@@ -20,7 +20,7 @@ public sealed class ProjectileTerrainStepperTests
             PhysicsTestVectors.V(50, 0, 0),
             PhysicsTestVectors.V(0, 0, 50),
         };
-        var world = new BvhStaticWorld(new StaticTriangleMesh(verts, new[] { 0, 1, 2 }));
+        var world = new BvhStaticWorld(new TriangleMesh(verts, new[] { 0, 1, 2 }));
         var terrain = new FlatTerrainContact(heightfieldAtZero: false);
         var sim = new ProjectileBallisticSimulation();
         var env = new ProjectileBallisticEnvironment(9.80665, 0);
