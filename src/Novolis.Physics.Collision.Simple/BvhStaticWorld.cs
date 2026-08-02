@@ -12,7 +12,7 @@ public sealed class BvhStaticWorld : IStaticWorld
     /// <summary>Builds a BVH over the static mesh triangles.</summary>
     /// <param name="mesh">Indexed triangle mesh from Math.Geometry.</param>
     public BvhStaticWorld(TriangleMesh mesh) =>
-        _bvh = TriangleBvhBuilder.Build(mesh);
+        _bvh = TriangleBvhBuilder.Build(mesh.Vertices.ToArray(), mesh.Indices.ToArray());
 
     /// <summary>Raycast operation.</summary>
     public bool Raycast(in Ray ray, double maxDistance, out HitInfo hit)
