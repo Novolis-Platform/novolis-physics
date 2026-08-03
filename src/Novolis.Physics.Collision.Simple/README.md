@@ -1,3 +1,11 @@
+<!-- novolis-pkg-brand:start -->
+<p align="center">
+  <a href="https://github.com/Novolis-Platform/novolis-physics">
+    <img src="https://raw.githubusercontent.com/Novolis-Platform/.github/main/brand/logo-icon.svg" width="72" alt="Novolis"/>
+  </a>
+</p>
+<!-- novolis-pkg-brand:end -->
+
 # Novolis.Physics.Collision.Simple
 
 Static mesh BVH queries, sphere piles, and swept-sphere integration against triangle worlds.
@@ -45,3 +53,4 @@ Mesh geometry is `Novolis.Math.Geometry.TriangleMesh` — Physics does not own a
 ## More documentation
 
 - [Collision room example](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/examples/collision-room.md)
+

@@ -1,3 +1,11 @@
+<!-- novolis-pkg-brand:start -->
+<p align="center">
+  <a href="https://github.com/Novolis-Platform/novolis-physics">
+    <img src="https://raw.githubusercontent.com/Novolis-Platform/.github/main/brand/logo-icon.svg" width="72" alt="Novolis"/>
+  </a>
+</p>
+<!-- novolis-pkg-brand:end -->
+
 # Novolis.Physics.Abstractions
 
 Core contracts for force-first physics: forces, integrators, rigid-body state, and static-world queries.
@@ -45,3 +53,4 @@ IIntegrator<RigidBodyState> integrator = new SemiImplicitEulerRigidBodyIntegrato
 
 - [Getting started](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/getting-started.md)
 - [Architecture](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/ARCHITECTURE.md)
+

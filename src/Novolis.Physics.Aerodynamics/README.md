@@ -1,3 +1,11 @@
+<!-- novolis-pkg-brand:start -->
+<p align="center">
+  <a href="https://github.com/Novolis-Platform/novolis-physics">
+    <img src="https://raw.githubusercontent.com/Novolis-Platform/.github/main/brand/logo-icon.svg" width="72" alt="Novolis"/>
+  </a>
+</p>
+<!-- novolis-pkg-brand:end -->
+
 # Novolis.Physics.Aerodynamics
 
 Atmosphere density models and simple lift/drag forces for projectiles and rigid bodies.
@@ -41,3 +49,4 @@ var aero = new SimpleLiftDragModel();
 ## More documentation
 
 - [Ballistics example](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/examples/ballistics.md)
+

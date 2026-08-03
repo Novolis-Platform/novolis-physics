@@ -1,3 +1,11 @@
+<!-- novolis-pkg-brand:start -->
+<p align="center">
+  <a href="https://github.com/Novolis-Platform/novolis-physics">
+    <img src="https://raw.githubusercontent.com/Novolis-Platform/.github/main/brand/logo-icon.svg" width="72" alt="Novolis"/>
+  </a>
+</p>
+<!-- novolis-pkg-brand:end -->
+
 # Novolis.Physics
 
 Installs the full Novolis physics stack in one reference.
@@ -44,3 +52,4 @@ This meta-package pulls in Abstractions, Motion, Gravity, Aerodynamics, Collisio
 ## Support
 
 Pre-release platform library. All packable packages ship strict XML API documentation (`CS1591` enforced).
+

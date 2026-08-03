@@ -1,3 +1,11 @@
+<!-- novolis-pkg-brand:start -->
+<p align="center">
+  <a href="https://github.com/Novolis-Platform/novolis-physics">
+    <img src="https://raw.githubusercontent.com/Novolis-Platform/.github/main/brand/logo-icon.svg" width="72" alt="Novolis"/>
+  </a>
+</p>
+<!-- novolis-pkg-brand:end -->
+
 # Novolis.Physics.Astro
 
 Astronomical unit conversions (ly / pc / AU ↔ meters) for bridging stellar catalogs to SI physics.
@@ -33,3 +41,4 @@ var pos = AstronomicalUnits.LightYearsToVector3(4.37, 0, 0);
 |---------|-------------|
 | `Novolis.Astro.Abstractions` | Stellar coordinates in light-years |
 | `Novolis.Physics.Motion` | Integrate bodies in SI units |
+

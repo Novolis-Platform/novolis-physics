@@ -1,3 +1,11 @@
+<!-- novolis-pkg-brand:start -->
+<p align="center">
+  <a href="https://github.com/Novolis-Platform/novolis-physics">
+    <img src="https://raw.githubusercontent.com/Novolis-Platform/.github/main/brand/logo-icon.svg" width="72" alt="Novolis"/>
+  </a>
+</p>
+<!-- novolis-pkg-brand:end -->
+
 # Novolis.Physics.Joints
 
 Distance joints, swing/hinge limits, ragdoll presets, and constrained sphere simulators.
@@ -50,3 +58,4 @@ simulator.Step(staticWorld, spheres, interior, dt, swings, hinges);
 ## More documentation
 
 - [Integration guide](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/INTEGRATION.md)
+

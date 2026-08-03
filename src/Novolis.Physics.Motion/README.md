@@ -1,3 +1,11 @@
+<!-- novolis-pkg-brand:start -->
+<p align="center">
+  <a href="https://github.com/Novolis-Platform/novolis-physics">
+    <img src="https://raw.githubusercontent.com/Novolis-Platform/.github/main/brand/logo-icon.svg" width="72" alt="Novolis"/>
+  </a>
+</p>
+<!-- novolis-pkg-brand:end -->
+
 # Novolis.Physics.Motion
 
 Rigid-body integration, quaternion angular kinematics, and the canonical force-first `SimulationPipeline`.
@@ -42,3 +50,4 @@ body = pipeline.Step(body, environment, dtSeconds);
 ## More documentation
 
 - [Integration guide](https://github.com/Novolis-Platform/novolis-physics/blob/main/docs/INTEGRATION.md)
+
