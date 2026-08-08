@@ -7,7 +7,6 @@ using TUnit.Core;
 namespace Novolis.Physics.Unit;
 
 /// <summary>Vacuum range error vs dt — exposes integrator scaling mistakes.</summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class BallisticDtSweepTests
 {
     private const double G = 9.80665;

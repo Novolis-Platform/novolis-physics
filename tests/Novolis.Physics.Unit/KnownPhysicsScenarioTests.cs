@@ -19,7 +19,6 @@ file sealed record EnergySummaryRow(string Label, double ValueJPerKg);
 /// Textbook scenarios with closed-form checks: superposition, symmetry, central motion, drag balance.
 /// Tolerances allow semi-implicit Euler drift but still fail wrong gravity, drag, or coupling.
 /// </summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class KnownPhysicsScenarioTests
 {
     private const double GStd = 9.80665;

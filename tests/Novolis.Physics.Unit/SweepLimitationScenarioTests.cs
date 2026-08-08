@@ -9,7 +9,6 @@ namespace Novolis.Physics.Unit;
 /// <summary>
 /// Documents approximate <see cref="BvhStaticWorld.SweepSphere"/> behavior (see INTEGRATION.md §3).
 /// </summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class SweepLimitationScenarioTests
 {
     [Test]

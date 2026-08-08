@@ -4,7 +4,6 @@ using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
 
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class ProjectileWindTests
 {
     [Test]

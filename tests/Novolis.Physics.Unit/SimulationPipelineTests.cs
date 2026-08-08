@@ -29,7 +29,6 @@ file static class TestBodyEnv
     }
 }
 
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class SimulationPipelineTests
 {
     [Test]

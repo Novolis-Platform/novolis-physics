@@ -4,7 +4,6 @@ using TUnit.Core;
 namespace Novolis.Physics.Unit;
 
 /// <summary>Closed-form SI reference values physicists use as sanity checks (independent of the integrator).</summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class PhysicsLookupTableTests
 {
     private const double G = 9.80665;

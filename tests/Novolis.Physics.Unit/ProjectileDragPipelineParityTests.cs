@@ -9,7 +9,6 @@ using TUnit.Core;
 namespace Novolis.Physics.Unit;
 
 /// <summary>Ensures <see cref="ProjectileBallisticSimulation"/> stays aligned with pipeline gravity+quadratic drag.</summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class ProjectileDragPipelineParityTests
 {
     [Test]

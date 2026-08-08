@@ -7,7 +7,6 @@ using TUnit.Core;
 namespace Novolis.Physics.Unit;
 
 /// <summary>Quadratic drag vs vacuum using 3D state with planar motion; regression-style inequalities (not closed-form drag).</summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class BallisticRegressionTests
 {
     [Test]

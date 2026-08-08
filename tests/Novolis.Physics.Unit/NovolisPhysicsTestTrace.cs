@@ -2,7 +2,7 @@ using Novolis.Physics.TestSupport;
 
 namespace Novolis.Physics.Unit;
 
-/// <summary>Shared console trace and TUnit <c>[NotInParallel]</c> key for all Novolis.Physics unit tests.</summary>
+/// <summary>Shared console trace for Novolis.Physics unit tests (TestOutput lock is enough for parallel runs).</summary>
 internal static class NovolisPhysicsTestTrace
 {
     internal const string NotInParallelKey = TraceParallelismKeys.NovolisPhysicsBallistics;

@@ -7,7 +7,6 @@ using TUnit.Core;
 namespace Novolis.Physics.Unit;
 
 /// <summary>Vacuum trajectories using 3D vectors with motion confined to the X–Y plane (<c>Z = 0</c>).</summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class AnalyticalProjectileTests
 {
     [Test]

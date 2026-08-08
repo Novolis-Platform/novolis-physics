@@ -12,7 +12,6 @@ namespace Novolis.Physics.Unit;
 /// rigid walls with Newton restitution (lively ball, inelastic normal impulse vs concrete/gym wall).
 /// Console tables are sparse and rounded; “reflection” counts are integrator wall resolutions, not macro bounces.
 /// </summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class BasketballEarthRoomCollisionTests
 {
     /// <summary>SI standard gravity (m/s²), +Y up; acceleration vector is <c>(0, −GStd, 0)</c>.</summary>

@@ -5,7 +5,6 @@ using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
 
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class UniformGridSphereContactSolverExtendedTests
 {
     [Test]
@@ -42,7 +41,6 @@ public sealed class UniformGridSphereContactSolverExtendedTests
     }
 }
 
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class AngularLimitSolverExtendedTests
 {
     [Test]

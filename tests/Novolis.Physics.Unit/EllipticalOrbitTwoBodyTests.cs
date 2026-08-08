@@ -8,7 +8,6 @@ using TUnit.Core;
 namespace Novolis.Physics.Unit;
 
 /// <summary>Elliptical Earth two-body checks: planar motion as <see cref="Vector3"/> with Z = Vz = 0, leapfrog + inverse-square acceleration.</summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class EllipticalOrbitTwoBodyTests
 {
     private const double DtSeconds = 1.0;

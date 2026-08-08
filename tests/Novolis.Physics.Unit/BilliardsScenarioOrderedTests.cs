@@ -11,7 +11,6 @@ namespace Novolis.Physics.Unit;
 /// Multi-step "billiards room" scenario split across TUnit <c>[DependsOn]</c> tests so earlier stages can fail fast
 /// while later steps assume shared static mesh state (see TUnit ordering docs).
 /// </summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class BilliardsScenarioOrderedTests
 {
     private const double BallRadius = 0.18;

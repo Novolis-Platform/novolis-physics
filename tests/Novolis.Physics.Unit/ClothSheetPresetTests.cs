@@ -7,7 +7,6 @@ using Novolis.Physics.Joints;
 
 namespace Novolis.Physics.Unit;
 
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class ClothSheetPresetTests
 {
     [Test]

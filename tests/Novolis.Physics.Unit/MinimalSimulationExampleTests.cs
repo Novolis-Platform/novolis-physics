@@ -11,7 +11,6 @@ namespace Novolis.Physics.Unit;
 /// <summary>
 /// End-to-end example: fixed timestep accumulator + <see cref="SimulationPipeline"/> + point-mass gravity.
 /// </summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class MinimalSimulationExampleTests
 {
     [Test]

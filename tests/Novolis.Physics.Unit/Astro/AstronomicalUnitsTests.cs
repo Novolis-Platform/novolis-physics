@@ -4,7 +4,6 @@ using TUnit.Core;
 
 namespace Novolis.Physics.Unit.Astro;
 
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class AstronomicalUnitsTests
 {
     [Test]

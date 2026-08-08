@@ -7,7 +7,6 @@ using TUnit.Core;
 namespace Novolis.Physics.Unit;
 
 /// <summary>Elastic sphere in axis-aligned rooms: narrow slab, thin channel, closed box.</summary>
-[NotInParallel(NovolisPhysicsTestTrace.NotInParallelKey)]
 public sealed class BouncingBallCollisionTests
 {
     private const double Radius = 0.22;
