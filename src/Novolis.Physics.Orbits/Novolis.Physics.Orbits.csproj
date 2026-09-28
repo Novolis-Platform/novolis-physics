@@ -11,6 +11,6 @@
     <Description>Central-body orbital helpers, fixed-step Leapfrog, and SoA-oriented kernels.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Novolis.Math.Geometry" />
+    <LibraryReference Include="Novolis.Math.Geometry" />
     </ItemGroup>
 </Project>
