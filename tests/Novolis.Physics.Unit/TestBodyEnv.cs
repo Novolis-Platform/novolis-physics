@@ -7,7 +7,7 @@ using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
 
-file static class TestBodyEnv
+static class TestBodyEnv
 {
     public readonly record struct Body(Vector3 Position, double Mass);
 

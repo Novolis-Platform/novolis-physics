@@ -9,4 +9,4 @@ using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
 
-file sealed record EnergySummaryRow(string Label, double ValueJPerKg);
+sealed record EnergySummaryRow(string Label, double ValueJPerKg);

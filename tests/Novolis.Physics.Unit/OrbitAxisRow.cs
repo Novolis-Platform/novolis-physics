@@ -9,4 +9,4 @@ using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
 
-file sealed record OrbitAxisRow(string Axis, double ExpectedM, double SimulatedM, double AbsDeltaM);
+sealed record OrbitAxisRow(string Axis, double ExpectedM, double SimulatedM, double AbsDeltaM);

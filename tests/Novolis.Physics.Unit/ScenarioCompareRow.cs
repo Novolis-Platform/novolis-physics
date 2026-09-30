@@ -9,4 +9,4 @@ using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
 
-file sealed record ScenarioCompareRow(string Metric, double Expected, double Simulated, double AbsError);
+sealed record ScenarioCompareRow(string Metric, double Expected, double Simulated, double AbsError);
