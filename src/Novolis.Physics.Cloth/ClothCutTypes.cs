@@ -22,29 +22,3 @@ public readonly struct ClothBlade(Vector3 heel, Vector3 tip, float halfThickness
     /// <summary>Blade length.</summary>
     public float Length => Vector3.Distance(Heel, Tip);
 }
-
-/// <summary>
-/// Radial fragmentation query — same sever pipeline as a blade, sized for blasts.
-/// Impulse is applied separately via <see cref="ClothCutOps.ApplyBlastImpulse"/>.
-/// </summary>
-public readonly struct ClothBlast(Vector3 epicenter, float radius, float impulseSpeed = 0f)
-{
-    /// <summary>Blast center in world space.</summary>
-    public Vector3 Epicenter { get; } = epicenter;
-
-    /// <summary>Joints with midpoint inside this radius are severed.</summary>
-    public float Radius { get; } = System.Math.Max(1e-4f, radius);
-
-    /// <summary>Optional outward speed added to nearby free particles (m/s).</summary>
-    public float ImpulseSpeed { get; } = System.Math.Max(0f, impulseSpeed);
-}
-
-/// <summary>Result of a cloth topology cut.</summary>
-public readonly struct ClothCutResult(int severedJointCount, int remainingJointCount)
-{
-    /// <summary>How many distance joints were removed.</summary>
-    public int SeveredJointCount { get; } = severedJointCount;
-
-    /// <summary>Joints still active after the cut.</summary>
-    public int RemainingJointCount { get; } = remainingJointCount;
-}

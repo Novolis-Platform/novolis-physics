@@ -9,12 +9,6 @@ using TUnit.Core;
 
 namespace Novolis.Physics.Unit;
 
-file sealed record ScenarioCompareRow(string Metric, double Expected, double Simulated, double AbsError);
-
-file sealed record OrbitAxisRow(string Axis, double ExpectedM, double SimulatedM, double AbsDeltaM);
-
-file sealed record EnergySummaryRow(string Label, double ValueJPerKg);
-
 /// <summary>
 /// Textbook scenarios with closed-form checks: superposition, symmetry, central motion, drag balance.
 /// Tolerances allow semi-implicit Euler drift but still fail wrong gravity, drag, or coupling.
