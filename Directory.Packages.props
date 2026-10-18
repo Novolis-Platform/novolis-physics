@@ -2,7 +2,8 @@
 <ItemGroup>
     <PackageVersion Include="Novolis.Math.Geometry" Version="2026.1.*" />
     <PackageVersion Include="Novolis.Analyzers.StackBoundaries" Version="2026.1.*" />
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.401" />
-    <PackageVersion Include="TUnit" Version="1.72.16" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.402" />
+    <PackageVersion Include="TUnit" Version="1.75.0" />
   </ItemGroup>
 </Project>
+
