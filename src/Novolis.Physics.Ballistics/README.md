@@ -31,12 +31,15 @@ state = sim.Step(state, dt, environment);
 | Type | Role |
 |------|------|
 | `ProjectileState` | Position, velocity, mass, drag state |
-| `ProjectileProfile` | Mass, drag area, `CannonDefaults` preset |
-| `ProjectileBallisticSimulation` | Launch and step projectile |
+| `ProjectileProfile` | Mass, reference area, constant Cd |
+| `ProjectileBallisticSimulation` | Step with gravity, optional quadratic drag, optional Mach Cd, optional Coriolis |
+| `DragCoefficientLaw` | Piecewise-linear Cd(Mach). `BoatTail` is an in-repo educational fit |
+| `CoriolisAcceleration` | East-Up-North Coriolis (`+X` east, `+Y` up, `+Z` north) |
+| `StandardAtmosphere` | Moist density, barometric pressure, dry-air speed of sound |
 | `BallisticTrajectoryRunner` | Full trajectory with terrain contact |
-| `BallisticsQueries` | Range, apex, time-of-flight helpers |
 | `ProjectileTerrainStepper` | Heightfield-aware stepping |
-| `StandardAtmosphere` | ISA density model |
+
+`ProjectileBallisticEnvironment.LatitudeDegrees` turns Coriolis on when it is a finite latitude. Leave it NaN for the constant-Cd path. A Mach law replaces the profile Cd and still uses the profile mass and area. Passing no law keeps the constant Cd.
 
 ## Related
 

@@ -50,4 +50,13 @@ public static class StandardAtmosphere
         var exponent = g * molarMass / (r * lapseRateKelvinPerMeter);
         return referencePressurePa * global::System.Math.Pow(t / referenceTemperatureKelvin, exponent);
     }
+
+    /// <summary>Dry-air speed of sound √(γ R_d T). At 288.15 K this is about 340.3 m/s.</summary>
+    public static double SpeedOfSound(double temperatureKelvin, double gamma = 1.4)
+    {
+        if (temperatureKelvin <= 0.0 || gamma <= 0.0)
+            return 0.0;
+
+        return global::System.Math.Sqrt(gamma * Rd * temperatureKelvin);
+    }
 }
