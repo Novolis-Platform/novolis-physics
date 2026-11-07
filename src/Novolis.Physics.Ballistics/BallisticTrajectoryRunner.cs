@@ -123,6 +123,10 @@ public sealed class BallisticTrajectoryRunner
     }
 
     /// <summary>Integrates a preview arc without mesh collision (heightfield + range only).</summary>
+    /// <remarks>
+    /// Always finishes on the heightfield or map edge when possible — do not leave the last
+    /// sample hanging mid-air just because <paramref name="maxPoints"/> ran out near apogee.
+    /// </remarks>
     public static IReadOnlyList<Vector3> BuildPreview(
         ProjectileBallisticSimulation simulation,
         ProjectileBallisticEnvironment environment,
@@ -132,10 +136,18 @@ public sealed class BallisticTrajectoryRunner
         double maxTimeSeconds,
         int maxPoints)
     {
-        var points = new List<Vector3>(64) { start.Position };
-        var state = start;
+        if (dtSeconds <= 0)
+            dtSeconds = 1.0 / 30.0;
 
-        for (var t = 0.0; t < maxTimeSeconds && points.Count < maxPoints; t += dtSeconds)
+        var points = new List<Vector3>(System.Math.Min(System.Math.Max(64, maxPoints), 8_192)) { start.Position };
+        var state = start;
+        var finished = false;
+
+        // Soft cap for the drawn polyline; keep integrating past it until ground/edge so MPI is real.
+        var drawCap = System.Math.Max(8, maxPoints);
+        var hardSteps = System.Math.Max(drawCap * 4, (int)System.Math.Ceiling(maxTimeSeconds / dtSeconds) + 8);
+
+        for (var step = 0; step < hardSteps; step++)
         {
             var prev = state.Position;
             state = simulation.Step(state, dtSeconds, environment);
@@ -144,23 +156,32 @@ public sealed class BallisticTrajectoryRunner
             if (terrain.TrySegmentLeavesRange(prev, p, out var boundaryHit, out _))
             {
                 points.Add(terrain.ProjectOntoSurface(boundaryHit));
+                finished = true;
                 break;
             }
 
             if (!terrain.IsInside(p.X, p.Z))
             {
                 points.Add(terrain.ProjectOntoSurface(p));
+                finished = true;
                 break;
             }
 
             if (terrain.TryHeightfieldContact(p, 0.08f))
             {
                 points.Add(p);
+                finished = true;
                 break;
             }
 
-            points.Add(p);
+            if (points.Count < drawCap)
+                points.Add(p);
+            else if (step % 3 == 0)
+                points[^1] = p; // keep the tip advancing after the draw cap
         }
+
+        if (!finished && points.Count >= 1)
+            points[^1] = terrain.ProjectOntoSurface(state.Position);
 
         return points;
     }
